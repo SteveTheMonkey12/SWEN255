@@ -1,0 +1,37 @@
+* -- * Player;
+class Game
+{
+  * -- * Player;
+}
+
+class Board
+{
+  * -- * Game;
+}
+
+class Player
+{
+  name;
+}
+
+class Card
+{
+  name;
+
+}
+
+class Character
+{
+  isA Card;
+}
+
+class Weapon
+{
+  isA Card;
+  }
+
+class Estate
+{
+  isA Card;
+}
+
