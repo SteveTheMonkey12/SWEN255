@@ -1,7 +1,7 @@
-* -- * Player;
 class Game
 {
   * -- * Player;
+  * -- * Weapon;
 }
 
 class Board
@@ -11,27 +11,24 @@ class Board
 
 class Player
 {
-  name;
-}
+  }
 
 class Card
 {
-  name;
-
-}
-
-class Character
-{
-  isA Card;
+    isA Player;
+name;
+  
+  * -- * Game;
 }
 
 class Weapon
 {
   isA Card;
-  }
+}
 
 class Estate
 {
   isA Card;
+  * -- * Game;
 }
 
