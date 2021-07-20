@@ -13,12 +13,13 @@ class Player
 {
   isA Card;
   * -- * Game;
+  * -> * Card;
 }
 
 class Card
 {
   name;
-  }
+}
 
 class Weapon
 {
@@ -31,4 +32,3 @@ class Estate
   isA Card;
   * -- * Game;
 }
-
