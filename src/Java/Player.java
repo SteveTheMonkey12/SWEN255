@@ -6,7 +6,7 @@ import java.util.*;
 
 // line 16 "model.ump"
 // line 74 "model.ump"
-public class Player extends Card
+public class Player
 {
 
   //------------------------
@@ -26,7 +26,7 @@ public class Player extends Card
 
   public Player(String aName)
   {
-    super(aName);
+    name = aName;
     games = new ArrayList<Game>();
     cards = new ArrayList<Card>();
   }
@@ -282,6 +282,10 @@ public class Player extends Card
     }
     ArrayList<Card> copyOfCards = new ArrayList<Card>(cards);
     cards.clear();
+    for(Card aCard : copyOfCards)
+    {
+      aCard.removePlayer(this);
+    }
   }
 
 
