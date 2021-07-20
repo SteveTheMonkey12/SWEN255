@@ -4,6 +4,8 @@
 
 import java.util.*;
 
+import Card;
+
 // line 34 "model.ump"
 // line 91 "model.ump"
 public class Weapon extends Card

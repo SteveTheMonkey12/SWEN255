@@ -4,6 +4,9 @@
 
 import java.util.*;
 
+import Card;
+import Game;
+
 // line 16 "model.ump"
 // line 74 "model.ump"
 public class Player

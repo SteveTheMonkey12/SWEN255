@@ -4,6 +4,8 @@
 
 import java.util.*;
 
+import Game;
+
 // line 44 "model.ump"
 // line 101 "model.ump"
 public class Position
