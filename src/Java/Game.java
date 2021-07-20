@@ -4,6 +4,11 @@
 
 import java.util.*;
 
+/**
+ * Unable to update umple code due to error at null
+ * Unable to update umple code due to error at null
+ * Unable to update umple code due to error at null
+ */
 // line 5 "model.ump"
 // line 43 "model.ump"
 public class Game
