@@ -3,9 +3,9 @@
 
 
 import java.util.*;
+// line 6 "model.ump"
+// line 43 "model.ump"
 
-// line 9 "model.ump"
-// line 66 "model.ump"
 public class Board
 {
 
@@ -62,6 +62,7 @@ public class Board
     int index = games.indexOf(aGame);
     return index;
   }
+
   /* Code from template association_GetMany */
   public Position getPosition(int index)
   {
@@ -122,6 +123,7 @@ public class Board
     int index = cells.indexOf(aCell);
     return index;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfGames()
   {
@@ -204,6 +206,7 @@ public class Board
     }
     return wasAdded;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfPositions()
   {
