@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 39 "model.ump"
-// line 96 "model.ump"
+// line 33 "model.ump"
+// line 71 "model.ump"
 public class Estate extends Card
 {
 

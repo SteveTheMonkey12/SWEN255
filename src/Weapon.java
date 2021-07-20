@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 34 "model.ump"
-// line 91 "model.ump"
+// line 28 "model.ump"
+// line 66 "model.ump"
 public class Weapon extends Card
 {
 
