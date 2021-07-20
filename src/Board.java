@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 11 "model.ump"
-// line 50 "model.ump"
+// line 6 "model.ump"
+// line 43 "model.ump"
 public class Board
 {
 
