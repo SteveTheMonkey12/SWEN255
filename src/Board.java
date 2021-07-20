@@ -5,6 +5,7 @@
 import java.util.*;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // line 6 "model.ump"
 // line 43 "model.ump"
 public class Board
@@ -150,6 +151,8 @@ public class Board
     {
       aGame.removeBoard(this);
 =======
+=======
+>>>>>>> main
 // line 9 "model.ump"
 // line 66 "model.ump"
 public class Board
@@ -534,7 +537,10 @@ public class Board
     for(Cell aCell : copyOfCells)
     {
       aCell.removeBoard(this);
+<<<<<<< HEAD
 >>>>>>> refs/heads/main
+=======
+>>>>>>> main
     }
   }
 

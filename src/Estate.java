@@ -4,8 +4,13 @@
 
 import java.util.*;
 
+<<<<<<< HEAD
 // line 28 "model.ump"
 // line 63 "model.ump"
+=======
+// line 39 "model.ump"
+// line 96 "model.ump"
+>>>>>>> main
 public class Estate extends Card
 {
 
@@ -13,9 +18,12 @@ public class Estate extends Card
   // MEMBER VARIABLES
   //------------------------
 
+<<<<<<< HEAD
   //Estate Associations
   private List<Game> games;
 
+=======
+>>>>>>> main
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -23,12 +31,16 @@ public class Estate extends Card
   public Estate(String aName)
   {
     super(aName);
+<<<<<<< HEAD
     games = new ArrayList<Game>();
+=======
+>>>>>>> main
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+<<<<<<< HEAD
   /* Code from template association_GetMany */
   public Game getGame(int index)
   {
@@ -150,6 +162,11 @@ public class Estate extends Card
     {
       aGame.removeEstate(this);
     }
+=======
+
+  public void delete()
+  {
+>>>>>>> main
     super.delete();
   }
 

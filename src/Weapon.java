@@ -4,8 +4,13 @@
 
 import java.util.*;
 
+<<<<<<< HEAD
 // line 22 "model.ump"
 // line 58 "model.ump"
+=======
+// line 34 "model.ump"
+// line 91 "model.ump"
+>>>>>>> main
 public class Weapon extends Card
 {
 
@@ -13,9 +18,12 @@ public class Weapon extends Card
   // MEMBER VARIABLES
   //------------------------
 
+<<<<<<< HEAD
   //Weapon Associations
   private List<Game> games;
 
+=======
+>>>>>>> main
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -23,12 +31,16 @@ public class Weapon extends Card
   public Weapon(String aName)
   {
     super(aName);
+<<<<<<< HEAD
     games = new ArrayList<Game>();
+=======
+>>>>>>> main
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+<<<<<<< HEAD
   /* Code from template association_GetMany */
   public Game getGame(int index)
   {
@@ -150,6 +162,11 @@ public class Weapon extends Card
     {
       aGame.removeWeapon(this);
     }
+=======
+
+  public void delete()
+  {
+>>>>>>> main
     super.delete();
   }
 

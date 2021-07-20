@@ -5,7 +5,11 @@
 import java.util.*;
 
 // line 2 "model.ump"
+<<<<<<< HEAD
 // line 38 "model.ump"
+=======
+// line 59 "model.ump"
+>>>>>>> main
 public class Game
 {
 
@@ -13,27 +17,49 @@ public class Game
   // MEMBER VARIABLES
   //------------------------
 
+<<<<<<< HEAD
   //Game Associations
   private List<Board> boards;
   private List<Player> players;
   private List<Weapon> weapons;
   private List<Estate> estates;
+=======
+  //Game Attributes
+  private HashMap position;
+
+  //Game Associations
+  private List<Player> players;
+  private List<Position> positions;
+  private List<Board> boards;
+  private List<Card> cards;
+>>>>>>> main
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
+<<<<<<< HEAD
   public Game()
   {
     boards = new ArrayList<Board>();
     players = new ArrayList<Player>();
     weapons = new ArrayList<Weapon>();
     estates = new ArrayList<Estate>();
+=======
+  public Game(HashMap aPosition)
+  {
+    position = aPosition;
+    players = new ArrayList<Player>();
+    positions = new ArrayList<Position>();
+    boards = new ArrayList<Board>();
+    cards = new ArrayList<Card>();
+>>>>>>> main
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+<<<<<<< HEAD
   /* Code from template association_GetMany */
   public Board getBoard(int index)
   {
@@ -63,6 +89,20 @@ public class Game
   {
     int index = boards.indexOf(aBoard);
     return index;
+=======
+
+  public boolean setPosition(HashMap aPosition)
+  {
+    boolean wasSet = false;
+    position = aPosition;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public HashMap getPosition()
+  {
+    return position;
+>>>>>>> main
   }
   /* Code from template association_GetMany */
   public Player getPlayer(int index)
@@ -95,6 +135,7 @@ public class Game
     return index;
   }
   /* Code from template association_GetMany */
+<<<<<<< HEAD
   public Weapon getWeapon(int index)
   {
     Weapon aWeapon = weapons.get(index);
@@ -235,6 +276,96 @@ public class Game
       wasAdded = addBoardAt(aBoard, index);
     }
     return wasAdded;
+=======
+  public Position getPosition(int index)
+  {
+    Position aPosition = positions.get(index);
+    return aPosition;
+  }
+
+  public List<Position> getPositions()
+  {
+    List<Position> newPositions = Collections.unmodifiableList(positions);
+    return newPositions;
+  }
+
+  public int numberOfPositions()
+  {
+    int number = positions.size();
+    return number;
+  }
+
+  public boolean hasPositions()
+  {
+    boolean has = positions.size() > 0;
+    return has;
+  }
+
+  public int indexOfPosition(Position aPosition)
+  {
+    int index = positions.indexOf(aPosition);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Board getBoard(int index)
+  {
+    Board aBoard = boards.get(index);
+    return aBoard;
+  }
+
+  public List<Board> getBoards()
+  {
+    List<Board> newBoards = Collections.unmodifiableList(boards);
+    return newBoards;
+  }
+
+  public int numberOfBoards()
+  {
+    int number = boards.size();
+    return number;
+  }
+
+  public boolean hasBoards()
+  {
+    boolean has = boards.size() > 0;
+    return has;
+  }
+
+  public int indexOfBoard(Board aBoard)
+  {
+    int index = boards.indexOf(aBoard);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Card getCard(int index)
+  {
+    Card aCard = cards.get(index);
+    return aCard;
+  }
+
+  public List<Card> getCards()
+  {
+    List<Card> newCards = Collections.unmodifiableList(cards);
+    return newCards;
+  }
+
+  public int numberOfCards()
+  {
+    int number = cards.size();
+    return number;
+  }
+
+  public boolean hasCards()
+  {
+    boolean has = cards.size() > 0;
+    return has;
+  }
+
+  public int indexOfCard(Card aCard)
+  {
+    int index = cards.indexOf(aCard);
+    return index;
+>>>>>>> main
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfPlayers()
@@ -319,56 +450,97 @@ public class Game
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
+<<<<<<< HEAD
   public static int minimumNumberOfWeapons()
+=======
+  public static int minimumNumberOfPositions()
+>>>>>>> main
   {
     return 0;
   }
   /* Code from template association_AddManyToManyMethod */
+<<<<<<< HEAD
   public boolean addWeapon(Weapon aWeapon)
   {
     boolean wasAdded = false;
     if (weapons.contains(aWeapon)) { return false; }
     weapons.add(aWeapon);
     if (aWeapon.indexOfGame(this) != -1)
+=======
+  public boolean addPosition(Position aPosition)
+  {
+    boolean wasAdded = false;
+    if (positions.contains(aPosition)) { return false; }
+    positions.add(aPosition);
+    if (aPosition.indexOfGame(this) != -1)
+>>>>>>> main
     {
       wasAdded = true;
     }
     else
     {
+<<<<<<< HEAD
       wasAdded = aWeapon.addGame(this);
       if (!wasAdded)
       {
         weapons.remove(aWeapon);
+=======
+      wasAdded = aPosition.addGame(this);
+      if (!wasAdded)
+      {
+        positions.remove(aPosition);
+>>>>>>> main
       }
     }
     return wasAdded;
   }
   /* Code from template association_RemoveMany */
+<<<<<<< HEAD
   public boolean removeWeapon(Weapon aWeapon)
   {
     boolean wasRemoved = false;
     if (!weapons.contains(aWeapon))
+=======
+  public boolean removePosition(Position aPosition)
+  {
+    boolean wasRemoved = false;
+    if (!positions.contains(aPosition))
+>>>>>>> main
     {
       return wasRemoved;
     }
 
+<<<<<<< HEAD
     int oldIndex = weapons.indexOf(aWeapon);
     weapons.remove(oldIndex);
     if (aWeapon.indexOfGame(this) == -1)
+=======
+    int oldIndex = positions.indexOf(aPosition);
+    positions.remove(oldIndex);
+    if (aPosition.indexOfGame(this) == -1)
+>>>>>>> main
     {
       wasRemoved = true;
     }
     else
     {
+<<<<<<< HEAD
       wasRemoved = aWeapon.removeGame(this);
       if (!wasRemoved)
       {
         weapons.add(oldIndex,aWeapon);
+=======
+      wasRemoved = aPosition.removeGame(this);
+      if (!wasRemoved)
+      {
+        positions.add(oldIndex,aPosition);
+>>>>>>> main
       }
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
+<<<<<<< HEAD
   public boolean addWeaponAt(Weapon aWeapon, int index)
   {  
     boolean wasAdded = false;
@@ -378,11 +550,23 @@ public class Game
       if(index > numberOfWeapons()) { index = numberOfWeapons() - 1; }
       weapons.remove(aWeapon);
       weapons.add(index, aWeapon);
+=======
+  public boolean addPositionAt(Position aPosition, int index)
+  {  
+    boolean wasAdded = false;
+    if(addPosition(aPosition))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfPositions()) { index = numberOfPositions() - 1; }
+      positions.remove(aPosition);
+      positions.add(index, aPosition);
+>>>>>>> main
       wasAdded = true;
     }
     return wasAdded;
   }
 
+<<<<<<< HEAD
   public boolean addOrMoveWeaponAt(Weapon aWeapon, int index)
   {
     boolean wasAdded = false;
@@ -392,65 +576,121 @@ public class Game
       if(index > numberOfWeapons()) { index = numberOfWeapons() - 1; }
       weapons.remove(aWeapon);
       weapons.add(index, aWeapon);
+=======
+  public boolean addOrMovePositionAt(Position aPosition, int index)
+  {
+    boolean wasAdded = false;
+    if(positions.contains(aPosition))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfPositions()) { index = numberOfPositions() - 1; }
+      positions.remove(aPosition);
+      positions.add(index, aPosition);
+>>>>>>> main
       wasAdded = true;
     } 
     else 
     {
+<<<<<<< HEAD
       wasAdded = addWeaponAt(aWeapon, index);
+=======
+      wasAdded = addPositionAt(aPosition, index);
+>>>>>>> main
     }
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
+<<<<<<< HEAD
   public static int minimumNumberOfEstates()
+=======
+  public static int minimumNumberOfBoards()
+>>>>>>> main
   {
     return 0;
   }
   /* Code from template association_AddManyToManyMethod */
+<<<<<<< HEAD
   public boolean addEstate(Estate aEstate)
   {
     boolean wasAdded = false;
     if (estates.contains(aEstate)) { return false; }
     estates.add(aEstate);
     if (aEstate.indexOfGame(this) != -1)
+=======
+  public boolean addBoard(Board aBoard)
+  {
+    boolean wasAdded = false;
+    if (boards.contains(aBoard)) { return false; }
+    boards.add(aBoard);
+    if (aBoard.indexOfGame(this) != -1)
+>>>>>>> main
     {
       wasAdded = true;
     }
     else
     {
+<<<<<<< HEAD
       wasAdded = aEstate.addGame(this);
       if (!wasAdded)
       {
         estates.remove(aEstate);
+=======
+      wasAdded = aBoard.addGame(this);
+      if (!wasAdded)
+      {
+        boards.remove(aBoard);
+>>>>>>> main
       }
     }
     return wasAdded;
   }
   /* Code from template association_RemoveMany */
+<<<<<<< HEAD
   public boolean removeEstate(Estate aEstate)
   {
     boolean wasRemoved = false;
     if (!estates.contains(aEstate))
+=======
+  public boolean removeBoard(Board aBoard)
+  {
+    boolean wasRemoved = false;
+    if (!boards.contains(aBoard))
+>>>>>>> main
     {
       return wasRemoved;
     }
 
+<<<<<<< HEAD
     int oldIndex = estates.indexOf(aEstate);
     estates.remove(oldIndex);
     if (aEstate.indexOfGame(this) == -1)
+=======
+    int oldIndex = boards.indexOf(aBoard);
+    boards.remove(oldIndex);
+    if (aBoard.indexOfGame(this) == -1)
+>>>>>>> main
     {
       wasRemoved = true;
     }
     else
     {
+<<<<<<< HEAD
       wasRemoved = aEstate.removeGame(this);
       if (!wasRemoved)
       {
         estates.add(oldIndex,aEstate);
+=======
+      wasRemoved = aBoard.removeGame(this);
+      if (!wasRemoved)
+      {
+        boards.add(oldIndex,aBoard);
+>>>>>>> main
       }
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
+<<<<<<< HEAD
   public boolean addEstateAt(Estate aEstate, int index)
   {  
     boolean wasAdded = false;
@@ -460,11 +700,23 @@ public class Game
       if(index > numberOfEstates()) { index = numberOfEstates() - 1; }
       estates.remove(aEstate);
       estates.add(index, aEstate);
+=======
+  public boolean addBoardAt(Board aBoard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addBoard(aBoard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBoards()) { index = numberOfBoards() - 1; }
+      boards.remove(aBoard);
+      boards.add(index, aBoard);
+>>>>>>> main
       wasAdded = true;
     }
     return wasAdded;
   }
 
+<<<<<<< HEAD
   public boolean addOrMoveEstateAt(Estate aEstate, int index)
   {
     boolean wasAdded = false;
@@ -474,10 +726,22 @@ public class Game
       if(index > numberOfEstates()) { index = numberOfEstates() - 1; }
       estates.remove(aEstate);
       estates.add(index, aEstate);
+=======
+  public boolean addOrMoveBoardAt(Board aBoard, int index)
+  {
+    boolean wasAdded = false;
+    if(boards.contains(aBoard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBoards()) { index = numberOfBoards() - 1; }
+      boards.remove(aBoard);
+      boards.add(index, aBoard);
+>>>>>>> main
       wasAdded = true;
     } 
     else 
     {
+<<<<<<< HEAD
       wasAdded = addEstateAt(aEstate, index);
     }
     return wasAdded;
@@ -491,12 +755,79 @@ public class Game
     {
       aBoard.removeGame(this);
     }
+=======
+      wasAdded = addBoardAt(aBoard, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfCards()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addCard(Card aCard)
+  {
+    boolean wasAdded = false;
+    if (cards.contains(aCard)) { return false; }
+    cards.add(aCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeCard(Card aCard)
+  {
+    boolean wasRemoved = false;
+    if (cards.contains(aCard))
+    {
+      cards.remove(aCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addCardAt(Card aCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addCard(aCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCards()) { index = numberOfCards() - 1; }
+      cards.remove(aCard);
+      cards.add(index, aCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveCardAt(Card aCard, int index)
+  {
+    boolean wasAdded = false;
+    if(cards.contains(aCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCards()) { index = numberOfCards() - 1; }
+      cards.remove(aCard);
+      cards.add(index, aCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addCardAt(aCard, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+>>>>>>> main
     ArrayList<Player> copyOfPlayers = new ArrayList<Player>(players);
     players.clear();
     for(Player aPlayer : copyOfPlayers)
     {
       aPlayer.removeGame(this);
     }
+<<<<<<< HEAD
     ArrayList<Weapon> copyOfWeapons = new ArrayList<Weapon>(weapons);
     weapons.clear();
     for(Weapon aWeapon : copyOfWeapons)
@@ -642,4 +973,27 @@ public class Game
   }
 } 
 
+=======
+    ArrayList<Position> copyOfPositions = new ArrayList<Position>(positions);
+    positions.clear();
+    for(Position aPosition : copyOfPositions)
+    {
+      aPosition.removeGame(this);
+    }
+    ArrayList<Board> copyOfBoards = new ArrayList<Board>(boards);
+    boards.clear();
+    for(Board aBoard : copyOfBoards)
+    {
+      aBoard.removeGame(this);
+    }
+    cards.clear();
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "position" + "=" + (getPosition() != null ? !getPosition().equals(this)  ? getPosition().toString().replaceAll("  ","    ") : "this" : "null");
+  }
+>>>>>>> main
 }
