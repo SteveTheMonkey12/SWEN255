@@ -1,7 +1,16 @@
 /Java/
 /Board.class
 /Card.class
+<<<<<<< HEAD
 /Estate.class
 /Game.class
 /Player.class
+=======
+/Cell.class
+/Character.class
+/Estate.class
+/Game.class
+/Player.class
+/Position.class
+>>>>>>> refs/heads/main
 /Weapon.class
