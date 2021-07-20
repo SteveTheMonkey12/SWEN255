@@ -2,10 +2,16 @@
 /*This code was generated using the UMPLE 1.31.0.5692.1a9e80997 modeling language!*/
 
 
+<<<<<<< HEAD
+
+// line 17 "model.ump"
+// line 53 "model.ump"
+=======
 import java.util.*;
 
 // line 21 "model.ump"
 // line 79 "model.ump"
+>>>>>>> main
 public class Card
 {
 
@@ -16,9 +22,12 @@ public class Card
   //Card Attributes
   private String name;
 
+<<<<<<< HEAD
+=======
   //Card Associations
   private List<Player> players;
 
+>>>>>>> main
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -26,7 +35,10 @@ public class Card
   public Card(String aName)
   {
     name = aName;
+<<<<<<< HEAD
+=======
     players = new ArrayList<Player>();
+>>>>>>> main
   }
 
   //------------------------
@@ -45,6 +57,11 @@ public class Card
   {
     return name;
   }
+<<<<<<< HEAD
+
+  public void delete()
+  {}
+=======
   /* Code from template association_GetMany */
   public Player getPlayer(int index)
   {
@@ -167,6 +184,7 @@ public class Card
       aPlayer.removeCard(this);
     }
   }
+>>>>>>> main
 
 
   public String toString()

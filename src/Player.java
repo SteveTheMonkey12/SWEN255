@@ -4,21 +4,32 @@
 
 import java.util.*;
 
+<<<<<<< HEAD
+// line 11 "model.ump"
+// line 48 "model.ump"
+public class Player extends Card
+=======
 // line 16 "model.ump"
 // line 74 "model.ump"
-public class Player extends Card
+public class Player
+>>>>>>> main
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
+<<<<<<< HEAD
+  //Player Associations
+  private List<Game> games;
+=======
   //Player Attributes
   private String name;
 
   //Player Associations
   private List<Game> games;
   private List<Card> cards;
+>>>>>>> main
 
   //------------------------
   // CONSTRUCTOR
@@ -26,14 +37,21 @@ public class Player extends Card
 
   public Player(String aName)
   {
+<<<<<<< HEAD
     super(aName);
     games = new ArrayList<Game>();
+=======
+    name = aName;
+    games = new ArrayList<Game>();
     cards = new ArrayList<Card>();
+>>>>>>> main
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+<<<<<<< HEAD
+=======
 
   public boolean setName(String aName)
   {
@@ -47,6 +65,7 @@ public class Player extends Card
   {
     return name;
   }
+>>>>>>> main
   /* Code from template association_GetMany */
   public Game getGame(int index)
   {
@@ -77,6 +96,8 @@ public class Player extends Card
     int index = games.indexOf(aGame);
     return index;
   }
+<<<<<<< HEAD
+=======
   /* Code from template association_GetMany */
   public Card getCard(int index)
   {
@@ -107,6 +128,7 @@ public class Player extends Card
     int index = cards.indexOf(aCard);
     return index;
   }
+>>>>>>> main
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfGames()
   {
@@ -189,6 +211,8 @@ public class Player extends Card
     }
     return wasAdded;
   }
+<<<<<<< HEAD
+=======
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfCards()
   {
@@ -271,6 +295,7 @@ public class Player extends Card
     }
     return wasAdded;
   }
+>>>>>>> main
 
   public void delete()
   {
@@ -280,6 +305,11 @@ public class Player extends Card
     {
       aGame.removePlayer(this);
     }
+<<<<<<< HEAD
+    super.delete();
+  }
+
+=======
     ArrayList<Card> copyOfCards = new ArrayList<Card>(cards);
     cards.clear();
     for(Card aCard : copyOfCards)
@@ -294,4 +324,5 @@ public class Player extends Card
     return super.toString() + "["+
             "name" + ":" + getName()+ "]";
   }
+>>>>>>> main
 }
