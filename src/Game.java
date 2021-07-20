@@ -712,7 +712,6 @@ public class Game
 			  tmpOutput += (i+1) + ") " + getWeapon(i).getName() + "\n";
 		  }
 		  System.out.println(tmpOutput);
-		  //input = new Scanner(System.in);
 		  int guessNum = input.nextInt() -1;
 		  if(guessNum < 0 || guessNum > numberOfWeapons()) {
 			  return -1;
@@ -818,17 +817,17 @@ public class Game
 	  ArrayList<Card> cardsToShow = new ArrayList<Card>();
 	  if(aPlayer.getCards().contains(guessedPlayer)) {
 		  cardsToShow.add(guessedPlayer);
-		  output += numCardsToShow + " " + guessedPlayer.getName();
+		  output += numCardsToShow + " " + guessedPlayer.getName() + " ";
 		  numCardsToShow++;
 	  }
 	  if(aPlayer.getCards().contains(guessedWeapon)) {
 		  cardsToShow.add(guessedWeapon);
-		  output += numCardsToShow + " " + guessedWeapon.getName();
+		  output += numCardsToShow + " " + guessedWeapon.getName() + " ";
 		  numCardsToShow++;
 	  }
 	  if(aPlayer.getCards().contains(guessedEstate)) {
 		  cardsToShow.add(guessedEstate);
-		  output += numCardsToShow + " " + guessedEstate.getName();
+		  output += numCardsToShow + " " + guessedEstate.getName() + " ";
 		  numCardsToShow++;
 	  }
 	  if(numCardsToShow == 1) {
@@ -839,6 +838,7 @@ public class Game
 	  while(true) {
 		  clearScreen();
 		  System.out.println("Pick a card 1-" + (numCardsToShow-1) + ": ");
+		  System.out.println(output);
 		  int cardToShow = input.nextInt();
 		  if(cardToShow < numCardsToShow && cardToShow > 0) {
 		  	return cardsToShow.get(cardToShow-1);
