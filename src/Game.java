@@ -692,7 +692,7 @@ public class Game
 	  System.out.print(p.getName() + "'s guess y/n\n");
 	  Scanner input = new Scanner(System.in);
 	  String guess = input.next();
-	  if(!guess.equals("y") || !guess.equals("n")) {
+	  if(!guess.equals("y") && !guess.equals("n")) {
 		  return -1;
 	  }
 	  else if(guess.equals("n")) {
@@ -704,11 +704,11 @@ public class Game
 		  System.out.println("Guess a weapon 1-" + numberOfWeapons() + ":");
 		  String tmpOutput = "";
 		  for(int i = 0; i < numberOfWeapons(); i++) {
-			  tmpOutput += i + ")" + getWeapon(i).getName();
+			  tmpOutput += (i+1) + ") " + getWeapon(i).getName() + "\n";
 		  }
 		  System.out.println(tmpOutput);
 		  input = new Scanner(System.in);
-		  int guessNum = input.nextInt();
+		  int guessNum = input.nextInt() -1;
 		  if(guessNum < 0 || guessNum > numberOfWeapons()) {
 			  return -1;
 		  }
@@ -718,11 +718,11 @@ public class Game
 		  System.out.println("Guess an Estate 1-" + numberOfEstates() + ":");
 		  tmpOutput = "";
 		  for(int i = 0; i < numberOfEstates(); i++) {
-			  tmpOutput += i + ")" + getEstate(i).getName();
+			  tmpOutput += (i+1) + ") " + getEstate(i).getName() + "\n";
 		  }
 		  System.out.println(tmpOutput);
 		  input = new Scanner(System.in);
-		  guessNum = input.nextInt();
+		  guessNum = input.nextInt() -1;
 		  if(guessNum < 0 || guessNum > numberOfEstates()) {
 			  return -1;
 		  }
@@ -732,11 +732,11 @@ public class Game
 		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
 		  tmpOutput = "";
 		  for(int i = 0; i < numberOfPlayers(); i++) {
-			  tmpOutput += i + ")" + getPlayer(i).getName();
+			  tmpOutput += (i+1) + ") " + getPlayer(i).getName() + "\n";
 		  }
 		  System.out.println(tmpOutput);
 		  input = new Scanner(System.in);
-		  guessNum = input.nextInt();
+		  guessNum = input.nextInt()-1;
 		  if(guessNum < 0 || guessNum > numberOfPlayers()) {
 			  return -1;
 		  }
@@ -747,7 +747,7 @@ public class Game
 				  + guessedEstate.getName() + " " + guessedPlayer.getName() + " y/n?");
 		  input = new Scanner(System.in);
 		  String answer = input.next();
-		  if(!answer.equals("y") || !answer.equals("n")) {
+		  if(!answer.equals("y") && !answer.equals("n")) {
 			  return -1;
 		  }
 		  else if(answer.equals("n")) {
