@@ -282,10 +282,6 @@ public class Player extends Card
     }
     ArrayList<Card> copyOfCards = new ArrayList<Card>(cards);
     cards.clear();
-    for(Card aCard : copyOfCards)
-    {
-      aCard.removePlayer(this);
-    }
   }
 
 
