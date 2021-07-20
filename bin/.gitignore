@@ -1,3 +1,13 @@
+<<<<<<< HEAD
 /Cell.class
 /Character.class
 /Position.class
+=======
+/Java/
+/Board.class
+/Card.class
+/Estate.class
+/Game.class
+/Player.class
+/Weapon.class
+>>>>>>> refs/heads/updatedUML
