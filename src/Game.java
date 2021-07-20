@@ -664,6 +664,11 @@ public class Game
   
   //Elliott's guess stuff
   
+  public static void clearScreen() {
+	  System.out.print("\033[H\033[2J");  
+	  System.out.flush();  
+  }  
+  
   /**
    * Method to get the next player in the list
    * @param aPlayer
@@ -688,7 +693,7 @@ public class Game
    */
 
   public int guess(Player p) {
-	  System.out.flush();
+	  clearScreen();
 	  System.out.print(p.getName() + "'s guess y/n\n");
 	  Scanner input = new Scanner(System.in);
 	  String guess = input.next();
@@ -699,7 +704,7 @@ public class Game
 		  return 0;
 	  }
 	  else if(guess.equals("y")) {
-		  System.out.flush();
+		  clearScreen();
 		  //guess weapon
 		  System.out.println("Guess a weapon 1-" + numberOfWeapons() + ":");
 		  String tmpOutput = "";
@@ -714,7 +719,7 @@ public class Game
 		  }
 		  Weapon guessedWeapon = (Weapon) getWeapon(guessNum);
 		  //guess estate
-		  System.out.flush();
+		  clearScreen();
 		  System.out.println("Guess an Estate 1-" + numberOfEstates() + ":");
 		  tmpOutput = "";
 		  for(int i = 0; i < numberOfEstates(); i++) {
@@ -728,7 +733,7 @@ public class Game
 		  }
 		  Estate guessedEstate = (Estate) getEstate(guessNum);
 		  //guess player
-		  System.out.flush();
+		  clearScreen();
 		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
 		  tmpOutput = "";
 		  for(int i = 0; i < numberOfPlayers(); i++) {
@@ -742,7 +747,7 @@ public class Game
 		  }
 		  Player guessedPlayer = getPlayer(guessNum);
 		  //confirm guess
-		  System.out.flush();
+		  clearScreen();
 		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
 				  + guessedEstate.getName() + " " + guessedPlayer.getName() + " y/n?");
 		  input = new Scanner(System.in);
@@ -754,11 +759,51 @@ public class Game
 			  return guess(p);
 		  }
 		  //respond to guess
+		  Player nextP = p;
 		  for(int i = 0; i < 3; i++) {
-			  p = getNextPlayer(p);
-			  if(playerGuessResponse(p, guessedPlayer, guessedWeapon, guessedEstate) != null) {
-				  //TODO show guessing player the response
+			  nextP = getNextPlayer(nextP);
+			  clearScreen();
+			  System.out.println(nextP.getName() + "'s turn to response y/n");
+			  input = new Scanner(System.in);
+			  guess = input.next();
+			  if(!guess.equals("y") && !guess.equals("n")) {
+				  return -1;
 			  }
+			  else if(guess.equals("n")) {
+				  return 0;
+			  }
+			  else if(guess.equals("y")) {
+				  Card response = playerGuessResponse(nextP, guessedPlayer, guessedWeapon, guessedEstate);
+				  if(response != null) {
+					  clearScreen();
+					  System.out.println(p.getName() + "'s turn to view response y/n");
+					  input = new Scanner(System.in);
+					  guess = input.next();
+					  if(!guess.equals("y") && !guess.equals("n")) {
+						  return -1;
+					  }
+					  else if(guess.equals("n")) {
+						  return 0;
+					  }
+					  else if(guess.equals("y")) {
+						  System.out.print(response);
+						  return 1;
+					  }
+				  }
+			  }
+		  }
+		  clearScreen();
+		  System.out.print(nextP.getName() + "'s response y/n\n");
+		  input = new Scanner(System.in);
+		  guess = input.next();
+		  if(!guess.equals("y") && !guess.equals("n")) {
+			  return -1;
+		  }
+		  else if(guess.equals("n")) {
+			  return 0;
+		  }
+		  else if(guess.equals("y")) {
+			  System.out.println("No matching response");
 		  }
 	  }
 	  return -1;
@@ -797,7 +842,7 @@ public class Game
 		  return null;
 	  }
 	  while(true) {
-		  System.out.flush();
+		  clearScreen();
 		  System.out.println("Pick a card 1-" + (numCardsToShow-1) + ": ");
 		  Scanner input = new Scanner(System.in);
 		  int cardToShow = input.nextInt();
