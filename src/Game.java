@@ -701,46 +701,46 @@ public class Game
 	  else if(guess.equals("y")) {
 		  System.out.flush();
 		  //guess weapon
-		  System.out.println("Guess a weapon 1-" + weapons.size() + ":");
+		  System.out.println("Guess a weapon 1-" + numberOfWeapons() + ":");
 		  String tmpOutput = "";
-		  for(int i = 0; i < weapons.size(); i++) {
-			  tmpOutput += i + ")" + weapons.get(i).getName();
+		  for(int i = 0; i < numberOfWeapons(); i++) {
+			  tmpOutput += i + ")" + getWeapon(i).getName();
 		  }
 		  System.out.println(tmpOutput);
 		  input = new Scanner(System.in);
 		  int guessNum = input.nextInt();
-		  if(guessNum < 0 || guessNum > weapons.size()) {
+		  if(guessNum < 0 || guessNum > numberOfWeapons()) {
 			  return -1;
 		  }
-		  Weapon guessedWeapon = (Weapon) weapons.get(guessNum);
+		  Weapon guessedWeapon = (Weapon) getWeapon(guessNum);
 		  //guess estate
 		  System.out.flush();
-		  System.out.println("Guess an Estate 1-" + estates.size() + ":");
+		  System.out.println("Guess an Estate 1-" + numberOfEstates() + ":");
 		  tmpOutput = "";
-		  for(int i = 0; i < estates.size(); i++) {
-			  tmpOutput += i + ")" + estates.get(i).getName();
+		  for(int i = 0; i < numberOfEstates(); i++) {
+			  tmpOutput += i + ")" + getEstate(i).getName();
 		  }
 		  System.out.println(tmpOutput);
 		  input = new Scanner(System.in);
 		  guessNum = input.nextInt();
-		  if(guessNum < 0 || guessNum > estates.size()) {
+		  if(guessNum < 0 || guessNum > numberOfEstates()) {
 			  return -1;
 		  }
-		  Estate guessedEstate = (Estate) estates.get(guessNum);
+		  Estate guessedEstate = (Estate) getEstate(guessNum);
 		  //guess player
 		  System.out.flush();
-		  System.out.println("Guess a player 1-" + players.size() + ":");
+		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
 		  tmpOutput = "";
-		  for(int i = 0; i < players.size(); i++) {
-			  tmpOutput += i + ")" + players.get(i).getName();
+		  for(int i = 0; i < numberOfPlayers(); i++) {
+			  tmpOutput += i + ")" + getPlayer(i).getName();
 		  }
 		  System.out.println(tmpOutput);
 		  input = new Scanner(System.in);
 		  guessNum = input.nextInt();
-		  if(guessNum < 0 || guessNum > players.size()) {
+		  if(guessNum < 0 || guessNum > numberOfPlayers()) {
 			  return -1;
 		  }
-		  Player guessedPlayer = players.get(guessNum);
+		  Player guessedPlayer = getPlayer(guessNum);
 		  //confirm guess
 		  System.out.flush();
 		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
