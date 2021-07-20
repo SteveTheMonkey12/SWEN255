@@ -6,7 +6,7 @@ import java.util.*;
 
 // line 16 "model.ump"
 // line 74 "model.ump"
-public class Player
+public class Player extends Card
 {
 
   //------------------------
@@ -56,7 +56,7 @@ public class Player
 
   public int indexOfCard(Card aCard)
   {
-    int index = games.indexOf(aGame);
+    int index = cards.indexOf(aCard);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */

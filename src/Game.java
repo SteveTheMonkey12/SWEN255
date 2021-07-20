@@ -22,6 +22,7 @@ public class Game
   private List<Board> boards;
   private List<Weapon> weapons;
   private List<Estate> estates;
+  private List<Card> cards;
 
   //------------------------
   // CONSTRUCTOR
@@ -303,22 +304,9 @@ public class Game
   /* Code from template association_AddManyToManyMethod */
   public boolean addPlayer(Player aPlayer)
   {
-    boolean wasAdded = false;
     if (players.contains(aPlayer)) { return false; }
     players.add(aPlayer);
-    if (aPlayer.indexOfGame(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aPlayer.addGame(this);
-      if (!wasAdded)
-      {
-        players.remove(aPlayer);
-      }
-    }
-    return wasAdded;
+    return true;
   }
   /* Code from template association_RemoveMany */
   public boolean removePlayer(Player aPlayer)
@@ -331,19 +319,7 @@ public class Game
 
     int oldIndex = players.indexOf(aPlayer);
     players.remove(oldIndex);
-    if (aPlayer.indexOfGame(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aPlayer.removeGame(this);
-      if (!wasRemoved)
-      {
-        players.add(oldIndex,aPlayer);
-      }
-    }
-    return wasRemoved;
+    return true;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addPlayerAt(Player aPlayer, int index)
@@ -664,10 +640,6 @@ public class Game
     estates.clear();
     ArrayList<Player> copyOfPlayers = new ArrayList<Player>(players);
     players.clear();
-    for(Player aPlayer : copyOfPlayers)
-    {
-      aPlayer.removeGame(this);
-    }
     ArrayList<Position> copyOfPositions = new ArrayList<Position>(positions);
     positions.clear();
     for(Position aPosition : copyOfPositions)
@@ -688,5 +660,150 @@ public class Game
   {
     return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "position" + "=" + (getPosition() != null ? !getPosition().equals(this)  ? getPosition().toString().replaceAll("  ","    ") : "this" : "null");
+  }
+  
+  //Elliott's guess stuff
+  
+  /**
+   * Method to get the next player in the list
+   * @param aPlayer
+   * @return The next player in the list
+   */
+  public Player getNextPlayer(Player aPlayer) {
+	  int index = indexOfPlayer(aPlayer);
+	  if(index == numberOfPlayers()-1) {
+		  index = 0;
+	  }
+	  else {
+		  index++;
+	  }
+	  return getPlayer(index);
+  }
+
+
+  /**
+   * Starts the guessing sequence from a given player
+   * @param p the player that is having a guess
+   * @return -1 if bad input, 0 if no guess, 1 if guess
+   */
+
+  public int guess(Player p) {
+	  System.out.flush();
+	  System.out.print(p.getName() + "'s guess y/n\n");
+	  Scanner input = new Scanner(System.in);
+	  String guess = input.next();
+	  if(!guess.equals("y") || !guess.equals("n")) {
+		  return -1;
+	  }
+	  else if(guess.equals("n")) {
+		  return 0;
+	  }
+	  else if(guess.equals("y")) {
+		  System.out.flush();
+		  //guess weapon
+		  System.out.println("Guess a weapon 1-" + weapons.size() + ":");
+		  String tmpOutput = "";
+		  for(int i = 0; i < weapons.size(); i++) {
+			  tmpOutput += i + ")" + weapons.get(i).getName();
+		  }
+		  System.out.println(tmpOutput);
+		  input = new Scanner(System.in);
+		  int guessNum = input.nextInt();
+		  if(guessNum < 0 || guessNum > weapons.size()) {
+			  return -1;
+		  }
+		  Weapon guessedWeapon = (Weapon) weapons.get(guessNum);
+		  //guess estate
+		  System.out.flush();
+		  System.out.println("Guess an Estate 1-" + estates.size() + ":");
+		  tmpOutput = "";
+		  for(int i = 0; i < estates.size(); i++) {
+			  tmpOutput += i + ")" + estates.get(i).getName();
+		  }
+		  System.out.println(tmpOutput);
+		  input = new Scanner(System.in);
+		  guessNum = input.nextInt();
+		  if(guessNum < 0 || guessNum > estates.size()) {
+			  return -1;
+		  }
+		  Estate guessedEstate = (Estate) estates.get(guessNum);
+		  //guess player
+		  System.out.flush();
+		  System.out.println("Guess a player 1-" + players.size() + ":");
+		  tmpOutput = "";
+		  for(int i = 0; i < players.size(); i++) {
+			  tmpOutput += i + ")" + players.get(i).getName();
+		  }
+		  System.out.println(tmpOutput);
+		  input = new Scanner(System.in);
+		  guessNum = input.nextInt();
+		  if(guessNum < 0 || guessNum > players.size()) {
+			  return -1;
+		  }
+		  Player guessedPlayer = players.get(guessNum);
+		  //confirm guess
+		  System.out.flush();
+		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
+				  + guessedEstate.getName() + " " + guessedPlayer.getName() + " y/n?");
+		  input = new Scanner(System.in);
+		  String answer = input.next();
+		  if(!answer.equals("y") || !answer.equals("n")) {
+			  return -1;
+		  }
+		  else if(answer.equals("n")) {
+			  return guess(p);
+		  }
+		  //respond to guess
+		  for(int i = 0; i < 3; i++) {
+			  p = getNextPlayer(p);
+			  if(playerGuessResponse(p, guessedPlayer, guessedWeapon, guessedEstate) != null) {
+				  //TODO show guessing player the response
+			  }
+		  }
+	  }
+	  return -1;
+  }
+  /**
+   * Method for players to respond to another players guess
+   * @param aPlayer
+   * @param guessedPlayer
+   * @param guessedWeapon
+   * @param guessedEstate
+   * @return
+   */
+  private Card playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate) {
+	  String output = "";
+	  int numCardsToShow = 1;
+	  ArrayList<Card> cardsToShow = new ArrayList<Card>();
+	  if(aPlayer.getCards().contains(guessedPlayer)) {
+		  cardsToShow.add(guessedPlayer);
+		  output += numCardsToShow + " " + guessedPlayer.getName();
+		  numCardsToShow++;
+	  }
+	  if(aPlayer.getCards().contains(guessedWeapon)) {
+		  cardsToShow.add(guessedWeapon);
+		  output += numCardsToShow + " " + guessedWeapon.getName();
+		  numCardsToShow++;
+	  }
+	  if(aPlayer.getCards().contains(guessedEstate)) {
+		  cardsToShow.add(guessedEstate);
+		  output += numCardsToShow + " " + guessedEstate.getName();
+		  numCardsToShow++;
+	  }
+	  if(numCardsToShow == 1) {
+		  System.out.println("No cards to show");
+		  Scanner input = new Scanner(System.in);
+		  input.next();
+		  return null;
+	  }
+	  while(true) {
+		  System.out.flush();
+		  System.out.println("Pick a card 1-" + (numCardsToShow-1) + ": ");
+		  Scanner input = new Scanner(System.in);
+		  int cardToShow = input.nextInt();
+		  if(cardToShow < numCardsToShow && cardToShow > 0) {
+		  	return cardsToShow.get(cardToShow-1);
+		  }
+	  }
   }
 }
