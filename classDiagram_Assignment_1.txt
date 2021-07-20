@@ -1,7 +1,7 @@
-* -- * Player;
 class Game
 {
-  * -- * Player;
+  private Card playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate){return null;}
+  public int guess(Player p){return 0;}
 }
 
 class Board
@@ -11,27 +11,24 @@ class Board
 
 class Player
 {
-  name;
+  isA Card;
+  * -- * Game;
 }
 
 class Card
 {
   name;
-
-}
-
-class Character
-{
-  isA Card;
-}
+  }
 
 class Weapon
 {
   isA Card;
-  }
+  * -- * Game;
+}
 
 class Estate
 {
   isA Card;
+  * -- * Game;
 }
 
