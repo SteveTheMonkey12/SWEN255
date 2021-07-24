@@ -1096,10 +1096,12 @@ public class Game
 		  }
 		  if(murderCards.contains(guessedWeapon) && murderCards.contains(guessedEstate) && murderCards.contains(guessedPlayer)) {
 			  System.out.println(p.getName() + " wins!!!");
+			  return 1;
 		  }
 		  else {
 			  System.out.println(p.getName() + " is incorrect :(");
 			  p.setCanWin(false);
+			  return 0;
 		  }
 	  }
 	  
