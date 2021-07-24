@@ -747,14 +747,14 @@ public class Game
 		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
 		  tmpOutput = "";
 		  for(int i = 0; i < numberOfPlayers(); i++) {
-			  tmpOutput += (i+1) + ") " + getPlayer(i).getName() + "\n";
+			  tmpOutput += (i+1) + ") " + getCharacter(i).getName() + "\n";
 		  }
 		  System.out.println(tmpOutput);
 		  guessNum = input.nextInt()-1;
-		  if(guessNum < 0 || guessNum > numberOfPlayers()) {
+		  if(guessNum < 0 || guessNum > numberOfCharacters()) {
 			  return -1;
 		  }
-		  Player guessedPlayer = getPlayer(guessNum);
+		  Player guessedPlayer = getCharacter(guessNum);
 		  //confirm guess
 		  clearScreen();
 		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
@@ -823,7 +823,7 @@ public class Game
    * @param guessedEstate
    * @return
    */
-  private Card playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate, Scanner input) {
+  private Card playerGuessResponse(Player aPlayer, Character guessedPlayer, Weapon guessedWeapon, Estate guessedEstate, Scanner input) {
 	  String output = "";
 	  int numCardsToShow = 1;
 	  ArrayList<Card> cardsToShow = new ArrayList<Card>();
