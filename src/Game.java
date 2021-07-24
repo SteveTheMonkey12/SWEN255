@@ -1024,11 +1024,12 @@ public class Game
   
   private boolean checkWin(Weapon w, Estate e, Character c) {
 	  
-	  if(murderCards.contains(w) && murder)
+	  if(murderCards.contains(w) && murderCards.contains(e) && murderCards.contains(c)) {
+		  return true;
+	  }
 	  
 	  return false;
   }
-  
   /**
    * 
    * @return the number from system input
