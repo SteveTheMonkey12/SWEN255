@@ -20,6 +20,7 @@ class Board
 
 class Player
 {
+  name;
   * -- * Game;
   * -> * Card;
 }
