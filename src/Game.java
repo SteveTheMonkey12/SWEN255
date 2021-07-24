@@ -24,7 +24,7 @@ public class Game
   private List<Estate> estates;
   private List<Card> cards;
   private List<Character> characters;
-  private Card[] murderCards;
+  private List<Card> murderCards; //changed to list so can use contains method to check for win
   
   //name of the 4 characters
   private static final String[] characterName = {"Lucilla", "Bert", "Maline", "Percy"};
@@ -993,13 +993,15 @@ public class Game
 	  }
 	  
 	  //randomly choose the murder cards
-	  murderCards = new Card[3];
 	  Card murderCharacter = characters.get((int) (Math.random() * characters.size()));
 	  cards.remove(murderCharacter);
+	  murderCards.add(murderCharacter);
 	  Card murderWeapon = weapons.get((int) (Math.random() * weapons.size()));
 	  cards.remove(murderWeapon);
+	  murderCards.add(murderWeapon);
       Card murderEstate = estates.get((int) (Math.random() * estates.size()));
       cards.remove(murderEstate);
+      murderCards.add(murderEstate);
       
       //distribute cards to player
       System.out.print("Number of players? 3 or 4 players?");
@@ -1018,10 +1020,13 @@ public class Game
 
 	  
 	  
+  }
+  
+  private boolean checkWin(Weapon w, Estate e, Character c) {
 	  
+	  if(murderCards.contains(w) && murder)
 	  
-	  
-	  
+	  return false;
   }
   
   /**
