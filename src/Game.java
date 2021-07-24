@@ -100,6 +100,37 @@ public class Game
   }
   
   /* Code from template association_GetMany */
+  public Character getCharacter(int index)
+  {
+    Character aCharacter = characters.get(index);
+    return aCharacter;
+  }
+
+  public List<Character> getCharacters()
+  {
+    List<Character> newCharacters = Collections.unmodifiableList(characters);
+    return newCharacters;
+  }
+
+  public int numberOfCharacters()
+  {
+    int number = characters.size();
+    return number;
+  }
+
+  public boolean hasCharacters()
+  {
+    boolean has = characters.size() > 0;
+    return has;
+  }
+
+  public int indexOfCharacter(Character aCharacter)
+  {
+    int index = characters.indexOf(aCharacter);
+    return index;
+  }
+  
+  /* Code from template association_GetMany */
   public Player getPlayer(int index)
   {
     Player aPlayer = players.get(index);
@@ -313,6 +344,90 @@ public class Game
     }
     return wasAdded;
   }
+  
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfCharacters()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToManyMethod */
+  public boolean addCharacter(Character aCharacter)
+  {
+    boolean wasAdded = false;
+    if (characters.contains(aCharacter)) { return false; }
+    characters.add(aCharacter);
+    if (aCharacter.indexOfGame(this) != -1)
+    {
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aCharacter.addGame(this);
+      if (!wasAdded)
+      {
+        characters.remove(aCharacter);
+      }
+    }
+    return wasAdded;
+  }
+  /* Code from template association_RemoveMany */
+  public boolean removeCharacter(Character aCharacter)
+  {
+    boolean wasRemoved = false;
+    if (!characters.contains(aCharacter))
+    {
+      return wasRemoved;
+    }
+
+    int oldIndex = characters.indexOf(aCharacter);
+    characters.remove(oldIndex);
+    if (aCharacter.indexOfGame(this) == -1)
+    {
+      wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aCharacter.removeGame(this);
+      if (!wasRemoved)
+      {
+        characters.add(oldIndex,aCharacter);
+      }
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addCharacterAt(Character aCharacter, int index)
+  {  
+    boolean wasAdded = false;
+    if(addCharacter(aCharacter))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCharacters()) { index = numberOfCharacters() - 1; }
+      characters.remove(aCharacter);
+      characters.add(index, aCharacter);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveCharacterAt(Character aCharacter, int index)
+  {
+    boolean wasAdded = false;
+    if(characters.contains(aCharacter))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCharacters()) { index = numberOfCharacters() - 1; }
+      characters.remove(aCharacter);
+      characters.add(index, aCharacter);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addCharacterAt(aCharacter, index);
+    }
+    return wasAdded;
+  }
+  
   /* Code from template association_AddManyToManyMethod */
   public boolean addPlayer(Player aPlayer)
   {
@@ -754,7 +869,7 @@ public class Game
 		  if(guessNum < 0 || guessNum > numberOfCharacters()) {
 			  return -1;
 		  }
-		  Player guessedPlayer = getCharacter(guessNum);
+		  Character guessedPlayer = getCharacter(guessNum);
 		  //confirm guess
 		  clearScreen();
 		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
