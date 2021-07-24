@@ -49,6 +49,7 @@ public class Game
     weapons = new ArrayList<Weapon>();
     estates = new ArrayList<Estate>();
     characters = new ArrayList<Character>();
+    murderCards = new ArrayList<Card>();
   }
 
   //------------------------
@@ -991,18 +992,16 @@ public class Game
 		  estates.add(new Estate(estateName[i]));
 		  cards.add(new Estate(estateName[i]));
 	  }
-	  
 	  //randomly choose the murder cards
 	  Card murderCharacter = characters.get((int) (Math.random() * characters.size()));
-	  cards.remove(murderCharacter);
 	  murderCards.add(murderCharacter);
+	  cards.remove(murderCharacter);
 	  Card murderWeapon = weapons.get((int) (Math.random() * weapons.size()));
-	  cards.remove(murderWeapon);
 	  murderCards.add(murderWeapon);
+	  cards.remove(murderWeapon);
       Card murderEstate = estates.get((int) (Math.random() * estates.size()));
-      cards.remove(murderEstate);
       murderCards.add(murderEstate);
-      
+      cards.remove(murderEstate);
       //distribute cards to player
       System.out.print("Number of players? 3 or 4 players?");
       int playerNumbers = getNumber();
