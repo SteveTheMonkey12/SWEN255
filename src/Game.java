@@ -23,6 +23,17 @@ public class Game
   private List<Weapon> weapons;
   private List<Estate> estates;
   private List<Card> cards;
+  private List<Character> characters;
+  private Card[] murderCards;
+  
+  //name of the 4 characters
+  private static final String[] characterName = {"Lucilla", "Bert", "Maline", "Percy"};
+  
+  //name of the 5 weapons
+  private static final String[] weaponName = {"Broom","Scissors","Knife","Shovel","iPad"};
+  
+  //name of the 5 estate
+  private static final String[] estateName = {"Haunted House", "Manic Manor", "Villa Celia", "Calamity Castle","Peril Palace"};
 
   //------------------------
   // CONSTRUCTOR
@@ -37,6 +48,7 @@ public class Game
     cards = new ArrayList<Card>();
     weapons = new ArrayList<Weapon>();
     estates = new ArrayList<Estate>();
+    characters = new ArrayList<Character>();
   }
 
   //------------------------
@@ -845,4 +857,83 @@ public class Game
 		  }
 	  }
   }
+  
+  /**
+   * initial the cards of estate, character and weapon.
+   * randomly choose the murder cards.
+   * distribute cards to player
+   * leave the board part at this stage (to be continued...)
+   */
+  public void initial() {
+	  //initial the cards of estate, character and weapon
+	  for(int i = 0; i<4 ;i++) {
+		  characters.add(new Character(characterName[i]));
+		  cards.add(new Character(characterName[i]));
+	  }
+	  for(int i = 0; i<5; i++) {
+		  weapons.add(new Weapon(weaponName[i]));
+		  cards.add(new Weapon(weaponName[i]));
+		  estates.add(new Estate(estateName[i]));
+		  cards.add(new Estate(estateName[i]));
+	  }
+	  
+	  //randomly choose the murder cards
+	  murderCards = new Card[3];
+	  Card murderCharacter = characters.get((int) (Math.random() * characters.size()));
+	  cards.remove(murderCharacter);
+	  Card murderWeapon = weapons.get((int) (Math.random() * weapons.size()));
+	  cards.remove(murderWeapon);
+      Card murderEstate = estates.get((int) (Math.random() * estates.size()));
+      cards.remove(murderEstate);
+      
+      //distribute cards to player
+      System.out.print("Number of players? 3 or 4 players?");
+      int playerNumbers = getNumber();
+      int cardNumbers = cards.size()/ playerNumbers;
+      for(int i =0; i<playerNumbers; i++) {
+    	  List<Card> playerCards = new ArrayList<>();
+    	  for(int j=0; j<cardNumbers; j++) {
+    		  int index = (int) (Math.random() * cards.size());
+    		  playerCards.add(cards.get(index));
+    		  cards.remove(index);
+    	  }
+    	  players.add(new Player(characterName[i],playerCards, characters.get(i)));
+    	    
+      }
+
+	  
+	  
+	  
+	  
+	  
+	  
+  }
+  
+  /**
+   * 
+   * @return the number from system input
+   */
+  private int getNumber() {
+	  int num = 0;
+      try {
+          Scanner scan = new Scanner(System.in);
+          num = scan.nextInt();
+      }catch(java.util.InputMismatchException e) {
+      }
+	return num;
+}
+
+/**
+   * feel free to move it in other methods.
+   * @return the result of roll 2 dice
+   */
+  public int diceResult() {
+	  int dice1 = (int) (Math.random() * 6) + 1;
+	  int dice2 = (int) (Math.random() * 6) + 1;
+	  return dice1+dice2;
+  }
+  
+  
+  
+
 }
