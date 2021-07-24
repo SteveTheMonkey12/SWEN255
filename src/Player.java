@@ -16,6 +16,7 @@ public class Player
   //Player Attributes
   private String name;
   private boolean canWin;
+  private Character character;
 
   //Player Associations
   private List<Game> games;
@@ -25,12 +26,13 @@ public class Player
   // CONSTRUCTOR
   //------------------------
 
-  public Player(String aName)
+  public Player(String aName, List<Card> playerCards, Character aCharacter)
   {
     name = aName;
     canWin = true;
     games = new ArrayList<Game>();
-    cards = new ArrayList<Card>();
+    cards = playerCards;
+    character = aCharacter;
   }
 
   //------------------------

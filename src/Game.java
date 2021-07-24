@@ -1029,9 +1029,8 @@ public class Game
    * @return  -1 if no solve, 0 if incorrect solve, 1 if solved
    */
   private int solveAttempt(Player p) {
-	  
 	  clearScreen();
-	  System.out.print(p.getName() + "'s guess y/n\n");
+	  System.out.print(p.getName() + "'s solve attempt? y/n\n");
 	  Scanner input = new Scanner(System.in);
 	  String guess = input.next();
 	  if(!guess.equals("y") && !guess.equals("n")) {
@@ -1041,6 +1040,10 @@ public class Game
 		  return 0;
 	  }
 	  else if(guess.equals("y")) {
+		  if(p.isCanWin()) {
+			  System.out.println(p.getName() + " has already tried to solve");
+			  return -1;
+		  }
 		  clearScreen();
 		  //guess weapon
 		  System.out.println("Guess a weapon 1-" + numberOfWeapons() + ":");
@@ -1093,6 +1096,10 @@ public class Game
 		  }
 		  if(murderCards.contains(guessedWeapon) && murderCards.contains(guessedEstate) && murderCards.contains(guessedPlayer)) {
 			  System.out.println(p.getName() + " wins!!!");
+		  }
+		  else {
+			  System.out.println(p.getName() + " is incorrect :(");
+			  p.setCanWin(false);
 		  }
 	  }
 	  
