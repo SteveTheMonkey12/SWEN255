@@ -56,8 +56,8 @@ public class Board
     return this.playerPositions.get(target);
   }
   public boolean movePlayerTo(Player target, String destinationName) {
-	  for(Position.Location p: Position.Location.values()) {
-		  if(destinationName.equals(p.name)) {
+	  for(Position.Location locations: Position.Location.values()) {
+		  if(destinationName.equals(locations.name)) {
 			  playerPositions.put(target, new Position(0, 0, p));
 			  return true;
 		  }

@@ -608,16 +608,7 @@ public class Game
 		  Weapon guessedWeapon = (Weapon) getWeapon(guessNum);
 		  //guess estate
 		  clearScreen();
-		  System.out.println("Guess an Estate 1-" + numberOfEstates() + ":");
-		  tmpOutput = "";
-		  for(int i = 0; i < numberOfEstates(); i++) {
-			  tmpOutput += (i+1) + ") " + getEstate(i).getName() + "\n";
-		  }
-		  System.out.println(tmpOutput);
-		  guessNum = input.nextInt() -1;
-		  if(guessNum < 0 || guessNum > numberOfEstates()) {
-			  return -1;
-		  }
+		  
 		  Estate guessedEstate = (Estate) getEstate(guessNum);
 		  //guess player
 		  clearScreen();
