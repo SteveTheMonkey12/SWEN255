@@ -1,6 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.0.5692.1a9e80997 modeling language!*/
-package Java;
 
 import java.util.*;
 
@@ -16,23 +15,23 @@ public class Board
   //------------------------
 
   //Board Associations
-	public static void main(String[] args) {
-		ArrayList<Player> players = new ArrayList<Player>();
-		Player p = new Player("Simon", true);
-		players.add(p);
-		
-		Board b = new Board(players);
-		
-		System.out.println(b.movePlayer(p, "e"));
-		System.out.println(b.movePlayer(p, "e"));
-		System.out.println(b.movePlayer(p, "n"));
-		System.out.println(b.movePlayer(p, "n"));
-		System.out.println(b.movePlayer(p, "n"));
-		System.out.println(b.movePlayer(p, "n"));
-		
-		
-
-	}
+//	public static void main(String[] args) {
+//		ArrayList<Player> players = new ArrayList<Player>();
+//		Player p = new Player("Simon", true);
+//		players.add(p);
+//		
+//		Board b = new Board(players);
+//		
+//		System.out.println(b.movePlayer(p, "e"));
+//		System.out.println(b.movePlayer(p, "e"));
+//		System.out.println(b.movePlayer(p, "n"));
+//		System.out.println(b.movePlayer(p, "n"));
+//		System.out.println(b.movePlayer(p, "n"));
+//		System.out.println(b.movePlayer(p, "n"));
+//		
+//		
+//
+//	}
   private List<Player> players;
 
   private HashMap<Player, Position> playerPositions;
