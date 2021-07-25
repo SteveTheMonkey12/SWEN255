@@ -777,7 +777,7 @@ public class Game
     	  players.add(new Player(characterName[i],playerCards, characters.get(i)));
     	    
       }
-      board = new Board(players);
+      board = new Board(players); //initialise the board
 
 	  
 	  
