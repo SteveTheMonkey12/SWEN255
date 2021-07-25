@@ -2,6 +2,11 @@ class Game
 {
   private Card playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate){return null;}
   public int guess(Player p){return 0;}
+  private void clearScreen(){null;}
+  public void initial(){null;}
+  private int solveAttempt(Player p){null;}
+  private int getNumber() {null;}
+  public int diceResult() {null;}
   1 -<@> 1 Board;
 }
 
@@ -15,7 +20,7 @@ class Board
     
   }
   
-  }
+}
 
 class Player
 {
@@ -62,12 +67,12 @@ namespace -;
 class Character
 {
   position 196 333 109 41;
-  position.association Character__Game 1,0 72,95;
+  position.association Character__Game 1,0 88,129;
 }
 
 class Game
 {
-  position 33 37 383 95;
+  position 33 37 383 112;
   position.association Board__Game 384,0 0,3;
 }
 
@@ -80,24 +85,24 @@ class Player
 {
   position 475 186 123.2 95;
   position.association Card__Player 94,95 0,0;
-  position.association Game__Player 0,0 295,95;
+  position.association Game__Player 0,0 384,128;
 }
 
 class Card
 {
-  position 569 308 109 78;
+  position 569 381 109 78;
 }
 
 class Weapon
 {
   position 32 332 109 41;
-  position.association Game__Weapon 30,0 7,95;
+  position.association Game__Weapon 30,0 9,180;
 }
 
 class Estate
 {
   position 326 296 109 41;
-  position.association Estate__Game 5,0 160,95;
+  position.association Estate__Game 5,0 176,129;
 }
 
 class Position
