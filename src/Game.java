@@ -15,7 +15,7 @@ public class Game
 
   //Game Associations
   private List<Player> players;
-  private List<Board> boards;
+  private Board board;
   private List<Weapon> weapons;
   private List<Estate> estates;
   private List<Card> cards;
@@ -35,10 +35,13 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
-  public Game()
+  public Game(Board aBoard)
   {
+  if (!setBoard(aBoard))
+    {
+      throw new RuntimeException("Unable to create Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
     players = new ArrayList<Player>();
-    boards = new ArrayList<Board>();
     cards = new ArrayList<Card>();
     weapons = new ArrayList<Weapon>();
     estates = new ArrayList<Estate>();
@@ -50,6 +53,12 @@ public class Game
   // INTERFACE
   //------------------------
 
+  /* Code from template association_GetOne */
+  public Board getBoard()
+  {
+    return board;
+  }
+  
   /* Code from template association_GetMany */
   public Weapon getWeapon(int index)
   {
@@ -140,37 +149,6 @@ public class Game
   public int indexOfPlayer(Player aPlayer)
   {
     int index = players.indexOf(aPlayer);
-    return index;
-  }
-  
-  /* Code from template association_GetMany */
-  public Board getBoard(int index)
-  {
-    Board aBoard = boards.get(index);
-    return aBoard;
-  }
-
-  public List<Board> getBoards()
-  {
-    List<Board> newBoards = Collections.unmodifiableList(boards);
-    return newBoards;
-  }
-
-  public int numberOfBoards()
-  {
-    int number = boards.size();
-    return number;
-  }
-
-  public boolean hasBoards()
-  {
-    boolean has = boards.size() > 0;
-    return has;
-  }
-
-  public int indexOfBoard(Board aBoard)
-  {
-    int index = boards.indexOf(aBoard);
     return index;
   }
   
@@ -439,82 +417,16 @@ public class Game
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addBoard(Board aBoard)
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setBoard(Board aNewBoard)
   {
-    boolean wasAdded = false;
-    if (boards.contains(aBoard)) { return false; }
-    boards.add(aBoard);
-    if (aBoard.indexOfGame(this) != -1)
+    boolean wasSet = false;
+    if (aNewBoard != null)
     {
-      wasAdded = true;
+      board = aNewBoard;
+      wasSet = true;
     }
-    else
-    {
-      wasAdded = aBoard.addGame(this);
-      if (!wasAdded)
-      {
-        boards.remove(aBoard);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeBoard(Board aBoard)
-  {
-    boolean wasRemoved = false;
-    if (!boards.contains(aBoard))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = boards.indexOf(aBoard);
-    boards.remove(oldIndex);
-    if (aBoard.indexOfGame(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aBoard.removeGame(this);
-      if (!wasRemoved)
-      {
-        boards.add(oldIndex,aBoard);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addBoardAt(Board aBoard, int index)
-  {  
-    boolean wasAdded = false;
-    if(addBoard(aBoard))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBoards()) { index = numberOfBoards() - 1; }
-      boards.remove(aBoard);
-      boards.add(index, aBoard);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveBoardAt(Board aBoard, int index)
-  {
-    boolean wasAdded = false;
-    if(boards.contains(aBoard))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBoards()) { index = numberOfBoards() - 1; }
-      boards.remove(aBoard);
-      boards.add(index, aBoard);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addBoardAt(aBoard, index);
-    }
-    return wasAdded;
+    return wasSet;
   }
   
   /* Code from template association_MinimumNumberOfMethod */
@@ -639,12 +551,7 @@ public class Game
     estates.clear();
     ArrayList<Player> copyOfPlayers = new ArrayList<Player>(players);
     players.clear();
-    ArrayList<Board> copyOfBoards = new ArrayList<Board>(boards);
-    boards.clear();
-    for(Board aBoard : copyOfBoards)
-    {
-      aBoard.removeGame(this);
-    }
+    board = null;
     cards.clear();
   }
   
