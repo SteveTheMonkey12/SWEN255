@@ -910,7 +910,7 @@ public class Game
 		  int steps = diceResult();
 		  boolean canMove = true;
 		  //if the player is in the room, stop moving and check whether the player wants to guess or solve attempt
-		  String location = board.getPlayerLocation(players.get(i)).getLocation().name
+		  String location = board.getPlayerLocation(players.get(i)).getLocation().name;
 		  if(location.equals("Haunted House")||
 				  location.equals("Manic Manor")||
 				  location.equals("Villa Celia")||
