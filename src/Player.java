@@ -25,7 +25,11 @@ public class Player
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Player(String aName, boolean canWin) {
+	  this.name = aName;
+	  this.canWin = canWin;
+	  
+  }
   public Player(String aName, List<Card> playerCards, Character aCharacter)
   {
     name = aName;

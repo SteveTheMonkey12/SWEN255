@@ -35,12 +35,9 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
-  public Game(Board aBoard)
+  public Game()
   {
-  if (!setBoard(aBoard))
-    {
-      throw new RuntimeException("Unable to create Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+
     players = new ArrayList<Player>();
     cards = new ArrayList<Card>();
     weapons = new ArrayList<Weapon>();
@@ -743,9 +740,10 @@ public class Game
    * initial the cards of estate, character and weapon.
    * randomly choose the murder cards.
    * distribute cards to player
-   * leave the board part at this stage (to be continued...)
+   * load board
    */
   public void initial() {
+	  
 	  //initial the cards of estate, character and weapon
 	  for(int i = 0; i<4 ;i++) {
 		  characters.add(new Character(characterName[i]));
@@ -757,6 +755,7 @@ public class Game
 		  estates.add(new Estate(estateName[i]));
 		  cards.add(new Estate(estateName[i]));
 	  }
+	  
 	  //randomly choose the murder cards
 	  Card murderCharacter = characters.get((int) (Math.random() * characters.size()));
 	  murderCards.add(murderCharacter);
@@ -767,6 +766,7 @@ public class Game
       Card murderEstate = estates.get((int) (Math.random() * estates.size()));
       murderCards.add(murderEstate);
       cards.remove(murderEstate);
+      
       //distribute cards to player
       System.out.print("Number of players? 3 or 4 players?");
       int playerNumbers = getNumber();
@@ -781,9 +781,10 @@ public class Game
     	  players.add(new Player(characterName[i],playerCards, characters.get(i)));
     	    
       }
-
-	  
-	  
+      //load initial board
+      board = new Board(players);
+      System.out.print(board.toString());
+  
   }
   
   /**
@@ -895,6 +896,66 @@ public class Game
 	  int dice1 = (int) (Math.random() * 6) + 1;
 	  int dice2 = (int) (Math.random() * 6) + 1;
 	  return dice1+dice2;
+  }
+  
+  /**
+   * player moves steps after roll 2 dice
+   * cycling around
+   * stop play if one player solve attempt
+   */
+  public void play() {
+	  for(int i =0; i< players.size(); i++) {
+		  System.out.print("\n");
+		  System.out.println(players.get(i).getName() + "'s turn");
+		  int steps = diceResult();
+		  boolean canMove = true;
+		  //if the player is in the room, stop moving and check whether the player wants to guess or solve attempt
+		  if(board.getPlayerLocation(players.get(i)).getLocation().name.equals("Haunted House")||
+				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Manic Manor")||
+				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Villa Celia")||
+				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Calamity Castle")||
+				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Peril Palace")) {
+			  
+
+		  }
+		  //moving steps
+		  if(canMove) {
+			 for(int j = steps; j>=1; j--) {
+				 System.out.print("you have " +steps+" steps to move");
+				 String direction = direction();
+				 board.movePlayer(players.get(i),direction);	 
+			 }
+				 
+			 
+		  }
+		  
+	  }
+	  
+  }
+  
+  /**
+   * w: west
+   * e: east
+   * s: south
+   * n: north
+   * @return direction of move
+   */
+  public String direction(){
+      System.out.print("Please enter the direction you want to move (w e s n): ");
+      Scanner scan = new Scanner(System.in);
+      String direction = scan.next();
+      return direction;
+  }
+  
+  /**
+   * the main method for running the game
+   * @param args
+   */
+  public static void main(String args[]) {
+	  Game game = new Game();
+	  game.initial();
+	  //game.play();
+	  
   }
   
   

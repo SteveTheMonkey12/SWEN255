@@ -26,7 +26,7 @@ public class Board
   // CONSTRUCTOR
   //------------------------
 
-  public Board(ArrayList<Player> players)
+  public Board(List<Player> players)
   {
     this.playerPositions = new HashMap<Player, Position>();
     this.players = players;
@@ -55,17 +55,6 @@ public class Board
    public Position getPlayerLocation(Player target){
     return this.playerPositions.get(target);
   }
-  public boolean movePlayerTo(Player target, String destinationName) {
-	  for(Position.Location p: Position.Location.values()) {
-		  if(destinationName.equals(p.name)) {
-			  playerPositions.put(target, new Position(0, 0, p));
-			  return true;
-		  }
-	  }
-	  return false;
-	  
-  }
-
   public boolean movePlayerTo(Player target, String destinationName) {
 	  for(Position.Location p: Position.Location.values()) {
 		  if(destinationName.equals(p.name)) {

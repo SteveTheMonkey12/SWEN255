@@ -22,7 +22,7 @@ class GameTest {
 															
 		//System.setIn(in);
 		
-		Game game = new Game(null);
+		Game game = new Game();
 		game.initial();
 		//System.setIn(sysInBackup);
 		//assertTrue(output == 1);
