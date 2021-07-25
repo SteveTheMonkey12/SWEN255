@@ -1,9 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.0.5692.1a9e80997 modeling language!*/
+
 import java.util.*;
 
-// line 8 "model.ump"
-// line 73 "model.ump"
+
+
 public class Board
 {
 	
@@ -13,8 +14,9 @@ public class Board
   // MEMBER VARIABLES
   //------------------------
 
-  //Board Associations
 
+  //Board Associations
+  
   private List<Player> players;
 
   private HashMap<Player, Position> playerPositions;
@@ -30,8 +32,18 @@ public class Board
     this.players = players;
     
     //Put all the players in a row along the top for now
-    for(int i = 0; i < players.size(); i++) {
-    	playerPositions.put(players.get(i), new Position(i, 10, null));
+    for(Player p: players) {
+    	if(p.getName().equals("Lucilla")) {
+    		playerPositions.put(p, new Position(11, 1, null));
+    	}else if(p.getName().equals("Bert")) {
+    		playerPositions.put(p, new Position(1, 9, null));
+    	}else if(p.getName().equals("Maline")) {
+    		playerPositions.put(p, new Position(22, 14, null));
+    	}else if(p.getName().equals("Percy")) {
+    		playerPositions.put(p, new Position(9, 22, null));
+    	}else {
+    		playerPositions.put(p, new Position(0, 0, Position.Location.CC));
+    	}
     }
   }
 
@@ -42,6 +54,16 @@ public class Board
   // line 11 "model.ump"
    public Position getPlayerLocation(Player target){
     return this.playerPositions.get(target);
+  }
+  public boolean movePlayerTo(Player target, String destinationName) {
+	  for(Position.Location p: Position.Location.values()) {
+		  if(destinationName.equals(p.name)) {
+			  playerPositions.put(target, new Position(0, 0, p));
+			  return true;
+		  }
+	  }
+	  return false;
+	  
   }
 
   public boolean movePlayerTo(Player target, String destinationName) {
@@ -135,7 +157,10 @@ public class Board
 	   if(enteredDoor) {
 		   this.playerPositions.put(target, newPos);
 		   return true;
-	   }	   
+
+	   }
+	   
+
 	   
 	   //check if walking into wall
 	   for(Position.Location l: Position.Location.values()) {
