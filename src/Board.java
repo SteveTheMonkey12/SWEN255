@@ -41,7 +41,7 @@ public class Board
   // CONSTRUCTOR
   //------------------------
 
-  public Board(ArrayList<Player> players)
+  public Board(List<Player> players)
   {
     this.playerPositions = new HashMap<Player, Position>();
     this.players = players;
