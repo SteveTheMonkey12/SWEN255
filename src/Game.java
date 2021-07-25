@@ -24,7 +24,7 @@ public class Game
   private List<Estate> estates;
   private List<Card> cards;
   private List<Character> characters;
-  private Card[] murderCards;
+  private List<Card> murderCards; //changed to list so can use contains method to check for win
   
   //name of the 4 characters
   private static final String[] characterName = {"Lucilla", "Bert", "Maline", "Percy"};
@@ -49,6 +49,7 @@ public class Game
     weapons = new ArrayList<Weapon>();
     estates = new ArrayList<Estate>();
     characters = new ArrayList<Character>();
+    murderCards = new ArrayList<Card>();
   }
 
   //------------------------
@@ -96,6 +97,37 @@ public class Game
   public int indexOfWeapon(Weapon aWeapon)
   {
     int index = weapons.indexOf(aWeapon);
+    return index;
+  }
+  
+  /* Code from template association_GetMany */
+  public Character getCharacter(int index)
+  {
+    Character aCharacter = characters.get(index);
+    return aCharacter;
+  }
+
+  public List<Character> getCharacters()
+  {
+    List<Character> newCharacters = Collections.unmodifiableList(characters);
+    return newCharacters;
+  }
+
+  public int numberOfCharacters()
+  {
+    int number = characters.size();
+    return number;
+  }
+
+  public boolean hasCharacters()
+  {
+    boolean has = characters.size() > 0;
+    return has;
+  }
+
+  public int indexOfCharacter(Character aCharacter)
+  {
+    int index = characters.indexOf(aCharacter);
     return index;
   }
   
@@ -313,6 +345,90 @@ public class Game
     }
     return wasAdded;
   }
+  
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfCharacters()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToManyMethod */
+  public boolean addCharacter(Character aCharacter)
+  {
+    boolean wasAdded = false;
+    if (characters.contains(aCharacter)) { return false; }
+    characters.add(aCharacter);
+    if (aCharacter.indexOfGame(this) != -1)
+    {
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aCharacter.addGame(this);
+      if (!wasAdded)
+      {
+        characters.remove(aCharacter);
+      }
+    }
+    return wasAdded;
+  }
+  /* Code from template association_RemoveMany */
+  public boolean removeCharacter(Character aCharacter)
+  {
+    boolean wasRemoved = false;
+    if (!characters.contains(aCharacter))
+    {
+      return wasRemoved;
+    }
+
+    int oldIndex = characters.indexOf(aCharacter);
+    characters.remove(oldIndex);
+    if (aCharacter.indexOfGame(this) == -1)
+    {
+      wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aCharacter.removeGame(this);
+      if (!wasRemoved)
+      {
+        characters.add(oldIndex,aCharacter);
+      }
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addCharacterAt(Character aCharacter, int index)
+  {  
+    boolean wasAdded = false;
+    if(addCharacter(aCharacter))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCharacters()) { index = numberOfCharacters() - 1; }
+      characters.remove(aCharacter);
+      characters.add(index, aCharacter);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveCharacterAt(Character aCharacter, int index)
+  {
+    boolean wasAdded = false;
+    if(characters.contains(aCharacter))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCharacters()) { index = numberOfCharacters() - 1; }
+      characters.remove(aCharacter);
+      characters.add(index, aCharacter);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addCharacterAt(aCharacter, index);
+    }
+    return wasAdded;
+  }
+  
   /* Code from template association_AddManyToManyMethod */
   public boolean addPlayer(Player aPlayer)
   {
@@ -747,14 +863,14 @@ public class Game
 		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
 		  tmpOutput = "";
 		  for(int i = 0; i < numberOfPlayers(); i++) {
-			  tmpOutput += (i+1) + ") " + getPlayer(i).getName() + "\n";
+			  tmpOutput += (i+1) + ") " + getCharacter(i).getName() + "\n";
 		  }
 		  System.out.println(tmpOutput);
 		  guessNum = input.nextInt()-1;
-		  if(guessNum < 0 || guessNum > numberOfPlayers()) {
+		  if(guessNum < 0 || guessNum > numberOfCharacters()) {
 			  return -1;
 		  }
-		  Player guessedPlayer = getPlayer(guessNum);
+		  Character guessedPlayer = getCharacter(guessNum);
 		  //confirm guess
 		  clearScreen();
 		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
@@ -823,7 +939,7 @@ public class Game
    * @param guessedEstate
    * @return
    */
-  private Card playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate, Scanner input) {
+  private Card playerGuessResponse(Player aPlayer, Character guessedPlayer, Weapon guessedWeapon, Estate guessedEstate, Scanner input) {
 	  String output = "";
 	  int numCardsToShow = 1;
 	  ArrayList<Card> cardsToShow = new ArrayList<Card>();
@@ -876,16 +992,16 @@ public class Game
 		  estates.add(new Estate(estateName[i]));
 		  cards.add(new Estate(estateName[i]));
 	  }
-	  
 	  //randomly choose the murder cards
-	  murderCards = new Card[3];
 	  Card murderCharacter = characters.get((int) (Math.random() * characters.size()));
+	  murderCards.add(murderCharacter);
 	  cards.remove(murderCharacter);
 	  Card murderWeapon = weapons.get((int) (Math.random() * weapons.size()));
+	  murderCards.add(murderWeapon);
 	  cards.remove(murderWeapon);
       Card murderEstate = estates.get((int) (Math.random() * estates.size()));
+      murderCards.add(murderEstate);
       cards.remove(murderEstate);
-      
       //distribute cards to player
       System.out.print("Number of players? 3 or 4 players?");
       int playerNumbers = getNumber();
@@ -903,12 +1019,95 @@ public class Game
 
 	  
 	  
-	  
-	  
-	  
-	  
   }
   
+  /**
+   * 
+   * @param w The guessed weapon
+   * @param e The guessed estate
+   * @param c The guessed character
+   * @return  -1 if no solve, 0 if incorrect solve, 1 if solved
+   */
+  private int solveAttempt(Player p) {
+	  clearScreen();
+	  System.out.print(p.getName() + "'s solve attempt? y/n\n");
+	  Scanner input = new Scanner(System.in);
+	  String guess = input.next();
+	  if(!guess.equals("y") && !guess.equals("n")) {
+		  return -1;
+	  }
+	  else if(guess.equals("n")) {
+		  return 0;
+	  }
+	  else if(guess.equals("y")) {
+		  if(p.isCanWin()) {
+			  System.out.println(p.getName() + " has already tried to solve");
+			  return -1;
+		  }
+		  clearScreen();
+		  //guess weapon
+		  System.out.println("Guess a weapon 1-" + numberOfWeapons() + ":");
+		  String tmpOutput = "";
+		  for(int i = 0; i < numberOfWeapons(); i++) {
+			  tmpOutput += (i+1) + ") " + getWeapon(i).getName() + "\n";
+		  }
+		  System.out.println(tmpOutput);
+		  int guessNum = input.nextInt() -1;
+		  if(guessNum < 0 || guessNum > numberOfWeapons()) {
+			  return -1;
+		  }
+		  Weapon guessedWeapon = (Weapon) getWeapon(guessNum);
+		  //guess estate
+		  clearScreen();
+		  System.out.println("Guess an Estate 1-" + numberOfEstates() + ":");
+		  tmpOutput = "";
+		  for(int i = 0; i < numberOfEstates(); i++) {
+			  tmpOutput += (i+1) + ") " + getEstate(i).getName() + "\n";
+		  }
+		  System.out.println(tmpOutput);
+		  guessNum = input.nextInt() -1;
+		  if(guessNum < 0 || guessNum > numberOfEstates()) {
+			  return -1;
+		  }
+		  Estate guessedEstate = (Estate) getEstate(guessNum);
+		  //guess player
+		  clearScreen();
+		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
+		  tmpOutput = "";
+		  for(int i = 0; i < numberOfPlayers(); i++) {
+			  tmpOutput += (i+1) + ") " + getCharacter(i).getName() + "\n";
+		  }
+		  System.out.println(tmpOutput);
+		  guessNum = input.nextInt()-1;
+		  if(guessNum < 0 || guessNum > numberOfCharacters()) {
+			  return -1;
+		  }
+		  Character guessedPlayer = getCharacter(guessNum);
+		  //confirm guess
+		  clearScreen();
+		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
+				  + guessedEstate.getName() + " " + guessedPlayer.getName() + " y/n?");
+		  String answer = input.next();
+		  if(!answer.equals("y") && !answer.equals("n")) {
+			  return -1;
+		  }
+		  else if(answer.equals("n")) {
+			  return guess(p);
+		  }
+		  if(murderCards.contains(guessedWeapon) && murderCards.contains(guessedEstate) && murderCards.contains(guessedPlayer)) {
+			  System.out.println(p.getName() + " wins!!!");
+			  return 1;
+		  }
+		  else {
+			  System.out.println(p.getName() + " is incorrect :(");
+			  p.setCanWin(false);
+			  return 0;
+		  }
+	  }
+	  
+	  
+	  return 0;
+  }
   /**
    * 
    * @return the number from system input
