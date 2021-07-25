@@ -13,13 +13,9 @@ public class Game
   // MEMBER VARIABLES
   //------------------------
 
-  //Game Attributes
-  private HashMap position;
-
   //Game Associations
   private List<Player> players;
-  private List<Position> positions;
-  private List<Board> boards;
+  private Board board;
   private List<Weapon> weapons;
   private List<Estate> estates;
   private List<Card> cards;
@@ -39,12 +35,13 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
-  public Game(HashMap aPosition)
+  public Game(Board aBoard)
   {
-    position = aPosition;
+  if (!setBoard(aBoard))
+    {
+      throw new RuntimeException("Unable to create Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
     players = new ArrayList<Player>();
-    positions = new ArrayList<Position>();
-    boards = new ArrayList<Board>();
     cards = new ArrayList<Card>();
     weapons = new ArrayList<Weapon>();
     estates = new ArrayList<Estate>();
@@ -56,17 +53,10 @@ public class Game
   // INTERFACE
   //------------------------
 
-  public boolean setPosition(HashMap aPosition)
+  /* Code from template association_GetOne */
+  public Board getBoard()
   {
-    boolean wasSet = false;
-    position = aPosition;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public HashMap getPosition()
-  {
-    return position;
+    return board;
   }
   
   /* Code from template association_GetMany */
@@ -159,66 +149,6 @@ public class Game
   public int indexOfPlayer(Player aPlayer)
   {
     int index = players.indexOf(aPlayer);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Position getPosition(int index)
-  {
-    Position aPosition = positions.get(index);
-    return aPosition;
-  }
-
-  public List<Position> getPositions()
-  {
-    List<Position> newPositions = Collections.unmodifiableList(positions);
-    return newPositions;
-  }
-
-  public int numberOfPositions()
-  {
-    int number = positions.size();
-    return number;
-  }
-
-  public boolean hasPositions()
-  {
-    boolean has = positions.size() > 0;
-    return has;
-  }
-
-  public int indexOfPosition(Position aPosition)
-  {
-    int index = positions.indexOf(aPosition);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Board getBoard(int index)
-  {
-    Board aBoard = boards.get(index);
-    return aBoard;
-  }
-
-  public List<Board> getBoards()
-  {
-    List<Board> newBoards = Collections.unmodifiableList(boards);
-    return newBoards;
-  }
-
-  public int numberOfBoards()
-  {
-    int number = boards.size();
-    return number;
-  }
-
-  public boolean hasBoards()
-  {
-    boolean has = boards.size() > 0;
-    return has;
-  }
-
-  public int indexOfBoard(Board aBoard)
-  {
-    int index = boards.indexOf(aBoard);
     return index;
   }
   
@@ -481,169 +411,22 @@ public class Game
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfPositions()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addPosition(Position aPosition)
-  {
-    boolean wasAdded = false;
-    if (positions.contains(aPosition)) { return false; }
-    positions.add(aPosition);
-    if (aPosition.indexOfGame(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aPosition.addGame(this);
-      if (!wasAdded)
-      {
-        positions.remove(aPosition);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removePosition(Position aPosition)
-  {
-    boolean wasRemoved = false;
-    if (!positions.contains(aPosition))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = positions.indexOf(aPosition);
-    positions.remove(oldIndex);
-    if (aPosition.indexOfGame(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aPosition.removeGame(this);
-      if (!wasRemoved)
-      {
-        positions.add(oldIndex,aPosition);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addPositionAt(Position aPosition, int index)
-  {  
-    boolean wasAdded = false;
-    if(addPosition(aPosition))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPositions()) { index = numberOfPositions() - 1; }
-      positions.remove(aPosition);
-      positions.add(index, aPosition);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMovePositionAt(Position aPosition, int index)
-  {
-    boolean wasAdded = false;
-    if(positions.contains(aPosition))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPositions()) { index = numberOfPositions() - 1; }
-      positions.remove(aPosition);
-      positions.add(index, aPosition);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addPositionAt(aPosition, index);
-    }
-    return wasAdded;
-  }
+  
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfBoards()
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addBoard(Board aBoard)
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setBoard(Board aNewBoard)
   {
-    boolean wasAdded = false;
-    if (boards.contains(aBoard)) { return false; }
-    boards.add(aBoard);
-    if (aBoard.indexOfGame(this) != -1)
+    boolean wasSet = false;
+    if (aNewBoard != null)
     {
-      wasAdded = true;
+      board = aNewBoard;
+      wasSet = true;
     }
-    else
-    {
-      wasAdded = aBoard.addGame(this);
-      if (!wasAdded)
-      {
-        boards.remove(aBoard);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeBoard(Board aBoard)
-  {
-    boolean wasRemoved = false;
-    if (!boards.contains(aBoard))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = boards.indexOf(aBoard);
-    boards.remove(oldIndex);
-    if (aBoard.indexOfGame(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aBoard.removeGame(this);
-      if (!wasRemoved)
-      {
-        boards.add(oldIndex,aBoard);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addBoardAt(Board aBoard, int index)
-  {  
-    boolean wasAdded = false;
-    if(addBoard(aBoard))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBoards()) { index = numberOfBoards() - 1; }
-      boards.remove(aBoard);
-      boards.add(index, aBoard);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveBoardAt(Board aBoard, int index)
-  {
-    boolean wasAdded = false;
-    if(boards.contains(aBoard))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBoards()) { index = numberOfBoards() - 1; }
-      boards.remove(aBoard);
-      boards.add(index, aBoard);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addBoardAt(aBoard, index);
-    }
-    return wasAdded;
+    return wasSet;
   }
   
   /* Code from template association_MinimumNumberOfMethod */
@@ -768,26 +551,8 @@ public class Game
     estates.clear();
     ArrayList<Player> copyOfPlayers = new ArrayList<Player>(players);
     players.clear();
-    ArrayList<Position> copyOfPositions = new ArrayList<Position>(positions);
-    positions.clear();
-    for(Position aPosition : copyOfPositions)
-    {
-      aPosition.removeGame(this);
-    }
-    ArrayList<Board> copyOfBoards = new ArrayList<Board>(boards);
-    boards.clear();
-    for(Board aBoard : copyOfBoards)
-    {
-      aBoard.removeGame(this);
-    }
+    board = null;
     cards.clear();
-  }
-
-
-  public String toString()
-  {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "position" + "=" + (getPosition() != null ? !getPosition().equals(this)  ? getPosition().toString().replaceAll("  ","    ") : "this" : "null");
   }
   
   //Elliott's guess stuff

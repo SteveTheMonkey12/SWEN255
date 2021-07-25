@@ -18,6 +18,7 @@ public class Position
   private Location location;
   
   public static enum Location{
+
 	  HH("Haunted House",  2 , 2 , 6 , 6 , null,  new Position(6, 3, null), new Position(5, 6, null), null),//Top Left
 	  MM("Manic Manor",    17, 2 , 21, 6 , null, null, new Position(20, 6, null), new Position(17,	5, null)),//top Right
 	  
@@ -40,6 +41,7 @@ public class Position
 		  this.e = e;
 		  this.s = s;
 		  this.w = w;
+
 	  }
   }
 
