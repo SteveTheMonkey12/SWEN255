@@ -11,8 +11,8 @@ public class boardTest {
 
 		//One player Moving into a building and exiting
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player p = new Player("Simon", true);
-		
+		Player p = new Player("Simon", null, new Character("Simon"));
+		new Player("Simon", null, new Character("Simon"));
 		players.add(p);
 
 		
@@ -82,8 +82,8 @@ public class boardTest {
 	@Test public void test_02() {
 		//Player Collisions
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player p = new Player("Simon", true);
-		Player p2 = new Player("Pimon", true);
+		Player p = new Player("Simon", null, new Character("Simon"));;
+		Player p2 = new Player("Pimon", null, new Character("Simon"));;
 		
 		players.add(p);
 		players.add(p2);
@@ -154,8 +154,8 @@ public class boardTest {
 
 		//2 players in a building
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player p = new Player("Simon", true);
-		Player p2 = new Player("Pimon", true);
+		Player p = new Player("Simon", null, new Character("Simon"));;
+		Player p2 = new Player("Pimon", null, new Character("Pimon"));
 		
 		players.add(p);
 		players.add(p2);

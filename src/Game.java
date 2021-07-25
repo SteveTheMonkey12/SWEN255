@@ -606,10 +606,7 @@ public class Game
 			  return -1;
 		  }
 		  Weapon guessedWeapon = (Weapon) getWeapon(guessNum);
-		  //guess estate
-		  clearScreen();
 		  
-		  Estate guessedEstate = (Estate) getEstate(guessNum);
 		  //guess player
 		  clearScreen();
 		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
@@ -623,6 +620,18 @@ public class Game
 			  return -1;
 		  }
 		  Character guessedPlayer = getCharacter(guessNum);
+		  //guess estate
+		  clearScreen();
+		  board.moveCharacterTo(guessedPlayer, board.getPlayerLocation(p).getLocation().name);
+		  Estate guessedEstate = null;
+		  for(Estate e : getEstates()) {
+			  if(e.getName() == board.getPlayerLocation(p).getLocation().name) {
+				  guessedEstate = e;
+			  }
+		  }
+		  if(guessedEstate == null) {
+			  return -1;
+		  }
 		  //confirm guess
 		  clearScreen();
 		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 

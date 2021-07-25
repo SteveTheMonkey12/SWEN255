@@ -65,6 +65,26 @@ public class Board
 	  return false;
 	  
   }
+  
+  public boolean moveCharacterTo(Character target, String destinationName) {
+	  for(Position.Location locations: Position.Location.values()) {
+		  if(destinationName.equals(locations.name)) {
+			  Player targetPlayer = null;
+			  for(Player p:players) {
+				  if(p.getCharacter().equals(target)) {
+					  targetPlayer = p;
+				  }
+			  }
+			  if(targetPlayer == null) {
+				  return false;
+			  }
+			  playerPositions.put(targetPlayer, new Position(0, 0, locations));
+			  return true;
+		  }
+	  }
+	  return false;
+	  
+  }
 
 
   // line 15 "model.ump"
