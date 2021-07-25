@@ -1,7 +1,6 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.0.5692.1a9e80997 modeling language!*/
 
-
 import java.util.*;
 
 
@@ -15,6 +14,8 @@ public class Board
   // MEMBER VARIABLES
   //------------------------
 
+
+  //Board Associations
   
   private List<Player> players;
 
@@ -50,7 +51,6 @@ public class Board
   // INTERFACE
   //------------------------
 
-
   // line 11 "model.ump"
    public Position getPlayerLocation(Player target){
     return this.playerPositions.get(target);
@@ -66,11 +66,24 @@ public class Board
 	  
   }
 
+  public boolean movePlayerTo(Player target, String destinationName) {
+	  for(Position.Location p: Position.Location.values()) {
+		  if(destinationName.equals(p.name)) {
+			  playerPositions.put(target, new Position(0, 0, p));
+			  return true;
+		  }
+	  }
+	  return false;
+	  
+  }
+
+
   // line 15 "model.ump"
    public boolean movePlayer(Player target, String cardinalDirection){
 	   //is the player in a house?
 	   Position currentPos = playerPositions.get(target);
 	   Position newPos;
+
 	   //if they have a location move them to the doorway the intend to leave via and then continue with the validity checking
 	   if(currentPos.getLocation() != null) {
 		   switch(cardinalDirection) {
@@ -95,6 +108,7 @@ public class Board
 	   }
 	   
 	   //Find their new co-ordinates
+
 	   switch(cardinalDirection) {
 	   case "n":
 		   newPos = new Position(currentPos.getX(), currentPos.getY() - 1, null);
@@ -110,6 +124,7 @@ public class Board
 		   break;
 		default:
 			return false;
+
 	   }
 	   
 	   //Check out of bounds
@@ -117,6 +132,7 @@ public class Board
 		   return false;
 	   }
 	   
+
 	   boolean enteredDoor = false;
 	   //Check if going into door
 	   for(Position.Location l: Position.Location.values()) {
@@ -141,8 +157,10 @@ public class Board
 	   if(enteredDoor) {
 		   this.playerPositions.put(target, newPos);
 		   return true;
+
 	   }
 	   
+
 	   
 	   //check if walking into wall
 	   for(Position.Location l: Position.Location.values()) {
@@ -150,6 +168,7 @@ public class Board
 			   return false;
 		   }
 	   }
+
 	   //check if walking into another player
 	   for(Player p: this.players) {
 		   if(p.getName().equals(target.getName())) {
@@ -166,6 +185,7 @@ public class Board
 
   // line 19 "model.ump"
    public String toString(){
+
 	   String[][] board = new String[24][24];
 	   String output = new String("");
 	   
