@@ -49,6 +49,16 @@ public class Board
    public Position getPlayerLocation(Player target){
     return this.playerPositions.get(target);
   }
+  public boolean movePlayerTo(Player target, String destinationName) {
+	  for(Position.Location p: Position.Location.values()) {
+		  if(destinationName.equals(p.name)) {
+			  playerPositions.put(target, new Position(0, 0, p));
+			  return true;
+		  }
+	  }
+	  return false;
+	  
+  }
 
   // line 15 "model.ump"
    public boolean movePlayer(Player target, String cardinalDirection){
