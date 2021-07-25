@@ -35,12 +35,8 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
-  public Game(Board aBoard)
+  public Game()
   {
-  if (!setBoard(aBoard))
-    {
-      throw new RuntimeException("Unable to create Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     players = new ArrayList<Player>();
     cards = new ArrayList<Card>();
     weapons = new ArrayList<Weapon>();
@@ -781,6 +777,7 @@ public class Game
     	  players.add(new Player(characterName[i],playerCards, characters.get(i)));
     	    
       }
+      board = new Board(players);
 
 	  
 	  
@@ -895,9 +892,6 @@ public class Game
 	  int dice1 = (int) (Math.random() * 6) + 1;
 	  int dice2 = (int) (Math.random() * 6) + 1;
 	  return dice1+dice2;
-  }
-  
-  
-  
+  }  
 
 }

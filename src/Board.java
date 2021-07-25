@@ -26,6 +26,7 @@ public class Board
   // CONSTRUCTOR
   //------------------------
 
+
   public Board(ArrayList<Character> characters)
   {
     this.characterPositions = new HashMap<Character, Position>();
