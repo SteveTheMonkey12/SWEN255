@@ -910,11 +910,12 @@ public class Game
 		  int steps = diceResult();
 		  boolean canMove = true;
 		  //if the player is in the room, stop moving and check whether the player wants to guess or solve attempt
-		  if(board.getPlayerLocation(players.get(i)).getLocation().name.equals("Haunted House")||
-				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Manic Manor")||
-				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Villa Celia")||
-				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Calamity Castle")||
-				  board.getPlayerLocation(players.get(i)).getLocation().name.equals("Peril Palace")) {
+		  String location = board.getPlayerLocation(players.get(i)).getLocation().name
+		  if(location.equals("Haunted House")||
+				  location.equals("Manic Manor")||
+				  location.equals("Villa Celia")||
+				  location.equals("Calamity Castle")||
+				  location.equals("Peril Palace")) {
 			  
 
 		  }
@@ -954,7 +955,7 @@ public class Game
   public static void main(String args[]) {
 	  Game game = new Game();
 	  game.initial();
-	  //game.play();
+	  game.play();
 	  
   }
   
