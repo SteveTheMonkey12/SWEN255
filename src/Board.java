@@ -1,395 +1,242 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.0.5692.1a9e80997 modeling language!*/
-
+package Java;
 
 import java.util.*;
 
-
-// line 9 "model.ump"
-// line 66 "model.ump"
+// line 8 "model.ump"
+// line 73 "model.ump"
 public class Board
 {
+	
+	
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Board Associations
-  private List<Game> games;
-  private List<Position> positions;
-  private List<Cell> cells;
+	public static void main(String[] args) {
+				
+
+	}
+  private List<Player> players;
+
+  private HashMap<Player, Position> playerPositions;
+  
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Board()
+  public Board(ArrayList<Player> players)
   {
-    games = new ArrayList<Game>();
-    positions = new ArrayList<Position>();
-    cells = new ArrayList<Cell>();
+    this.playerPositions = new HashMap<Player, Position>();
+    this.players = players;
+    
+    //Put all the players in a row along the top for now
+    for(int i = 0; i < players.size(); i++) {
+    	playerPositions.put(players.get(i), new Position(i, 10, null));
+    }
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetMany */
-  public Game getGame(int index)
-  {
-    Game aGame = games.get(index);
-    return aGame;
+
+
+  // line 11 "model.ump"
+   public Position getPlayerLocation(Player target){
+    return this.playerPositions.get(target);
   }
 
-  public List<Game> getGames()
-  {
-    List<Game> newGames = Collections.unmodifiableList(games);
-    return newGames;
+  // line 15 "model.ump"
+   public boolean movePlayer(Player target, String cardinalDirection){
+	   //is the player in a house?
+	   Position currentPos = playerPositions.get(target);
+	   Position newPos;
+	   //if they have a location move them to the doorway the intend to leave via and then continue with the validity checking
+	   if(currentPos.getLocation() != null) {
+		   switch(cardinalDirection) {
+		   case "n":
+			   currentPos = currentPos.getLocation().n;
+			   break;
+		   case "s":
+			   currentPos = currentPos.getLocation().s;
+			   break;
+		   case "e":
+			   currentPos = currentPos.getLocation().e;
+			   break;
+		   case "w":
+			   currentPos = currentPos.getLocation().w;
+			   break;
+			default:
+				return false;
+		   }
+		   if(currentPos == null) {
+			   return false;
+		   }
+	   }
+	   
+	   //Find their new co-ordinates
+	   switch(cardinalDirection) {
+	   case "n":
+		   newPos = new Position(currentPos.getX(), currentPos.getY() - 1, null);
+		   break;
+	   case "s":
+		   newPos = new Position(currentPos.getX(), currentPos.getY() + 1, null);
+		   break;
+	   case "e":
+		   newPos = new Position(currentPos.getX() + 1, currentPos.getY(), null);
+		   break;
+	   case "w":
+		   newPos = new Position(currentPos.getX() - 1, currentPos.getY(), null);
+		   break;
+		default:
+			return false;
+	   }
+	   
+	   //Check out of bounds
+	   if(newPos.getX() < 0 ||  23 < newPos.getX() || newPos.getY() < 0 || 23 < newPos.getY()) {
+		   return false;
+	   }
+	   
+	   boolean enteredDoor = false;
+	   //Check if going into door
+	   for(Position.Location l: Position.Location.values()) {
+		   if(newPos.equals(l.n)) {
+			   newPos = new Position(0, 0, l);
+			   enteredDoor = true;
+			   break;
+		   }else if(newPos.equals(l.e)) {
+			   newPos = new Position(0, 0, l);
+			   enteredDoor = true;
+			   break;
+		   }else if(newPos.equals(l.s)) {
+			   newPos = new Position(0, 0, l);
+			   enteredDoor = true;
+			   break;
+		   }else if(newPos.equals(l.w)) {
+			   newPos = new Position(0, 0, l);
+			   enteredDoor = true;
+			   break;
+		   }
+	   }
+	   if(enteredDoor) {
+		   this.playerPositions.put(target, newPos);
+		   return true;
+	   }
+	   
+	   
+	   //check if walking into wall
+	   for(Position.Location l: Position.Location.values()) {
+		   if(newPos.getX() >= l.x1 && newPos.getY() >= l.y1 && newPos.getX() <= l.x2 && newPos.getY() <= l.y2 ) {
+			   return false;
+		   }
+	   }
+	   //check if walking into another player
+	   for(Player p: this.players) {
+		   if(p.getName().equals(target.getName())) {
+			   continue;
+		   }
+		   if(this.playerPositions.get(p).equals(newPos) && this.playerPositions.get(target).getLocation() == null) {
+			   return false;
+		   }
+	   }
+	   
+	   this.playerPositions.put(target, newPos);
+	   return true;
   }
 
-  public int numberOfGames()
-  {
-    int number = games.size();
-    return number;
-  }
-
-  public boolean hasGames()
-  {
-    boolean has = games.size() > 0;
-    return has;
-  }
-
-  public int indexOfGame(Game aGame)
-  {
-    int index = games.indexOf(aGame);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Position getPosition(int index)
-  {
-    Position aPosition = positions.get(index);
-    return aPosition;
-  }
-
-  public List<Position> getPositions()
-  {
-    List<Position> newPositions = Collections.unmodifiableList(positions);
-    return newPositions;
-  }
-
-  public int numberOfPositions()
-  {
-    int number = positions.size();
-    return number;
-  }
-
-  public boolean hasPositions()
-  {
-    boolean has = positions.size() > 0;
-    return has;
-  }
-
-  public int indexOfPosition(Position aPosition)
-  {
-    int index = positions.indexOf(aPosition);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Cell getCell(int index)
-  {
-    Cell aCell = cells.get(index);
-    return aCell;
-  }
-
-  public List<Cell> getCells()
-  {
-    List<Cell> newCells = Collections.unmodifiableList(cells);
-    return newCells;
-  }
-
-  public int numberOfCells()
-  {
-    int number = cells.size();
-    return number;
-  }
-
-  public boolean hasCells()
-  {
-    boolean has = cells.size() > 0;
-    return has;
-  }
-
-  public int indexOfCell(Cell aCell)
-  {
-    int index = cells.indexOf(aCell);
-    return index;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGames()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addGame(Game aGame)
-  {
-    boolean wasAdded = false;
-    if (games.contains(aGame)) { return false; }
-    games.add(aGame);
-    if (aGame.indexOfBoard(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aGame.addBoard(this);
-      if (!wasAdded)
-      {
-        games.remove(aGame);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeGame(Game aGame)
-  {
-    boolean wasRemoved = false;
-    if (!games.contains(aGame))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = games.indexOf(aGame);
-    games.remove(oldIndex);
-    if (aGame.indexOfBoard(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aGame.removeBoard(this);
-      if (!wasRemoved)
-      {
-        games.add(oldIndex,aGame);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameAt(Game aGame, int index)
-  {  
-    boolean wasAdded = false;
-    if(addGame(aGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-      games.remove(aGame);
-      games.add(index, aGame);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveGameAt(Game aGame, int index)
-  {
-    boolean wasAdded = false;
-    if(games.contains(aGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-      games.remove(aGame);
-      games.add(index, aGame);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addGameAt(aGame, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfPositions()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addPosition(Position aPosition)
-  {
-    boolean wasAdded = false;
-    if (positions.contains(aPosition)) { return false; }
-    positions.add(aPosition);
-    if (aPosition.indexOfBoard(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aPosition.addBoard(this);
-      if (!wasAdded)
-      {
-        positions.remove(aPosition);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removePosition(Position aPosition)
-  {
-    boolean wasRemoved = false;
-    if (!positions.contains(aPosition))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = positions.indexOf(aPosition);
-    positions.remove(oldIndex);
-    if (aPosition.indexOfBoard(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aPosition.removeBoard(this);
-      if (!wasRemoved)
-      {
-        positions.add(oldIndex,aPosition);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addPositionAt(Position aPosition, int index)
-  {  
-    boolean wasAdded = false;
-    if(addPosition(aPosition))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPositions()) { index = numberOfPositions() - 1; }
-      positions.remove(aPosition);
-      positions.add(index, aPosition);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMovePositionAt(Position aPosition, int index)
-  {
-    boolean wasAdded = false;
-    if(positions.contains(aPosition))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPositions()) { index = numberOfPositions() - 1; }
-      positions.remove(aPosition);
-      positions.add(index, aPosition);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addPositionAt(aPosition, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfCells()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addCell(Cell aCell)
-  {
-    boolean wasAdded = false;
-    if (cells.contains(aCell)) { return false; }
-    cells.add(aCell);
-    if (aCell.indexOfBoard(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aCell.addBoard(this);
-      if (!wasAdded)
-      {
-        cells.remove(aCell);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeCell(Cell aCell)
-  {
-    boolean wasRemoved = false;
-    if (!cells.contains(aCell))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = cells.indexOf(aCell);
-    cells.remove(oldIndex);
-    if (aCell.indexOfBoard(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aCell.removeBoard(this);
-      if (!wasRemoved)
-      {
-        cells.add(oldIndex,aCell);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addCellAt(Cell aCell, int index)
-  {  
-    boolean wasAdded = false;
-    if(addCell(aCell))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfCells()) { index = numberOfCells() - 1; }
-      cells.remove(aCell);
-      cells.add(index, aCell);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveCellAt(Cell aCell, int index)
-  {
-    boolean wasAdded = false;
-    if(cells.contains(aCell))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfCells()) { index = numberOfCells() - 1; }
-      cells.remove(aCell);
-      cells.add(index, aCell);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addCellAt(aCell, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    ArrayList<Game> copyOfGames = new ArrayList<Game>(games);
-    games.clear();
-    for(Game aGame : copyOfGames)
-    {
-      aGame.removeBoard(this);
-    }
-    ArrayList<Position> copyOfPositions = new ArrayList<Position>(positions);
-    positions.clear();
-    for(Position aPosition : copyOfPositions)
-    {
-      aPosition.removeBoard(this);
-    }
-    ArrayList<Cell> copyOfCells = new ArrayList<Cell>(cells);
-    cells.clear();
-    for(Cell aCell : copyOfCells)
-    {
-      aCell.removeBoard(this);
-    }
+  // line 19 "model.ump"
+   public String toString(){
+	   String[][] board = new String[24][24];
+	   String output = new String("");
+	   
+	   //Fill board with grid
+	   for(int y = 0; y < 24; y++) {
+		   for(int x = 0; x < 24; x++) {
+			   board[x][y] = "|_";
+		   }
+	   }
+	   int playersInRoom = 0;
+	   //Draw Rooms
+	   for(Position.Location room: Position.Location.values()) {
+		   //Draw the left hand side
+		   for(int y = room.y1; y <= room.y2; y++) {
+			   board[room.x1][y] = "|*";
+		   }
+		   //Draw right hand side
+		   for(int y = room.y1; y <= room.y2; y++) {
+			   board[room.x2][y] = " *";
+		   }
+		   //Draw the top and Bottom
+		   for(int x = room.x1 + 1; x <= room.x2; x++) {
+			   board[x][room.y1] = "**";
+			   board[x][room.y2] = "**";
+		   }
+		   //Draw Middle
+		   for(int y = room.y1 + 1; y < room.y2; y++) {
+			   for(int x = room.x1 + 1; x <  room.x2; x++) {
+				   board[x][y] = "  ";
+				   board[x][y] = "  ";
+			   }
+		   }
+		   //Draw Labels
+		   board[room.x1 + 2][room.y1 + 1] = room.toString();
+		   
+		   //Draw Players in room
+		   playersInRoom = 0;
+		   for (Map.Entry<Player, Position> entry : this.playerPositions.entrySet()) {
+			   	
+			    entry.getKey();
+			    entry.getValue();
+			    if(room.equals(entry.getValue().getLocation())) {
+			    	//if the player is in this room then draw them along the bottom
+			    	board[room.x1 + 1 + playersInRoom][room.y2 - 2] = entry.getKey().getName().split("")[0] + " ";
+			    	playersInRoom++;
+			    	
+			    }
+			}
+		   //Draw doors
+		   //Draw Bottom doors
+		   if(room.n != null) {
+			   board[room.n.getX()][room.n.getY()] = "  ";
+		   }
+		   if(room.e != null) {
+			   board[room.e.getX()][room.e.getY()] = "  ";
+		   }
+		   if(room.s != null) {
+			   board[room.s.getX()][room.s.getY()] = "  ";
+		   }
+		   if(room.w != null) {
+			   board[room.w.getX()][room.w.getY()] = "  ";
+		   }
+		   
+		   
+	   }
+	   //Draw the players
+	   for (Map.Entry<Player, Position> entry : this.playerPositions.entrySet()) {
+		   	
+		    entry.getKey();
+		    entry.getValue();
+		    if(entry.getValue().getLocation() == null) {
+		    	board[entry.getValue().getX()][entry.getValue().getY()] = "|" + entry.getKey().getName().substring(0, 1);
+		    }
+		    
+		}
+	   
+	   
+	   //render board
+	   output = "_________________________________________________\n";
+	   for(int y = 0; y < 24; y++) {
+		   for(int x = 0; x < 24; x++) {
+			   output += board[x][y];
+		   }
+		   output += "|\n";
+	   }
+	   
+	   return output;
   }
 
 }
