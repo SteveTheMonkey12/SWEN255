@@ -17,32 +17,32 @@ public class Board
 
   //Board Associations
   
-  private List<Player> players;
+  private List<Character> characters;
 
-  private HashMap<Player, Position> playerPositions;
+  private HashMap<Character, Position> characterPositions;
   
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Board(ArrayList<Player> players)
+  public Board(ArrayList<Character> characters)
   {
-    this.playerPositions = new HashMap<Player, Position>();
-    this.players = players;
+    this.characterPositions = new HashMap<Character, Position>();
+    this.characters = characters;
     
-    //Put all the players in a row along the top for now
-    for(Player p: players) {
+    //Put all the characters in a row along the top for now
+    for(Character p: characters) {
     	if(p.getName().equals("Lucilla")) {
-    		playerPositions.put(p, new Position(11, 1, null));
+    		characterPositions.put(p, new Position(11, 1, null));
     	}else if(p.getName().equals("Bert")) {
-    		playerPositions.put(p, new Position(1, 9, null));
+    		characterPositions.put(p, new Position(1, 9, null));
     	}else if(p.getName().equals("Maline")) {
-    		playerPositions.put(p, new Position(22, 14, null));
+    		characterPositions.put(p, new Position(22, 14, null));
     	}else if(p.getName().equals("Percy")) {
-    		playerPositions.put(p, new Position(9, 22, null));
+    		characterPositions.put(p, new Position(9, 22, null));
     	}else {
-    		playerPositions.put(p, new Position(0, 0, Position.Location.CC));
+    		characterPositions.put(p, new Position(0, 0, Position.Location.CC));
     	}
     }
   }
@@ -52,25 +52,29 @@ public class Board
   //------------------------
 
   // line 11 "model.ump"
-   public Position getPlayerLocation(Player target){
-    return this.playerPositions.get(target);
+   public Position getCharacterLocation(Character target){
+    return this.characterPositions.get(target);
   }
-  public boolean movePlayerTo(Player target, String destinationName) {
+  public boolean moveCharacterTo(Character target, String destinationName) {
 	  for(Position.Location p: Position.Location.values()) {
 		  if(destinationName.equals(p.name)) {
-			  playerPositions.put(target, new Position(0, 0, p));
+			  characterPositions.put(target, new Position(0, 0, p));
 			  return true;
 		  }
 	  }
 	  return false;
 	  
   }
+  
+  public Position getPlayerLocation(Player target) {
+	  return getCharacterLocation(target.getCharacter());
+  }
 
 
   // line 15 "model.ump"
-   public boolean movePlayer(Player target, String cardinalDirection){
-	   //is the player in a house?
-	   Position currentPos = playerPositions.get(target);
+   public boolean moveCharacter(Character target, String cardinalDirection){
+	   //is the character in a house?
+	   Position currentPos = characterPositions.get(target);
 	   Position newPos;
 
 	   //if they have a location move them to the doorway the intend to leave via and then continue with the validity checking
@@ -144,7 +148,7 @@ public class Board
 		   }
 	   }
 	   if(enteredDoor) {
-		   this.playerPositions.put(target, newPos);
+		   this.characterPositions.put(target, newPos);
 		   return true;
 
 	   }
@@ -158,19 +162,23 @@ public class Board
 		   }
 	   }
 
-	   //check if walking into another player
-	   for(Player p: this.players) {
+	   //check if walking into another character
+	   for(Character p: this.characters) {
 		   if(p.getName().equals(target.getName())) {
 			   continue;
 		   }
-		   if(this.playerPositions.get(p).equals(newPos) && this.playerPositions.get(target).getLocation() == null) {
+		   if(this.characterPositions.get(p).equals(newPos) && this.characterPositions.get(target).getLocation() == null) {
 			   return false;
 		   }
 	   }
 	   
-	   this.playerPositions.put(target, newPos);
+	   this.characterPositions.put(target, newPos);
 	   return true;
   }
+   
+   public boolean movePlayer(Player target, String cardinalDirection){
+	   return moveCharacter(target.getCharacter(), cardinalDirection);
+   }
 
   // line 19 "model.ump"
    public String toString(){
@@ -184,7 +192,7 @@ public class Board
 			   board[x][y] = "|_";
 		   }
 	   }
-	   int playersInRoom = 0;
+	   int charactersInRoom = 0;
 	   //Draw Rooms
 	   for(Position.Location room: Position.Location.values()) {
 		   //Draw the left hand side
@@ -210,16 +218,16 @@ public class Board
 		   //Draw Labels
 		   board[room.x1 + 2][room.y1 + 1] = room.toString();
 		   
-		   //Draw Players in room
-		   playersInRoom = 0;
-		   for (Map.Entry<Player, Position> entry : this.playerPositions.entrySet()) {
+		   //Draw Characters in room
+		   charactersInRoom = 0;
+		   for (Map.Entry<Character, Position> entry : this.characterPositions.entrySet()) {
 			   	
 			    entry.getKey();
 			    entry.getValue();
 			    if(room.equals(entry.getValue().getLocation())) {
-			    	//if the player is in this room then draw them along the bottom
-			    	board[room.x1 + 1 + playersInRoom][room.y2 - 2] = entry.getKey().getName().split("")[0] + " ";
-			    	playersInRoom++;
+			    	//if the character is in this room then draw them along the bottom
+			    	board[room.x1 + 1 + charactersInRoom][room.y2 - 2] = entry.getKey().getName().split("")[0] + " ";
+			    	charactersInRoom++;
 			    	
 			    }
 			}
@@ -240,8 +248,8 @@ public class Board
 		   
 		   
 	   }
-	   //Draw the players
-	   for (Map.Entry<Player, Position> entry : this.playerPositions.entrySet()) {
+	   //Draw the characters
+	   for (Map.Entry<Character, Position> entry : this.characterPositions.entrySet()) {
 		   	
 		    entry.getKey();
 		    entry.getValue();
