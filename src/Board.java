@@ -27,10 +27,14 @@ public class Board
   //------------------------
 
 
-  public Board(List<Character> characters)
+  public Board(List<Player> players)
   {
     this.characterPositions = new HashMap<Character, Position>();
-    this.characters = characters;
+    
+    this.characters = new ArrayList<Character>();
+    for(Player p:players){
+    	characters.add(p.getCharacter());
+    }
     
     //Put all the characters in a row along the top for now
     for(Character p: characters) {
