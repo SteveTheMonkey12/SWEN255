@@ -51,6 +51,10 @@ public class Player
 	  return this.character;
   }
 
+  public Character getCharacter() {
+	  return this.character;
+  }
+  
   public boolean setCanWin(boolean aCanWin)
   {
     boolean wasSet = false;

@@ -606,19 +606,7 @@ public class Game
 			  return -1;
 		  }
 		  Weapon guessedWeapon = (Weapon) getWeapon(guessNum);
-		  //guess estate
-		  clearScreen();
-		  System.out.println("Guess an Estate 1-" + numberOfEstates() + ":");
-		  tmpOutput = "";
-		  for(int i = 0; i < numberOfEstates(); i++) {
-			  tmpOutput += (i+1) + ") " + getEstate(i).getName() + "\n";
-		  }
-		  System.out.println(tmpOutput);
-		  guessNum = input.nextInt() -1;
-		  if(guessNum < 0 || guessNum > numberOfEstates()) {
-			  return -1;
-		  }
-		  Estate guessedEstate = (Estate) getEstate(guessNum);
+		  
 		  //guess player
 		  clearScreen();
 		  System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
@@ -632,6 +620,18 @@ public class Game
 			  return -1;
 		  }
 		  Character guessedPlayer = getCharacter(guessNum);
+		  //guess estate
+		  clearScreen();
+		  board.moveCharacterTo(guessedPlayer, board.getPlayerLocation(p).getLocation().name);
+		  Estate guessedEstate = null;
+		  for(Estate e : getEstates()) {
+			  if(e.getName() == board.getPlayerLocation(p).getLocation().name) {
+				  guessedEstate = e;
+			  }
+		  }
+		  if(guessedEstate == null) {
+			  return -1;
+		  }
 		  //confirm guess
 		  clearScreen();
 		  System.out.println("Is this your guess: "  + guessedWeapon.getName() + " " 
@@ -739,7 +739,7 @@ public class Game
    * initial the cards of estate, character and weapon.
    * randomly choose the murder cards.
    * distribute cards to player
-   * load the board
+   * leave the board part at this stage (to be continued...)
    */
   public void initial() {
 	  //initial the cards of estate, character and weapon
@@ -958,6 +958,7 @@ public class Game
 		  
 	  }
 	  
+  }  
   }
   
   /**
