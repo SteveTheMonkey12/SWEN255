@@ -902,52 +902,54 @@ public class Game
    * stop play if one player solve attempt
    */
   public void play() {
-	  for(int i =0; i< players.size(); i++) {
-		  System.out.print("\n");
-		  System.out.println(players.get(i).getName() + "'s turn:");
-		  int steps = diceResult();
-		  boolean canMove = true;
-		  
-		  //if the player is in the room, stop moving and check whether the player wants to guess or solve attempt
-		  Position position = board.getPlayerLocation(players.get(i)); 
-		  if(position!=null) {
-			  Position.Location location = position.getLocation();
-			  if(location == Position.Location.HH||location == Position.Location.MM||
-					  location == Position.Location.VC||location == Position.Location.CC||
-					  location == Position.Location.PP){
-				  int result = guess(players.get(i));
-				  int attempt = solveAttempt(players.get(i));
-				  //stop game when some one win
-				  if(attempt==1) {
-					 break;
-				  }
-		  }
-		  }
-
-		  //moving steps
-		  if(canMove) {
-			 for(int j = steps; j>=1; j--) {
-				 System.out.print("you have " +j+" steps to move");
-				 String direction = direction();
-				 if(board.movePlayer(players.get(i),direction)) {
-					 //if the player moves into estate, it will stop moving and start guess/solve attempt
-					  Position p = board.getPlayerLocation(players.get(i)); 
-					  if(position!=null) {
-						  Position.Location location = p.getLocation();
-						  if(location == Position.Location.HH||location == Position.Location.MM||
-								  location == Position.Location.VC||location == Position.Location.CC||
-								  location == Position.Location.PP){
-							  guess(players.get(i));
-							  solveAttempt(players.get(i));
-							  break;		 
-					       }
-					  }		  
-				 }
-				  System.out.print(board.toString());
-				 }	 
-			 }		 
-		  }	  
+	  while(true) {
+		  for(int i =0; i< players.size(); i++) {
+			  System.out.print("\n");
+			  System.out.println(players.get(i).getName() + "'s turn:");
+			  int steps = diceResult();
+			  boolean canMove = true;
+			  
+			  //if the player is in the room, stop moving and check whether the player wants to guess or solve attempt
+			  Position position = board.getPlayerLocation(players.get(i)); 
+			  if(position!=null) {
+				  Position.Location location = position.getLocation();
+				  if(location == Position.Location.HH||location == Position.Location.MM||
+						  location == Position.Location.VC||location == Position.Location.CC||
+						  location == Position.Location.PP){
+					  int result = guess(players.get(i));
+					  int attempt = solveAttempt(players.get(i));
+					  //stop game when some one win
+					  if(attempt==1) {
+						 break;
+					  }
+			  }
+			  }
+	
+			  //moving steps
+			  if(canMove) {
+				 for(int j = steps; j>=1; j--) {
+					 System.out.print("you have " +j+" steps to move");
+					 String direction = direction();
+					 if(board.movePlayer(players.get(i),direction)) {
+						 //if the player moves into estate, it will stop moving and start guess/solve attempt
+						  Position p = board.getPlayerLocation(players.get(i)); 
+						  if(position!=null) {
+							  Position.Location location = p.getLocation();
+							  if(location == Position.Location.HH||location == Position.Location.MM||
+									  location == Position.Location.VC||location == Position.Location.CC||
+									  location == Position.Location.PP){
+								  guess(players.get(i));
+								  solveAttempt(players.get(i));
+								  break;		 
+						       }
+						  }		  
+					 }
+					  System.out.print(board.toString());
+					 }	 
+				 }		 
+		  	}	  
 	  }
+  }
 	  
 
   /**
