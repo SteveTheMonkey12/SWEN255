@@ -912,13 +912,14 @@ public class Game
 		  Position position = board.getPlayerLocation(players.get(i)); 
 		  if(position!=null) {
 			  Position.Location location = position.getLocation();
-			  if(location.equals("Haunted House")||location.equals("Manic Manor")||
-					  location.equals("Villa Celia")||location.equals("Calamity Castle")||
-					  location.equals("Peril Palace")){
+			  if(location == Position.Location.HH||location == Position.Location.MM||
+					  location == Position.Location.VC||location == Position.Location.CC||
+					  location == Position.Location.PP){
 				  int result = guess(players.get(i));
 				  int attempt = solveAttempt(players.get(i));
+				  //stop game when some one win
 				  if(attempt==1) {
-					 //stop game? 
+					 break;
 				  }
 		  }
 		  }
@@ -928,35 +929,27 @@ public class Game
 			 for(int j = steps; j>=1; j--) {
 				 System.out.print("you have " +j+" steps to move");
 				 String direction = direction();
-				 //it will have null error because when the position is setting, the location set as null in board and position class.
 				 if(board.movePlayer(players.get(i),direction)) {
-					 //the character will move
-					 
-					 //check whether in estate or not
+					 //if the player moves into estate, it will stop moving and start guess/solve attempt
 					  Position p = board.getPlayerLocation(players.get(i)); 
-					  if(p!=null) {
+					  if(position!=null) {
 						  Position.Location location = p.getLocation();
-						  if(location.equals("Haunted House")||location.equals("Manic Manor")||
-								  location.equals("Villa Celia")||location.equals("Calamity Castle")||
-								  location.equals("Peril Palace")){
-							  int result = guess(players.get(i));
-							  int attempt = solveAttempt(players.get(i));
-							  if(attempt==1) {
-								 //stop game? 
-							  }
-					  }
-					  }
-					 System.out.print(board.toString());
-	 
+						  if(location == Position.Location.HH||location == Position.Location.MM||
+								  location == Position.Location.VC||location == Position.Location.CC||
+								  location == Position.Location.PP){
+							  guess(players.get(i));
+							  solveAttempt(players.get(i));
+							  break;		 
+					       }
+					  }		  
+				 }
+				  System.out.print(board.toString());
 				 }	 
-			 }
-				 
-			 
-		  }
-		  
+			 }		 
+		  }	  
 	  }
 	  
-  }
+
   
   /**
    * w: west
