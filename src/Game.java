@@ -944,11 +944,13 @@ public class Game
 							  if(attempt==1) {
 								 //stop game? 
 							  }
-					  }
+						  }
 					  }
 					 System.out.print(board.toString());
-	 
-				 }	 
+				 }
+				 else {
+					 j++;
+				 }
 			 }
 				 
 			 
