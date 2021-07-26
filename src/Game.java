@@ -780,7 +780,7 @@ public class Game
     	    
       }
       //load the board
-      board = new Board(boardCharacter);
+      board = new Board(players);
       System.out.print(board.toString());
   
   }
