@@ -959,7 +959,7 @@ public class Game
 	  }
 	  
   }  
-  }
+  
   
   /**
    * w: west
