@@ -6,38 +6,40 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 public class boardTest {
+	ArrayList<Card> cards = null;
 	
 	@Test public void test_01() {
 
 		//One player Moving into a building and exiting
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player p = new Player("Simon", null, new Character("Simon"));
-		new Player("Simon", null, new Character("Simon"));
+		ArrayList<Character> characters = new ArrayList<Character>();
+		Player p = new Player("Simon", cards, new Character("Simon"));
+		
 		players.add(p);
-
+		characters.add(p.getCharacter());
 		
-		Board b = new Board(players);
+		Board b = new Board(characters);
 		
 		
-		String moves = "nnneeeee";
+		String moves = "nnnnneeeee";
 		for(String s: moves.split("")) {
 			b.movePlayer(p, s);
 
 		}
-		assertTrue(b.movePlayer(p, "n"));
+		assertTrue(b.movePlayer(p, "e"));
 		assertEquals("_________________________________________________\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|*********|_|_|_|_|_|_|_|_|_|_|*********|_|_|\n"
 				+ "|_|_|*  HH    |_|_|_|_|_|_|_|_|_|_|*  MM   *|_|_|\n"
-				+ "|_|_|*S      *|_|_|_|_|_|_|_|_|_|_|*       *|_|_|\n"
+				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_|*       *|_|_|\n"
 				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_         *|_|_|\n"
 				+ "|_|_|*****  **|_|_|_|_|_|_|_|_|_|_|*****  **|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|*****  ****|_|_|_|_|_|_|_|_|_|\n"
-				+ "|_|_|_|_|_|_|_|_|_|*  VC      |_|_|_|_|_|_|_|_|_|\n"
+				+ "|_|_|_|_|_|_|_|_|_|*S VC      |_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_           *|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|***  ******|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
@@ -57,7 +59,7 @@ public class boardTest {
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|*********|_|_|_|_|_|_|_|_|_|_|*********|_|_|\n"
-				+ "|_|_|*  HH    |S|_|_|_|_|_|_|_|_|_|*  MM   *|_|_|\n"
+				+ "|_|_|*  HH    |_|_|_|_|_|_|_|_|_|_|*  MM   *|_|_|\n"
 				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_|*       *|_|_|\n"
 				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_         *|_|_|\n"
 				+ "|_|_|*****  **|_|_|_|_|_|_|_|_|_|_|*****  **|_|_|\n"
@@ -65,7 +67,7 @@ public class boardTest {
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|*****  ****|_|_|_|_|_|_|_|_|_|\n"
-				+ "|_|_|_|_|_|_|_|_|_|*  VC      |_|_|_|_|_|_|_|_|_|\n"
+				+ "|_|_|_|_|_|_|_|_|_|*  VC      |S|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_           *|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|***  ******|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
@@ -82,15 +84,14 @@ public class boardTest {
 	@Test public void test_02() {
 		//Player Collisions
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player p = new Player("Simon", null, new Character("Simon"));;
-		Player p2 = new Player("Pimon", null, new Character("Simon"));;
-		
+		Player p = new Player("Simon", cards, new Character("Simon"));
+		Player p2 = new Player("Pimon", cards, new Character("Pimon"));
 		players.add(p);
+		ArrayList<Character> characters = new ArrayList<Character>();
 		players.add(p2);
-
+		characters.add(p.getCharacter());
 		
-		Board b = new Board(players);
-		
+		Board b = new Board(characters);
 		
 		String moves = "";
 		for(String s: moves.split("")) {
@@ -109,7 +110,7 @@ public class boardTest {
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
-				+ "|S|P|_|_|_|_|_|_|_|*****  ****|_|_|_|_|_|_|_|_|_|\n"
+				+ "|_|P|_|_|_|_|_|_|_|*****  ****|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|*  VC      |_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_           *|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|***  ******|_|_|_|_|_|_|_|_|_|\n"
@@ -118,7 +119,7 @@ public class boardTest {
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|*  ******|_|_|_|_|_|_|_|_|_|_|*  ******|_|_|\n"
 				+ "|_|_|*  CC    |_|_|_|_|_|_|_|_|_|_|*  PP   *|_|_|\n"
-				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_|*       *|_|_|\n"
+				+ "|_|_|*S      *|_|_|_|_|_|_|_|_|_|_|*       *|_|_|\n"
 				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_         *|_|_|\n"
 				+ "|_|_|*********|_|_|_|_|_|_|_|_|_|_|*********|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
@@ -135,7 +136,7 @@ public class boardTest {
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
-				+ "|S|P|_|_|_|_|_|_|_|*****  ****|_|_|_|_|_|_|_|_|_|\n"
+				+ "|_|P|_|_|_|_|_|_|_|*****  ****|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|*  VC      |_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_           *|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|***  ******|_|_|_|_|_|_|_|_|_|\n"
@@ -144,7 +145,7 @@ public class boardTest {
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
 				+ "|_|_|*  ******|_|_|_|_|_|_|_|_|_|_|*  ******|_|_|\n"
 				+ "|_|_|*  CC    |_|_|_|_|_|_|_|_|_|_|*  PP   *|_|_|\n"
-				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_|*       *|_|_|\n"
+				+ "|_|_|*S      *|_|_|_|_|_|_|_|_|_|_|*       *|_|_|\n"
 				+ "|_|_|*       *|_|_|_|_|_|_|_|_|_|_         *|_|_|\n"
 				+ "|_|_|*********|_|_|_|_|_|_|_|_|_|_|*********|_|_|\n"
 				+ "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n"
@@ -154,16 +155,14 @@ public class boardTest {
 
 		//2 players in a building
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player p = new Player("Simon", null, new Character("Simon"));;
-		Player p2 = new Player("Pimon", null, new Character("Pimon"));
-		
+		Player p = new Player("Simon", cards, new Character("Simon"));
+		Player p2 = new Player("Pimon", cards, new Character("Pimon"));
 		players.add(p);
+		ArrayList<Character> characters = new ArrayList<Character>();
 		players.add(p2);
-
-
+		characters.add(p.getCharacter());
 		
-		Board b = new Board(players);
-		
+		Board b = new Board(characters);		
 		
 		String moves = "nnneeee";
 		for(String s: moves.split("")) {

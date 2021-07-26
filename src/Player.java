@@ -46,6 +46,10 @@ public class Player
     wasSet = true;
     return wasSet;
   }
+  
+  public Character getCharacter() {
+	  return this.character;
+  }
 
   public Character getCharacter() {
 	  return this.character;
