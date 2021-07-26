@@ -926,7 +926,7 @@ public class Game
 		  //moving steps
 		  if(canMove) {
 			 for(int j = steps; j>=1; j--) {
-				 System.out.print("you have " +steps+" steps to move");
+				 System.out.print("you have " +j+" steps to move");
 				 String direction = direction();
 				 //it will have null error because when the position is setting, the location set as null in board and position class.
 				 if(board.movePlayer(players.get(i),direction)) {
