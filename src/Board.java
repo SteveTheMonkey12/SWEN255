@@ -27,7 +27,7 @@ public class Board
   //------------------------
 
 
-  public Board(ArrayList<Character> characters)
+  public Board(List<Character> characters)
   {
     this.characterPositions = new HashMap<Character, Position>();
     this.characters = characters;
@@ -52,7 +52,7 @@ public class Board
   // INTERFACE
   //------------------------
 
-  // line 11 "model.ump"
+// line 11 "model.ump"
    public Position getCharacterLocation(Character target){
     return this.characterPositions.get(target);
   }
@@ -75,6 +75,9 @@ public class Board
   // line 15 "model.ump"
    public boolean moveCharacter(Character target, String cardinalDirection){
 	   //is the character in a house?
+	  for(Character c: characters) {
+		if (c.getName()==target.getName()) {target = c;}
+	  }
 	   Position currentPos = characterPositions.get(target);
 	   Position newPos;
 
@@ -179,6 +182,15 @@ public class Board
    
    public boolean movePlayer(Player target, String cardinalDirection){
 	   return moveCharacter(target.getCharacter(), cardinalDirection);
+   }
+   
+   /**
+    * make the character could move
+    * @param target
+    * @param cardinalDirection
+    */
+   public void move(Character target, String cardinalDirection) {
+	   
    }
 
   // line 19 "model.ump"

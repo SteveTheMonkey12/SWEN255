@@ -739,12 +739,14 @@ public class Game
    * initial the cards of estate, character and weapon.
    * randomly choose the murder cards.
    * distribute cards to player
-   * leave the board part at this stage (to be continued...)
+   * load the board
    */
   public void initial() {
 	  //initial the cards of estate, character and weapon
+	  List<Character> boardCharacter = new ArrayList<>();
 	  for(int i = 0; i<4 ;i++) {
 		  characters.add(new Character(characterName[i]));
+		  boardCharacter.add(new Character(characterName[i]));
 		  cards.add(new Character(characterName[i]));
 	  }
 	  for(int i = 0; i<5; i++) {
@@ -777,10 +779,10 @@ public class Game
     	  players.add(new Player(characterName[i],playerCards, characters.get(i)));
     	    
       }
-      board = new Board(players);
-
-	  
-	  
+      //load the board
+      board = new Board(boardCharacter);
+      System.out.print(board.toString());
+  
   }
   
   /**
@@ -892,6 +894,94 @@ public class Game
 	  int dice1 = (int) (Math.random() * 6) + 1;
 	  int dice2 = (int) (Math.random() * 6) + 1;
 	  return dice1+dice2;
-  }  
+  } 
+  
+  /**
+   * player moves steps after roll 2 dice
+   * cycling around
+   * stop play if one player solve attempt
+   */
+  public void play() {
+	  for(int i =0; i< players.size(); i++) {
+		  System.out.print("\n");
+		  System.out.println(players.get(i).getName() + "'s turn:");
+		  int steps = diceResult();
+		  boolean canMove = true;
+		  
+		  //if the player is in the room, stop moving and check whether the player wants to guess or solve attempt
+		  Position position = board.getPlayerLocation(players.get(i)); 
+		  if(position!=null) {
+			  Position.Location location = position.getLocation();
+			  if(location.equals("Haunted House")||location.equals("Manic Manor")||
+					  location.equals("Villa Celia")||location.equals("Calamity Castle")||
+					  location.equals("Peril Palace")){
+				  int result = guess(players.get(i));
+				  int attempt = solveAttempt(players.get(i));
+				  if(attempt==1) {
+					 //stop game? 
+				  }
+		  }
+		  }
+
+		  //moving steps
+		  if(canMove) {
+			 for(int j = steps; j>=1; j--) {
+				 System.out.print("you have " +j+" steps to move");
+				 String direction = direction();
+				 //it will have null error because when the position is setting, the location set as null in board and position class.
+				 if(board.movePlayer(players.get(i),direction)) {
+					 //the character will move
+					 
+					 //check whether in estate or not
+					  Position p = board.getPlayerLocation(players.get(i)); 
+					  if(p!=null) {
+						  Position.Location location = p.getLocation();
+						  if(location.equals("Haunted House")||location.equals("Manic Manor")||
+								  location.equals("Villa Celia")||location.equals("Calamity Castle")||
+								  location.equals("Peril Palace")){
+							  int result = guess(players.get(i));
+							  int attempt = solveAttempt(players.get(i));
+							  if(attempt==1) {
+								 //stop game? 
+							  }
+					  }
+					  }
+					 System.out.print(board.toString());
+	 
+				 }	 
+			 }
+				 
+			 
+		  }
+		  
+	  }
+	  
+  }
+  
+  /**
+   * w: west
+   * e: east
+   * s: south
+   * n: north
+   * @return direction of move
+   */
+  public String direction(){
+      System.out.print("Please enter the direction you want to move (w e s n): ");
+      Scanner scan = new Scanner(System.in);
+      String direction = scan.next();
+      return direction;
+  }
+  
+  
+  /**
+   * the main method for running the game
+   * @param args
+   */
+  public static void main(String args[]) {
+	  Game game = new Game();
+	  game.initial();
+	  game.play();
+	  
+  }
 
 }

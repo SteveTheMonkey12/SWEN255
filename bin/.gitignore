@@ -1,5 +1,13 @@
 /Board.class
+/Card.class
+/Cell.class
+/Character.class
+/Estate.class
 /Game.class
 /GameTest.class
 /MurderMadness.class
+/Player.class
 /Position$Location.class
+/Position.class
+/Weapon.class
+/boardTest.class
