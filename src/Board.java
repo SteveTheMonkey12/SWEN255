@@ -75,6 +75,9 @@ public class Board
   // line 15 "model.ump"
    public boolean moveCharacter(Character target, String cardinalDirection){
 	   //is the character in a house?
+	  for(Character c: characters) {
+		if (c.getName()==target.getName()) {target = c;}
+	  }
 	   Position currentPos = characterPositions.get(target);
 	   Position newPos;
 
