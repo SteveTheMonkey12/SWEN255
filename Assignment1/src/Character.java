@@ -1,156 +1,141 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.0.5692.1a9e80997 modeling language!*/
 
-
 import java.util.*;
 
 // line 29 "model.ump"
 // line 86 "model.ump"
-public class Character extends Card
-{
+public class Character extends Card {
 
+	// ------------------------
+	// MEMBER VARIABLES
+	// ------------------------
 
-	  //------------------------
-	  // MEMBER VARIABLES
-	  //------------------------
+	// Character Associations
+	private List<Game> games;
 
-	  //Character Associations
-	  private List<Game> games;
+	// ------------------------
+	// CONSTRUCTOR
+	// ------------------------
 
-	  //------------------------
-	  // CONSTRUCTOR
-	  //------------------------
+	public Character(String aName) {
+		super(aName);
+		games = new ArrayList<Game>();
+	}
 
-	  public Character(String aName)
-	  {
-	    super(aName);
-	    games = new ArrayList<Game>();
-	  }
+	// ------------------------
+	// INTERFACE
+	// ------------------------
+	/* Code from template association_GetMany */
+	public Game getGame(int index) {
+		Game aGame = games.get(index);
+		return aGame;
+	}
 
-	  //------------------------
-	  // INTERFACE
-	  //------------------------
-	  /* Code from template association_GetMany */
-	  public Game getGame(int index)
-	  {
-	    Game aGame = games.get(index);
-	    return aGame;
-	  }
+	public List<Game> getGames() {
+		List<Game> newGames = Collections.unmodifiableList(games);
+		return newGames;
+	}
 
-	  public List<Game> getGames()
-	  {
-	    List<Game> newGames = Collections.unmodifiableList(games);
-	    return newGames;
-	  }
+	public int numberOfGames() {
+		int number = games.size();
+		return number;
+	}
 
-	  public int numberOfGames()
-	  {
-	    int number = games.size();
-	    return number;
-	  }
+	public boolean hasGames() {
+		boolean has = games.size() > 0;
+		return has;
+	}
 
-	  public boolean hasGames()
-	  {
-	    boolean has = games.size() > 0;
-	    return has;
-	  }
+	public int indexOfGame(Game aGame) {
+		int index = games.indexOf(aGame);
+		return index;
+	}
 
-	  public int indexOfGame(Game aGame)
-	  {
-	    int index = games.indexOf(aGame);
-	    return index;
-	  }
-	  /* Code from template association_MinimumNumberOfMethod */
-	  public static int minimumNumberOfGames()
-	  {
-	    return 0;
-	  }
-	  /* Code from template association_AddManyToManyMethod */
-	  public boolean addGame(Game aGame)
-	  {
-	    boolean wasAdded = false;
-	    if (games.contains(aGame)) { return false; }
-	    games.add(aGame);
-	    if (aGame.indexOfCharacter(this) != -1)
-	    {
-	      wasAdded = true;
-	    }
-	    else
-	    {
-	      wasAdded = aGame.addCharacter(this);
-	      if (!wasAdded)
-	      {
-	        games.remove(aGame);
-	      }
-	    }
-	    return wasAdded;
-	  }
-	  /* Code from template association_RemoveMany */
-	  public boolean removeGame(Game aGame)
-	  {
-	    boolean wasRemoved = false;
-	    if (!games.contains(aGame))
-	    {
-	      return wasRemoved;
-	    }
+	/* Code from template association_MinimumNumberOfMethod */
+	public static int minimumNumberOfGames() {
+		return 0;
+	}
 
-	    int oldIndex = games.indexOf(aGame);
-	    games.remove(oldIndex);
-	    if (aGame.indexOfCharacter(this) == -1)
-	    {
-	      wasRemoved = true;
-	    }
-	    else
-	    {
-	      wasRemoved = aGame.removeCharacter(this);
-	      if (!wasRemoved)
-	      {
-	        games.add(oldIndex,aGame);
-	      }
-	    }
-	    return wasRemoved;
-	  }
-	  /* Code from template association_AddIndexControlFunctions */
-	  public boolean addGameAt(Game aGame, int index)
-	  {  
-	    boolean wasAdded = false;
-	    if(addGame(aGame))
-	    {
-	      if(index < 0 ) { index = 0; }
-	      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-	      games.remove(aGame);
-	      games.add(index, aGame);
-	      wasAdded = true;
-	    }
-	    return wasAdded;
-	  }
+	/* Code from template association_AddManyToManyMethod */
+	public boolean addGame(Game aGame) {
+		boolean wasAdded = false;
+		if (games.contains(aGame)) {
+			return false;
+		}
+		games.add(aGame);
+		if (aGame.indexOfCharacter(this) != -1) {
+			wasAdded = true;
+		} else {
+			wasAdded = aGame.addCharacter(this);
+			if (!wasAdded) {
+				games.remove(aGame);
+			}
+		}
+		return wasAdded;
+	}
 
-	  public boolean addOrMoveGameAt(Game aGame, int index)
-	  {
-	    boolean wasAdded = false;
-	    if(games.contains(aGame))
-	    {
-	      if(index < 0 ) { index = 0; }
-	      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-	      games.remove(aGame);
-	      games.add(index, aGame);
-	      wasAdded = true;
-	    } 
-	    else 
-	    {
-	      wasAdded = addGameAt(aGame, index);
-	    }
-	    return wasAdded;
-	  }
+	/* Code from template association_RemoveMany */
+	public boolean removeGame(Game aGame) {
+		boolean wasRemoved = false;
+		if (!games.contains(aGame)) {
+			return wasRemoved;
+		}
 
-	  public void delete()
-	  {
-	    ArrayList<Game> copyOfGames = new ArrayList<Game>(games);
-	    games.clear();
-	    for(Game aGame : copyOfGames)
-	    {
-	      aGame.removeCharacter(this);
-	    }
-	    super.delete();
-	  }
+		int oldIndex = games.indexOf(aGame);
+		games.remove(oldIndex);
+		if (aGame.indexOfCharacter(this) == -1) {
+			wasRemoved = true;
+		} else {
+			wasRemoved = aGame.removeCharacter(this);
+			if (!wasRemoved) {
+				games.add(oldIndex, aGame);
+			}
+		}
+		return wasRemoved;
+	}
+
+	/* Code from template association_AddIndexControlFunctions */
+	public boolean addGameAt(Game aGame, int index) {
+		boolean wasAdded = false;
+		if (addGame(aGame)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfGames()) {
+				index = numberOfGames() - 1;
+			}
+			games.remove(aGame);
+			games.add(index, aGame);
+			wasAdded = true;
+		}
+		return wasAdded;
+	}
+
+	public boolean addOrMoveGameAt(Game aGame, int index) {
+		boolean wasAdded = false;
+		if (games.contains(aGame)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfGames()) {
+				index = numberOfGames() - 1;
+			}
+			games.remove(aGame);
+			games.add(index, aGame);
+			wasAdded = true;
+		} else {
+			wasAdded = addGameAt(aGame, index);
+		}
+		return wasAdded;
+	}
+
+	public void delete() {
+		ArrayList<Game> copyOfGames = new ArrayList<Game>(games);
+		games.clear();
+		for (Game aGame : copyOfGames) {
+			aGame.removeCharacter(this);
+		}
+		super.delete();
+	}
 }
