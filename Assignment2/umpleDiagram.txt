@@ -1,10 +1,36 @@
 class Game
 {
   * -> * Item;
-  * -> * Player;
+  * -> 3..4 Player;
   public void initBoard(){}
   public void guess(){}
-  public void solveAttempt(){}  
+  public void solveAttempt(){}
+  
+  status{
+    Initial{
+      entry/ {initial();}
+      do { }
+      -> Move;
+    }
+    Move{
+      entry/ {play();}
+      guess -> Guess;
+      cantWin -> End;
+    }
+    Guess{
+      entry/ {makeGuess(Player p);}
+      solve -> Solve;
+    }
+    Solve{
+      entry/ {solveAttempt(Player p);}
+      win -> End;
+      incorrect -> /{p.setCanWin(false);}
+      Move;
+      
+    }
+    End{}
+  }
+  
 }
 
 class Board

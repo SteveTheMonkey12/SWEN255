@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 30 "model.ump"
-// line 92 "model.ump"
+// line 60 "model.ump"
+// line 124 "model.ump"
 public class Moveable extends Item
 {
 
@@ -23,6 +23,11 @@ public class Moveable extends Item
   public Moveable(String aName, Position aPosition)
   {
     super(aName, aPosition);
+    estates = new ArrayList<Estate>();
+  }
+  public Moveable(String aName)
+  {
+    super(aName);
     estates = new ArrayList<Estate>();
   }
 
@@ -153,7 +158,7 @@ public class Moveable extends Item
     super.delete();
   }
 
-  // line 33 "model.ump"
+  // line 63 "model.ump"
    public boolean Move(){
     return false;
   }

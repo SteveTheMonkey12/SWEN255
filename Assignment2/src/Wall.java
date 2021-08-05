@@ -3,8 +3,8 @@
 
 
 
-// line 42 "model.ump"
-// line 103 "model.ump"
+// line 72 "model.ump"
+// line 135 "model.ump"
 public class Wall extends NonMoveable
 {
 

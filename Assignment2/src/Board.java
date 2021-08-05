@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 11 "model.ump"
-// line 73 "model.ump"
+// line 41 "model.ump"
+// line 105 "model.ump"
 public class Board
 {
 
@@ -33,7 +33,7 @@ public class Board
 
   public Board()
   {
-    game = new Game(this);
+    game = new Game();
     items = new ArrayList<Item>();
   }
 

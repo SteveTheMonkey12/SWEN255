@@ -3,8 +3,8 @@
 
 
 
-// line 58 "model.ump"
-// line 119 "model.ump"
+// line 88 "model.ump"
+// line 151 "model.ump"
 public class Position
 {
 

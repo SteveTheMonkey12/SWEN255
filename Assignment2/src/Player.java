@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 17 "model.ump"
-// line 80 "model.ump"
+// line 47 "model.ump"
+// line 112 "model.ump"
 public class Player extends Moveable
 {
 
@@ -26,7 +26,17 @@ public class Player extends Moveable
     items = new ArrayList<Item>();
   }
 
-  //------------------------
+  public Player(String aName) {
+	super(aName);
+	items = new ArrayList<Item>();
+  }
+  
+  public Player(String aName, List<Item> someItems) {
+		super(aName);
+		items = someItems;
+  }
+
+//------------------------
   // INTERFACE
   //------------------------
   /* Code from template association_GetMany */

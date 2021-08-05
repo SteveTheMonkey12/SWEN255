@@ -3,8 +3,8 @@
 
 
 
-// line 22 "model.ump"
-// line 85 "model.ump"
+// line 52 "model.ump"
+// line 117 "model.ump"
 public class Item
 {
 
@@ -29,6 +29,11 @@ public class Item
     {
       throw new RuntimeException("Unable to create Item due to aPosition. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+  public Item(String aName)
+  {
+    name = aName;
+    position = null;
   }
 
   //------------------------
@@ -74,7 +79,7 @@ public class Item
     position = null;
   }
 
-  // line 25 "model.ump"
+  // line 55 "model.ump"
    public boolean Display(){
     return false;
   }
