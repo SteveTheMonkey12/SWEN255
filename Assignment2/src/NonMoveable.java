@@ -3,8 +3,8 @@
 
 
 
-// line 36 "model.ump"
-// line 97 "model.ump"
+// line 66 "model.ump"
+// line 129 "model.ump"
 public class NonMoveable extends Item
 {
 

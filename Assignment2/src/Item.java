@@ -3,8 +3,8 @@
 
 
 
-// line 22 "model.ump"
-// line 85 "model.ump"
+// line 52 "model.ump"
+// line 117 "model.ump"
 public class Item
 {
 
@@ -74,7 +74,7 @@ public class Item
     position = null;
   }
 
-  // line 25 "model.ump"
+  // line 55 "model.ump"
    public boolean Display(){
     return false;
   }

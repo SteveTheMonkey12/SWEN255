@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 53 "model.ump"
-// line 114 "model.ump"
+// line 83 "model.ump"
+// line 146 "model.ump"
 public class Weapon extends Moveable
 {
 
