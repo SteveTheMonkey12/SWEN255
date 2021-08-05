@@ -10,30 +10,29 @@ import javax.imageio.ImageIO;
 
 /**
  * <p>
- * Implements the board area in which the game are played. This is implement as an
- * extension of java.awt.Canvas, and characters, weapons and estates are drawn directly onto this as
- * images. The background is constructed by drawing a sequence of filled squares.
+ * Implements the board area in which the game are played. This is implement as
+ * an extension of java.awt.Canvas, and characters, weapons and estates are
+ * drawn directly onto this as images. The background is constructed by drawing
+ * a sequence of filled squares.
  * </p>
  * 
- * @author pengailin
- * refer the code from SWEN221 assignments
+ * @author pengailin refer the code from SWEN221 assignments
  */
 public class BoardCanvas extends Canvas {
 	/**
 	 * The path for storing images
 	 */
-	//private static final String IMAGE_PATH = "images/";
+	// private static final String IMAGE_PATH = "images/";
 
 	/**
-	 * The square width constant determines the width (in pixels) of a square in
-	 * the board area.
+	 * The square width constant determines the width (in pixels) of a square in the
+	 * board area.
 	 */
 	private static final int SQUARE_WIDTH = 30;
 
-
-	 /**
-	 *  The square height constant determines the height (in pixels) of a square
-	 * in the battle area.
+	/**
+	 * The square height constant determines the height (in pixels) of a square in
+	 * the battle area.
 	 */
 	private static final int SQUARE_HEIGHT = 30;
 
@@ -45,8 +44,7 @@ public class BoardCanvas extends Canvas {
 	 * @param board
 	 */
 	public BoardCanvas() {
-		setBounds(0, 0, 24 * SQUARE_WIDTH, 24
-				* SQUARE_HEIGHT);
+		setBounds(0, 0, 24 * SQUARE_WIDTH, 24 * SQUARE_HEIGHT);
 
 	}
 
@@ -76,14 +74,63 @@ public class BoardCanvas extends Canvas {
 			}
 		}
 
+		// Draw estate, walls, and doors
+		g2d.setStroke(new BasicStroke(4));
+		// Haunted house
+		g2d.setColor(new Color(100, 149, 237));
+		g2d.drawRect(2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.drawLine(7 * SQUARE_WIDTH, 3 * SQUARE_HEIGHT, 7 * SQUARE_WIDTH, 4 * SQUARE_HEIGHT);// right door
+		g2d.drawLine(5 * SQUARE_WIDTH, 7 * SQUARE_HEIGHT, 6 * SQUARE_WIDTH, 7 * SQUARE_HEIGHT);// bottom door
 
+		// Manic manor
+		g2d.setColor(new Color(100, 149, 237));
+		g2d.drawRect(17 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(17 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.drawLine(20 * SQUARE_WIDTH, 7 * SQUARE_HEIGHT, 21 * SQUARE_WIDTH, 7 * SQUARE_HEIGHT);// bottom door
+		g2d.drawLine(17 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT, 17 * SQUARE_WIDTH, 6 * SQUARE_HEIGHT);// left door
+
+		// Villa Celia
+		g2d.setColor(new Color(100, 149, 237));
+		g2d.drawRect(9 * SQUARE_WIDTH, 10 * SQUARE_HEIGHT, 6 * SQUARE_WIDTH, 4 * SQUARE_HEIGHT);
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(9 * SQUARE_WIDTH, 10 * SQUARE_HEIGHT, 6 * SQUARE_WIDTH, 4 * SQUARE_HEIGHT);
+		g2d.drawLine(12 * SQUARE_WIDTH, 10 * SQUARE_HEIGHT, 13 * SQUARE_WIDTH, 10 * SQUARE_HEIGHT);// top door
+		g2d.drawLine(15 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 15 * SQUARE_WIDTH, 12 * SQUARE_HEIGHT);// right door
+		g2d.drawLine(11 * SQUARE_WIDTH, 14 * SQUARE_HEIGHT, 12 * SQUARE_WIDTH, 14 * SQUARE_HEIGHT);// bottom door
+		g2d.drawLine(9 * SQUARE_WIDTH, 13 * SQUARE_HEIGHT, 9 * SQUARE_WIDTH, 12 * SQUARE_HEIGHT);// left door
+
+		// Calamity Castle
+		g2d.setColor(new Color(100, 149, 237));
+		g2d.drawRect(2 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(2 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.drawLine(3 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 4 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT);// top door
+		g2d.drawLine(7 * SQUARE_WIDTH, 18 * SQUARE_HEIGHT, 7 * SQUARE_WIDTH, 19 * SQUARE_HEIGHT);// right door
+		
+		// Peril Palace
+		g2d.setColor(new Color(100, 149, 237));
+		g2d.drawRect(17 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(17 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
+		g2d.drawLine(18 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 19 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT);// top door
+		g2d.drawLine(17 * SQUARE_WIDTH, 20 * SQUARE_HEIGHT, 17 * SQUARE_WIDTH, 21 * SQUARE_HEIGHT);// left door
+
+		// Write Names
+		g2d.setColor(new Color(100, 149, 237));
+		g2d.drawString("Haunted House", 3 * SQUARE_WIDTH, 4 * SQUARE_HEIGHT);
+		g2d.drawString("Manic Manor", 18 * SQUARE_WIDTH, 4 * SQUARE_HEIGHT);
+		g2d.drawString("Villa Celia", 11 * SQUARE_WIDTH, 12 * SQUARE_HEIGHT);
+		g2d.drawString("Calamity Castle", 3 * SQUARE_WIDTH, 20 * SQUARE_HEIGHT);
+		g2d.drawString("Peril Palace", 18 * SQUARE_WIDTH, 20 * SQUARE_HEIGHT);
+
+		// Draw the blocks
+		g2d.setColor(Color.GRAY);
+		g2d.fillRect(11 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// top
+		g2d.fillRect(17 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// right
+		g2d.fillRect(11 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// bottom
+		g2d.fillRect(5 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// left
 	}
-
-
-
-
-
-
-
-
 }
