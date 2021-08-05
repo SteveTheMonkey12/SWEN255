@@ -30,6 +30,11 @@ public class Item
       throw new RuntimeException("Unable to create Item due to aPosition. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
+  public Item(String aName)
+  {
+    name = aName;
+    position = null;
+  }
 
   //------------------------
   // INTERFACE

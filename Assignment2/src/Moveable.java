@@ -25,6 +25,11 @@ public class Moveable extends Item
     super(aName, aPosition);
     estates = new ArrayList<Estate>();
   }
+  public Moveable(String aName)
+  {
+    super(aName);
+    estates = new ArrayList<Estate>();
+  }
 
   //------------------------
   // INTERFACE

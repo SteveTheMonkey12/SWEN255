@@ -24,6 +24,20 @@ public class Game
   private List<Item> items;
   private Board board;
   private List<Player> players;
+  private List<Item> murderCards; // changed to list so can use contains method to check for win
+  private List<Weapon> weapons;
+  private List<Estate> estates;
+  private Player currentPlayer;
+
+	// name of the 4 characters
+	private static final String[] characterName = { "Lucilla", "Bert", "Maline", "Percy" };
+
+	// name of the 5 weapons
+	private static final String[] weaponName = { "Broom", "Scissors", "Knife", "Shovel", "iPad" };
+
+	// name of the 5 estate
+	private static final String[] estateName = { "Haunted House", "Manic Manor", "Villa Celia", "Calamity Castle",
+			"Peril Palace" };
 
   //------------------------
   // CONSTRUCTOR
@@ -202,11 +216,11 @@ public class Game
         break;
       case Guess:
         // line 26 "model.ump"
-        makeGuess(Player p);
+        makeGuess();
         break;
       case Solve:
         // line 30 "model.ump"
-        solveAttempt(Player p);
+        solveAttempt();
         break;
     }
   }
@@ -470,11 +484,6 @@ public class Game
     }
   }
 
-  // line 6 "model.ump"
-   public void initBoard(){
-    
-  }
-
   // line 8 "model.ump"
    public void solveAttempt(){
     
@@ -482,18 +491,328 @@ public class Game
 
   // line 9 "model.ump"
    public void initial(){
-    
+	// initial the cards of estate, character and weapon
+			List<Character> boardCharacter = new ArrayList<>();
+			for (int i = 0; i < 4; i++) {
+				players.add(new Player(characterName[i]));
+				addItem(new Player(characterName[i]));
+			}
+			for (int i = 0; i < 5; i++) {
+				Weapon tmp = new Weapon(weaponName[i]);
+				addItem(tmp);
+				weapons.add(new Weapon(weaponName[i]));
+				
+			}
+			for (int i = 0; i < 5; i++) {
+				Estate tmp = new Estate(estateName[i], null);
+				addItem(tmp);
+				estates.add(tmp);
+				//TODO add final estate positions
+			}
+			for(Item i : items) {
+				board.addItem(i);
+			}
+			// randomly choose the murder cards
+			Item murderCharacter = players.get((int) (Math.random() * players.size()));
+			murderCards.add(murderCharacter);
+			items.remove(murderCharacter);
+			Item murderWeapon = weapons.get((int) (Math.random() * weapons.size()));
+			murderCards.add(murderWeapon);
+			items.remove(murderWeapon);
+			Item murderEstate = estates.get((int) (Math.random() * estates.size()));
+			murderCards.add(murderEstate);
+			items.remove(murderEstate);
+			// distribute cards to player
+			System.out.print("Number of players? 3 or 4 players?");
+			int playerNumbers = getNumber();
+			int cardNumbers = items.size() / playerNumbers;
+			for (int i = 0; i < playerNumbers; i++) {
+				List<Item> playerCards = new ArrayList<>();
+				for (int j = 0; j < cardNumbers; j++) {
+					int index = (int) (Math.random() * items.size());
+					playerCards.add(items.get(index));
+					items.remove(index);
+				}
+				players.add(new Player(characterName[i], playerCards));
+
+			}
+			// load the board
+			board = new Board(this);
+			System.out.print(board.toString());
+
   }
 
-  // line 10 "model.ump"
-   public void play(){
-    
-  }
+   /**
+	 * 
+	 * @return the number from system input
+	 */
+	private int getNumber() {
+		int num = 0;
+		try {
+			Scanner scan = new Scanner(System.in);
+			num = scan.nextInt();
+		} catch (java.util.InputMismatchException e) {
+		}
+		return num;
+	}
+
+	/**
+	 * feel free to move it in other methods.
+	 * 
+	 * @return the result of roll 2 dice
+	 */
+	public int diceResult() {
+		int dice1 = (int) (Math.random() * 6) + 1;
+		int dice2 = (int) (Math.random() * 6) + 1;
+		return dice1 + dice2;
+	}
+
+	/**
+	 * player moves steps after roll 2 dice cycling around stop play if one player
+	 * solve attempt
+	 */
+	public void play() {
+//		while (true) {
+//			for (int i = 0; i < players.size(); i++) {
+//				System.out.print("\n");
+//				System.out.println(players.get(i).getName() + "'s turn:");
+//				int steps = diceResult();
+//				boolean canMove = true;
+//
+//				// if the player is in the room, stop moving and check whether the player wants
+//				// to guess or solve attempt
+//				Position position = board.getPlayerLocation(players.get(i));
+//				if (position != null) {
+//					Position.Location location = position.getLocation();
+//					if (location == Position.Location.HH || location == Position.Location.MM
+//							|| location == Position.Location.VC || location == Position.Location.CC
+//							|| location == Position.Location.PP) {
+//						int result = guess(players.get(i));
+//						int attempt = solveAttempt(players.get(i));
+//						// stop game when some one win
+//						if (attempt == 1) {
+//							break;
+//						}
+//					}
+//				}
+//
+//				// moving steps
+//				if (canMove) {
+//					for (int j = steps; j >= 1; j--) {
+//						System.out.print("you have " + j + " steps to move");
+//						String direction = direction();
+//						if (board.movePlayer(players.get(i), direction)) {
+//							// if the player moves into estate, it will stop moving and start guess/solve
+//							// attempt
+//							Position p = board.getPlayerLocation(players.get(i));
+//							if (position != null) {
+//								Position.Location location = p.getLocation();
+//								if (location == Position.Location.HH || location == Position.Location.MM
+//										|| location == Position.Location.VC || location == Position.Location.CC
+//										|| location == Position.Location.PP) {
+//									guess(players.get(i));
+//									solveAttempt(players.get(i));
+//									break;
+//								}
+//							}
+//						}
+//						System.out.print(board.toString());
+//					}
+//				}
+//			}
+//		}
+		
+		//TODO add movement
+	}
+
+	/**
+	 * w: west e: east s: south n: north
+	 * 
+	 * @return direction of move
+	 */
+	public String direction() {
+		System.out.print("Please enter the direction you want to move (w e s n): ");
+		Scanner scan = new Scanner(System.in);
+		String direction = scan.next();
+		return direction;
+	}
 
   // line 11 "model.ump"
-   public void makeGuess(Player p){
-    
-  }
+   public int makeGuess(){
+	   	Player p = currentPlayer;
+	    clearScreen();
+		System.out.print(p.getName() + "'s guess y/n\n");
+		Scanner input = new Scanner(System.in);
+		String guess = input.next();
+		if (!guess.equals("y") && !guess.equals("n")) {
+			return -1;
+		} else if (guess.equals("n")) {
+			return 0;
+		} else if (guess.equals("y")) {
+			clearScreen();
+			// guess weapon
+			System.out.println("Guess a weapon 1-" + weapons.size() + ":");
+			String tmpOutput = "";
+			for (int i = 0; i < weapons.size(); i++) {
+				tmpOutput += (i + 1) + ") " + weapons.get(i).getName() + "\n";
+			}
+			System.out.println(tmpOutput);
+			int guessNum = input.nextInt() - 1;
+			if (guessNum < 0 || guessNum > weapons.size()) {
+				return -1;
+			}
+			Weapon guessedWeapon = (Weapon) weapons.get(guessNum);
+
+			// guess player
+			clearScreen();
+			System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
+			tmpOutput = "";
+			for (int i = 0; i < numberOfPlayers(); i++) {
+				tmpOutput += (i + 1) + ") " + players.get(i).getName() + "\n";
+			}
+			System.out.println(tmpOutput);
+			guessNum = input.nextInt() - 1;
+			if (guessNum < 0 || guessNum > players.size()) {
+				return -1;
+			}
+			Player guessedPlayer = players.get(guessNum);
+			// guess estate
+			clearScreen();
+			//board.moveCharacterTo(guessedPlayer, board.getPlayerLocation(p).getLocation().name);
+			//TODO move player to correct square
+			Estate guessedEstate = null;
+			for (Estate e : estates) {
+//				if (e.getName() == board.getPlayerLocation(p).getLocation().name) {
+//					guessedEstate = e;
+//				}
+			}
+			if (guessedEstate == null) {
+				return -1;
+			}
+			// confirm guess
+			clearScreen();
+			System.out.println("Is this your guess: " + guessedWeapon.getName() + " " + guessedEstate.getName() + " "
+					+ guessedPlayer.getName() + " y/n?");
+			String answer = input.next();
+			if (!answer.equals("y") && !answer.equals("n")) {
+				return -1;
+			} else if (answer.equals("n")) {
+				return makeGuess();
+			}
+			// respond to guess
+			Player nextP = p;
+			for (int i = 0; i < 3; i++) {
+				nextP = getNextPlayer(nextP);
+				clearScreen();
+				System.out.println(nextP.getName() + "'s turn to response y/n");
+				guess = input.next();
+				if (!guess.equals("y") && !guess.equals("n")) {
+					return -1;
+				} else if (guess.equals("n")) {
+					return 0;
+				} else if (guess.equals("y")) {
+					Item response = playerGuessResponse(nextP, guessedPlayer, guessedWeapon, guessedEstate, input);
+					if (response != null) {
+						clearScreen();
+						System.out.println(p.getName() + "'s turn to view response y/n");
+						guess = input.next();
+						if (!guess.equals("y") && !guess.equals("n")) {
+							return -1;
+						} else if (guess.equals("n")) {
+							return 0;
+						} else if (guess.equals("y")) {
+							System.out.println(response.getName());
+							System.out.println("Press y to continue: ");
+							input.next();
+							return 1;
+						}
+					}
+				}
+			}
+			clearScreen();
+			System.out.print(nextP.getName() + "'s response y/n\n");
+			guess = input.next();
+			if (!guess.equals("y") && !guess.equals("n")) {
+				return -1;
+			} else if (guess.equals("n")) {
+				return 0;
+			} else if (guess.equals("y")) {
+				System.out.println("No matching response");
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Method for players to respond to another players guess
+	 * 
+	 * @param aPlayer
+	 * @param guessedPlayer
+	 * @param guessedWeapon
+	 * @param guessedEstate
+	 * @return
+	 */
+	
+private Item playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon guessedWeapon,
+		Estate guessedEstate, Scanner input) {
+	String output = "";
+	int numCardsToShow = 1;
+	ArrayList<Item> cardsToShow = new ArrayList<Item>();
+	if (aPlayer.getItems().contains(guessedPlayer)) {
+		cardsToShow.add(guessedPlayer);
+		output += numCardsToShow + " " + guessedPlayer.getName() + " ";
+		numCardsToShow++;
+	}
+	if (aPlayer.getItems().contains(guessedWeapon)) {
+		cardsToShow.add(guessedWeapon);
+		output += numCardsToShow + " " + guessedWeapon.getName() + " ";
+		numCardsToShow++;
+	}
+	if (aPlayer.getItems().contains(guessedEstate)) {
+		cardsToShow.add(guessedEstate);
+		output += numCardsToShow + " " + guessedEstate.getName() + " ";
+		numCardsToShow++;
+	}
+	if (numCardsToShow == 1) {
+		System.out.println("No cards to show");
+		input.next();
+		return null;
+	}
+	while (true) {
+		clearScreen();
+		System.out.println("Pick a card 1-" + (numCardsToShow - 1) + ": ");
+		System.out.println(output);
+		int cardToShow = input.nextInt();
+		if (cardToShow < numCardsToShow && cardToShow > 0) {
+			return cardsToShow.get(cardToShow - 1);
+		}
+	}
+}
+   
+   public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
+	/**
+	 * Method to get the next player in the list
+	 * 
+	 * @param aPlayer
+	 * @return The next player in the list
+	 */
+	public Player getNextPlayer(Player aPlayer) {
+		int index = players.indexOf(aPlayer);
+		if (index == numberOfPlayers() - 1) {
+			index = 0;
+		} else {
+			index++;
+		}
+		return players.get(index);
+	}
+	
+	public void nextTurn() {
+		currentPlayer = getNextPlayer(currentPlayer);
+	}
 
   // line 12 "model.ump"
    public void solveAttempt(Player p){

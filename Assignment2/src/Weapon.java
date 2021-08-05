@@ -26,7 +26,11 @@ public class Weapon extends Moveable
   // INTERFACE
   //------------------------
 
-  public void delete()
+  public Weapon(String aName) {
+	super(aName);
+}
+
+public void delete()
   {
     super.delete();
   }
