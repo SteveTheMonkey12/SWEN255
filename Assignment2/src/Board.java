@@ -31,9 +31,9 @@ public class Board
     items = new ArrayList<Item>();
   }
 
-  public Board(Player... allPlayersForGame)
+  public Board()
   {
-    game = new Game(this, allPlayersForGame);
+    game = new Game();
     items = new ArrayList<Item>();
   }
 
