@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
-import java.util.HashSet;
 import javax.imageio.ImageIO;
 
 /**
@@ -28,13 +27,13 @@ public class BoardCanvas extends Canvas {
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
 	 */
-	private static final int SQUARE_WIDTH = 30;
+	private static final int SQUARE_WIDTH = 40;
 
 	/**
 	 * The square height constant determines the height (in pixels) of a square in
 	 * the battle area.
 	 */
-	private static final int SQUARE_HEIGHT = 30;
+	private static final int SQUARE_HEIGHT = 40;
 
 	private Board board;
 
@@ -132,5 +131,9 @@ public class BoardCanvas extends Canvas {
 		g2d.fillRect(17 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// right
 		g2d.fillRect(11 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// bottom
 		g2d.fillRect(5 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// left
+		
+		//draw characters
+		
+		//draw weapons
 	}
 }

@@ -31,6 +31,7 @@ public class BoardFrame extends JFrame implements ActionListener {
 
 	// canvas (will add more later)
 	private BoardCanvas boardCanvas;
+	private TextCanvas textCanvas;
 
 	private Board board;
 
@@ -54,16 +55,15 @@ public class BoardFrame extends JFrame implements ActionListener {
 		mb.add(menu);
 		setJMenuBar(mb);
 
-		// board canvas
+		// center board canvas
 		this.boardCanvas = new BoardCanvas();
-
 		this.centerPanel = new JPanel();
 		this.centerPanel.setLayout(new BorderLayout());
 		Border cb = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3),
 				BorderFactory.createLineBorder(Color.gray));
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
-
+        //button on the bottom
 		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
 		JButton roll = new JButton("Roll Dice");
@@ -71,13 +71,14 @@ public class BoardFrame extends JFrame implements ActionListener {
 		JButton solve = new JButton("Solve Attempt");
 		playerCombo = new JComboBox(new String[] { "player x 3", "player x 4" });
 		playerCombo.setSelectedIndex(1);
-
-		/*
-		 * this part will show cards, weapon or character later rightPanel = new
-		 * JPanel(); rightPanel.setLayout(new BorderLayout()); cb =
-		 * BorderFactory.createCompoundBorder(BorderFactory .createEmptyBorder(3, 3, 3,
-		 * 3), BorderFactory .createLineBorder(Color.gray)); rightPanel.setBorder(cb);
-		 */
+        //right text canvas
+		this.textCanvas = new TextCanvas();
+		this.rightPanel = new JPanel(); 
+		this.rightPanel.setLayout(new BorderLayout()); 
+		cb =BorderFactory.createCompoundBorder(BorderFactory .createEmptyBorder(3, 3, 3,
+		3), BorderFactory .createLineBorder(Color.gray)); rightPanel.setBorder(cb);
+		this.rightPanel.setBorder(cb);
+		this.centerPanel.add(textCanvas, BorderLayout.EAST);
 
 		// start.addActionListener(this);
 		// stop.addActionListener(this);
@@ -95,7 +96,7 @@ public class BoardFrame extends JFrame implements ActionListener {
 
 		add(centerPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
-		// add(rightPanel,BorderLayout.EAST);
+		add(rightPanel,BorderLayout.EAST);
 
 		setFocusable(true);
 
