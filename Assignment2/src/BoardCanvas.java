@@ -36,13 +36,15 @@ public class BoardCanvas extends Canvas {
 	private static final int SQUARE_HEIGHT = 40;
 
 	private Board board;
+	private Game game;
 
 	/**
 	 * Construct a canvas to visually display a given board.
 	 *
 	 * @param board
 	 */
-	public BoardCanvas() {
+	public BoardCanvas(Game game) {
+		this.game = game;
 		setBounds(0, 0, 24 * SQUARE_WIDTH, 24 * SQUARE_HEIGHT);
 
 	}
@@ -134,6 +136,18 @@ public class BoardCanvas extends Canvas {
 		
 		//draw characters
 		
+		
 		//draw weapons
 	}
+	
+	public void drawPlayer() {
+		for(int i =0; i<4; i++) {
+			//Player player = game.
+		}
+	}
+	
+	public void drawWeapon() {
+		
+	}
+	
 }

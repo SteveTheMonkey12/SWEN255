@@ -818,5 +818,10 @@ private Item playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon gu
    public void solveAttempt(Player p){
     
   }
+   
+   public static void main(String args[]) {
+	   Game game = new Game();
+	   BoardFrame bf = new BoardFrame(game);
+   }
 
 }

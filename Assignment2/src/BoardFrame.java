@@ -34,6 +34,7 @@ public class BoardFrame extends JFrame implements ActionListener {
 	private TextCanvas textCanvas;
 
 	private Board board;
+	private Game game;
 
 	// menu part:
 	private JMenu menu;
@@ -42,7 +43,7 @@ public class BoardFrame extends JFrame implements ActionListener {
 
 	private JMenuBar mb;
 
-	public BoardFrame() {
+	public BoardFrame(Game game) {
 
 		// menu bar do you have anything want to put at menu space?
 		mb = new JMenuBar();
@@ -56,7 +57,7 @@ public class BoardFrame extends JFrame implements ActionListener {
 		setJMenuBar(mb);
 
 		// center board canvas
-		this.boardCanvas = new BoardCanvas();
+		this.boardCanvas = new BoardCanvas(game);
 		this.centerPanel = new JPanel();
 		this.centerPanel.setLayout(new BorderLayout());
 		Border cb = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3),
@@ -121,7 +122,5 @@ public class BoardFrame extends JFrame implements ActionListener {
 		}
 	}
 	
-	public static void main(String[] args) {
-		BoardFrame bf = new BoardFrame();
-	}
+	
 }
