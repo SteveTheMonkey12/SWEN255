@@ -28,6 +28,7 @@ public class Game
   private List<Weapon> weapons;
   private List<Estate> estates;
   private Player currentPlayer;
+  private int numPlayers;
 
 	// name of the 4 characters
 	private static final String[] characterName = { "Lucilla", "Bert", "Maline", "Percy" };
@@ -522,11 +523,10 @@ public class Game
 			Item murderEstate = estates.get((int) (Math.random() * estates.size()));
 			murderCards.add(murderEstate);
 			items.remove(murderEstate);
-			// distribute cards to player
-			System.out.print("Number of players? 3 or 4 players?");
-			int playerNumbers = getNumber();
-			int cardNumbers = items.size() / playerNumbers;
-			for (int i = 0; i < playerNumbers; i++) {
+			// distribute cards to player 
+			
+			int cardNumbers = items.size() / numPlayers;
+			for (int i = 0; i < numPlayers; i++) {
 				List<Item> playerCards = new ArrayList<>();
 				for (int j = 0; j < cardNumbers; j++) {
 					int index = (int) (Math.random() * items.size());
@@ -541,20 +541,14 @@ public class Game
 			System.out.print(board.toString());
 
   }
+   
+   /*
+    * set the number of player according to the input from board
+    */
+   public void setNumPlayers(int num) {
+	   this.numPlayers = num;
+   }
 
-   /**
-	 * 
-	 * @return the number from system input
-	 */
-	private int getNumber() {
-		int num = 0;
-		try {
-			Scanner scan = new Scanner(System.in);
-			num = scan.nextInt();
-		} catch (java.util.InputMismatchException e) {
-		}
-		return num;
-	}
 
 	/**
 	 * feel free to move it in other methods.
@@ -819,9 +813,6 @@ private Item playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon gu
     
   }
    
-   public static void main(String args[]) {
-	   Game game = new Game();
-	   BoardFrame bf = new BoardFrame(game);
-   }
+
 
 }

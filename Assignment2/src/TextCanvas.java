@@ -10,10 +10,8 @@ import java.util.List;
 public class TextCanvas extends Canvas {
 	
 	private String player;
-	private String weapon;
-	private List<Item> cards;
 	private int steps;
-	private Game game;
+	private List<Item> cards;
 	
 	/**
 	 * Construct a canvas to visually display a given board.
