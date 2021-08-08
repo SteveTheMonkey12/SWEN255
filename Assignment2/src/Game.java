@@ -6,6 +6,10 @@ import java.util.*;
 
 // line 2 "model.ump"
 // line 97 "model.ump"
+/**
+ * @author pengailin
+ *
+ */
 public class Game
 {
 
@@ -535,17 +539,17 @@ public class Game
 				Player p = new Player(characterName[i], playerCards);
 				players.add(p);
 				if(i==0) {
-					p.setRow(2);
-					p.setColumn(12);
+					Position position = new Position(2,12);
+					p.setPosition(position);
 				}else if(i==1){
-					p.setRow(10);
-					p.setColumn(2);
+					Position position = new Position(10,2);
+					p.setPosition(position);
 				}else if(i==2){
-					p.setRow(23);
-					p.setColumn(10);
+					Position position = new Position(23,10);
+					p.setPosition(position);
 				}else if(i==3) {
-					p.setRow(15);
-					p.setColumn(23);
+					Position position = new Position(15,23);
+					p.setPosition(position);
 				}
 
 			}
@@ -827,7 +831,9 @@ private Item playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon gu
 	  return players;
    }
 
- 
-  
+	public List<Weapon> getWeapons() {
+		return weapons;
+	}
+
 
 }

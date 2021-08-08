@@ -3,11 +3,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.io.IOException;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
 
 /**
  * <p>
@@ -20,11 +16,6 @@ import javax.imageio.ImageIO;
  * @author pengailin refer the code from SWEN221 assignments
  */
 public class BoardCanvas extends Canvas {
-	/**
-	 * The path for storing images
-	 */
-	// private static final String IMAGE_PATH = "images/";
-
 	/**
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
@@ -140,7 +131,7 @@ public class BoardCanvas extends Canvas {
 		//draw characters and weapons
 		if(playing == true) {
 			drawPlayer(g,width,height);
-			//drawWeapon(g);
+			drawWeapon(g);
 		}
 		
 	}
@@ -150,19 +141,17 @@ public class BoardCanvas extends Canvas {
 			for(int i=0; i<game.numPlayers; i++) {
 				Player p = game.getPlayers().get(i);
 				g.setColor(randomColor());
-				g.drawOval(p.getRow(),p.getColumn(), width, height);
+				g.drawOval(p.getPosition().getX(),p.getPosition().getY(), width, height);
 			}
-			
 		}else {
             for(int i=-0; i<game.numPlayers; i++) {
             	Player p = game.getPlayers().get(i);
             	g.setColor(randomColor());
-            	g.drawOval(p.getRow(),p.getColumn(), width, height);
+            	g.drawOval(p.getPosition().getX(),p.getPosition().getY(), width, height);
 			}
             Player p = game.getPlayers().get(3);
             g.setColor(randomColor());
-			g.drawOval(19,23,width,height);
-            
+			g.drawOval(19,23,width,height);     
 		}
 		
 	}
@@ -179,8 +168,12 @@ public class BoardCanvas extends Canvas {
 		this.playing = playing;
 	}
 
-	public void drawWeapon() {
-		
-	}
+	public void drawWeapon(Graphics g) {
+		for(int i = 0; i < game.getWeapons().size(); i++){
+            Weapon w = game.getWeapons().get(i);
+            String name = w.getName();
+            g.drawString(name,w.getPosition().getX(),w.getPosition().getY());	
+	 }
+    }
 	
 }
