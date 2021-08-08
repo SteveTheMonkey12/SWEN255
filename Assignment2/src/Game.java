@@ -28,7 +28,7 @@ public class Game
   private List<Weapon> weapons;
   private List<Estate> estates;
   private Player currentPlayer;
-  private int numPlayers;
+  public int numPlayers;
 
 	// name of the 4 characters
 	private static final String[] characterName = { "Lucilla", "Bert", "Maline", "Percy" };
@@ -493,9 +493,8 @@ public class Game
   // line 9 "model.ump"
    public void initial(){
 	// initial the cards of estate, character and weapon
-			List<Character> boardCharacter = new ArrayList<>();
+	   
 			for (int i = 0; i < 4; i++) {
-				players.add(new Player(characterName[i]));
 				addItem(new Player(characterName[i]));
 			}
 			for (int i = 0; i < 5; i++) {
@@ -523,8 +522,8 @@ public class Game
 			Item murderEstate = estates.get((int) (Math.random() * estates.size()));
 			murderCards.add(murderEstate);
 			items.remove(murderEstate);
-			// distribute cards to player 
 			
+			// distribute cards to player 
 			int cardNumbers = items.size() / numPlayers;
 			for (int i = 0; i < numPlayers; i++) {
 				List<Item> playerCards = new ArrayList<>();
@@ -533,12 +532,23 @@ public class Game
 					playerCards.add(items.get(index));
 					items.remove(index);
 				}
-				players.add(new Player(characterName[i], playerCards));
+				Player p = new Player(characterName[i], playerCards);
+				players.add(p);
+				if(i==0) {
+					p.setRow(2);
+					p.setColumn(12);
+				}else if(i==1){
+					p.setRow(10);
+					p.setColumn(2);
+				}else if(i==2){
+					p.setRow(23);
+					p.setColumn(10);
+				}else if(i==3) {
+					p.setRow(15);
+					p.setColumn(23);
+				}
 
 			}
-			// load the board
-			board = new Board(this);
-			System.out.print(board.toString());
 
   }
    
@@ -812,7 +822,12 @@ private Item playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon gu
    public void solveAttempt(Player p){
     
   }
-   
 
+    public List<Player> getPlayers() {
+	  return players;
+   }
+
+ 
+  
 
 }

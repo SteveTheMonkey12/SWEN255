@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -78,12 +79,13 @@ public class BoardFrame extends JFrame implements ActionListener {
 		this.rightPanel = new JPanel(); 
 		this.rightPanel.setLayout(new BorderLayout()); 
 		cb =BorderFactory.createCompoundBorder(BorderFactory .createEmptyBorder(3, 3, 3,
-		3), BorderFactory .createLineBorder(Color.gray)); rightPanel.setBorder(cb);
+		3), BorderFactory .createLineBorder(Color.white)); rightPanel.setBorder(cb);
 		this.rightPanel.setBorder(cb);
 		this.rightPanel.add(textCanvas, BorderLayout.EAST);
-
+		
+        //button action listener
 		start.addActionListener(this);
-		// stop.addActionListener(this);
+		stop.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
@@ -103,6 +105,13 @@ public class BoardFrame extends JFrame implements ActionListener {
 		setVisible(true);
 
 	}
+	
+    public void stopGame(){
+        for(Frame frame: getFrames()){
+            frame.dispose();
+        }
+        new BoardFrame(game);
+    }
 
 	@Override
 	/*
@@ -114,14 +123,14 @@ public class BoardFrame extends JFrame implements ActionListener {
 			//optional for the number of players
 			String[] options = {"3", "4"};
             int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options,options[0]);
-            game.setNumPlayers(num);
+            game.setNumPlayers(num+3);
             game.initial();
             //game.play();
 		} else if (e.getActionCommand().equals("Stop")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "stop game?",
 					JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
-				//game.stop();
+				stopGame();
 			}
 		} else if (e.getActionCommand().equals("Guess")) {
 			game.guess();

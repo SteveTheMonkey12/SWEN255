@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Random;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -37,6 +39,7 @@ public class BoardCanvas extends Canvas {
 
 	private Board board;
 	private Game game;
+	private boolean playing = false;
 
 	/**
 	 * Construct a canvas to visually display a given board.
@@ -134,18 +137,48 @@ public class BoardCanvas extends Canvas {
 		g2d.fillRect(11 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// bottom
 		g2d.fillRect(5 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// left
 		
-		//draw characters
-		
-		
-		//draw weapons
-	}
-	
-	public void drawPlayer() {
-		for(int i =0; i<4; i++) {
-			//Player player = game.
+		//draw characters and weapons
+		if(playing == true) {
+			drawPlayer(g,width,height);
+			//drawWeapon(g);
 		}
+		
 	}
 	
+	public void drawPlayer(Graphics g, int width, int height) {
+		if(game.numPlayers == 4) {
+			for(int i=0; i<game.numPlayers; i++) {
+				Player p = game.getPlayers().get(i);
+				g.setColor(randomColor());
+				g.drawOval(p.getRow(),p.getColumn(), width, height);
+			}
+			
+		}else {
+            for(int i=-0; i<game.numPlayers; i++) {
+            	Player p = game.getPlayers().get(i);
+            	g.setColor(randomColor());
+            	g.drawOval(p.getRow(),p.getColumn(), width, height);
+			}
+            Player p = game.getPlayers().get(3);
+            g.setColor(randomColor());
+			g.drawOval(19,23,width,height);
+            
+		}
+		
+	}
+	
+    public Color randomColor() {
+        Random random = new Random();
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        return new Color(r, g, b);
+    }
+    
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
+
 	public void drawWeapon() {
 		
 	}
