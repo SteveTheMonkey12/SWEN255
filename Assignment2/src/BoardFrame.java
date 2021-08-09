@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -9,11 +11,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 /**
@@ -23,16 +27,17 @@ import javax.swing.border.Border;
  * @author pengailin refer the code from SWEN221 assignments
  */
 public class BoardFrame extends JFrame implements ActionListener {
-
+    //Jpanel
 	private JPanel bottomPanel;
 	private JPanel centerPanel;
 	private JPanel rightPanel;
-	private JComboBox playerCombo;
 
-	// canvas (will add more later)
+	// canvas
 	private BoardCanvas boardCanvas;
+	private TextCanvas textCanvas;
 
 	private Board board;
+	private Game game;
 
 	// menu part:
 	private JMenu menu;
@@ -41,9 +46,9 @@ public class BoardFrame extends JFrame implements ActionListener {
 
 	private JMenuBar mb;
 
-	public BoardFrame() {
+	public BoardFrame(Game game) {
 
-		// menu bar do you have anything want to put at menu space?
+		// menu bar
 		mb = new JMenuBar();
 		menu = new JMenu("Murder Madness");
 		exit = new JMenuItem("Exit");
@@ -54,48 +59,44 @@ public class BoardFrame extends JFrame implements ActionListener {
 		mb.add(menu);
 		setJMenuBar(mb);
 
-		// board canvas
-		this.boardCanvas = new BoardCanvas();
-
+		// center board canvas
+		this.boardCanvas = new BoardCanvas(game);
 		this.centerPanel = new JPanel();
 		this.centerPanel.setLayout(new BorderLayout());
 		Border cb = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3),
 				BorderFactory.createLineBorder(Color.gray));
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
-
+		
+        //button on the bottom
 		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
-		JButton roll = new JButton("Roll Dice");
 		JButton guess = new JButton("Guess");
 		JButton solve = new JButton("Solve Attempt");
-		playerCombo = new JComboBox(new String[] { "player x 3", "player x 4" });
-		playerCombo.setSelectedIndex(1);
 
-		/*
-		 * this part will show cards, weapon or character later rightPanel = new
-		 * JPanel(); rightPanel.setLayout(new BorderLayout()); cb =
-		 * BorderFactory.createCompoundBorder(BorderFactory .createEmptyBorder(3, 3, 3,
-		 * 3), BorderFactory .createLineBorder(Color.gray)); rightPanel.setBorder(cb);
-		 */
-
-		// start.addActionListener(this);
-		// stop.addActionListener(this);
-		// roll.addActionListener(this);
-		// playerCombo.addActionListener(this);
+        //right text canvas
+		this.textCanvas = new TextCanvas();
+		this.rightPanel = new JPanel(); 
+		this.rightPanel.setLayout(new BorderLayout()); 
+		cb =BorderFactory.createCompoundBorder(BorderFactory .createEmptyBorder(3, 3, 3,
+		3), BorderFactory .createLineBorder(Color.white)); rightPanel.setBorder(cb);
+		this.rightPanel.setBorder(cb);
+		this.rightPanel.add(textCanvas, BorderLayout.EAST);
+		
+        //button action listener
+		start.addActionListener(this);
+		stop.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
 		this.bottomPanel.add(start);
 		this.bottomPanel.add(stop);
-		this.bottomPanel.add(roll);
 		this.bottomPanel.add(guess);
 		this.bottomPanel.add(solve);
-		this.bottomPanel.add(playerCombo);
 
 		add(centerPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
-		// add(rightPanel,BorderLayout.EAST);
+		add(rightPanel,BorderLayout.EAST);
 
 		setFocusable(true);
 
@@ -104,12 +105,39 @@ public class BoardFrame extends JFrame implements ActionListener {
 		setVisible(true);
 
 	}
+	
+    public void stopGame(){
+        for(Frame frame: getFrames()){
+            frame.dispose();
+        }
+        new BoardFrame(game);
+    }
 
 	@Override
 	/*
+	 * Connect the buttons with functions
 	 * Confirmation pop-up when exit button is pressed
 	 * */
 	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Start")) {
+			//optional for the number of players
+			String[] options = {"3", "4"};
+            int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options,options[0]);
+            game.setNumPlayers(num+3);
+            game.initial();
+            //game.play();
+		} else if (e.getActionCommand().equals("Stop")) {
+			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "stop game?",
+					JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+				stopGame();
+			}
+		} else if (e.getActionCommand().equals("Guess")) {
+			game.guess();
+		} else if (e.getActionCommand().equals("Solve Attempt")) {
+			game.solveAttempt();
+		}
+		//menu
 		String menuItem = ((JMenuItem) e.getSource()).getText();
 		if (menuItem.equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
@@ -117,10 +145,24 @@ public class BoardFrame extends JFrame implements ActionListener {
 			if (option == JOptionPane.YES_OPTION) {
 				System.exit(0);
 			}
-		}
+		}		
+		boardCanvas.repaint();
+		textCanvas.repaint();
 	}
 	
-	public static void main(String[] args) {
-		BoardFrame bf = new BoardFrame();
+	/*
+	 * once the player moves, the related canvas will be updated.
+	 */
+	public void updateMoving() {
+		
 	}
+	
+	public static void main(String args[]) {
+		Game game = new Game();
+		BoardFrame bf = new BoardFrame(game);
+
+    }
+
+	
+	
 }

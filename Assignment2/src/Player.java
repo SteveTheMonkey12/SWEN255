@@ -15,7 +15,7 @@ public class Player extends Moveable
 
   //Player Associations
   private List<Item> items;
-
+  
   //------------------------
   // CONSTRUCTOR
   //------------------------

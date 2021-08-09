@@ -6,6 +6,10 @@ import java.util.*;
 
 // line 2 "model.ump"
 // line 97 "model.ump"
+/**
+ * @author pengailin
+ *
+ */
 public class Game
 {
 
@@ -28,6 +32,7 @@ public class Game
   private List<Weapon> weapons;
   private List<Estate> estates;
   private Player currentPlayer;
+  public int numPlayers;
 
 	// name of the 4 characters
 	private static final String[] characterName = { "Lucilla", "Bert", "Maline", "Percy" };
@@ -492,9 +497,8 @@ public class Game
   // line 9 "model.ump"
    public void initial(){
 	// initial the cards of estate, character and weapon
-			List<Character> boardCharacter = new ArrayList<>();
+	   
 			for (int i = 0; i < 4; i++) {
-				players.add(new Player(characterName[i]));
 				addItem(new Player(characterName[i]));
 			}
 			for (int i = 0; i < 5; i++) {
@@ -522,39 +526,43 @@ public class Game
 			Item murderEstate = estates.get((int) (Math.random() * estates.size()));
 			murderCards.add(murderEstate);
 			items.remove(murderEstate);
-			// distribute cards to player
-			System.out.print("Number of players? 3 or 4 players?");
-			int playerNumbers = getNumber();
-			int cardNumbers = items.size() / playerNumbers;
-			for (int i = 0; i < playerNumbers; i++) {
+			
+			// distribute cards to player 
+			int cardNumbers = items.size() / numPlayers;
+			for (int i = 0; i < numPlayers; i++) {
 				List<Item> playerCards = new ArrayList<>();
 				for (int j = 0; j < cardNumbers; j++) {
 					int index = (int) (Math.random() * items.size());
 					playerCards.add(items.get(index));
 					items.remove(index);
 				}
-				players.add(new Player(characterName[i], playerCards));
+				Player p = new Player(characterName[i], playerCards);
+				players.add(p);
+				if(i==0) {
+					Position position = new Position(2,12);
+					p.setPosition(position);
+				}else if(i==1){
+					Position position = new Position(10,2);
+					p.setPosition(position);
+				}else if(i==2){
+					Position position = new Position(23,10);
+					p.setPosition(position);
+				}else if(i==3) {
+					Position position = new Position(15,23);
+					p.setPosition(position);
+				}
 
 			}
-			// load the board
-			board = new Board(this);
-			System.out.print(board.toString());
 
   }
+   
+   /*
+    * set the number of player according to the input from board
+    */
+   public void setNumPlayers(int num) {
+	   this.numPlayers = num;
+   }
 
-   /**
-	 * 
-	 * @return the number from system input
-	 */
-	private int getNumber() {
-		int num = 0;
-		try {
-			Scanner scan = new Scanner(System.in);
-			num = scan.nextInt();
-		} catch (java.util.InputMismatchException e) {
-		}
-		return num;
-	}
 
 	/**
 	 * feel free to move it in other methods.
@@ -818,5 +826,14 @@ private Item playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon gu
    public void solveAttempt(Player p){
     
   }
+
+    public List<Player> getPlayers() {
+	  return players;
+   }
+
+	public List<Weapon> getWeapons() {
+		return weapons;
+	}
+
 
 }
