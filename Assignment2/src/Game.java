@@ -539,16 +539,16 @@ public class Game
 				Player p = new Player(characterName[i], playerCards);
 				players.add(p);
 				if(i==0) {
-					Position position = new Position(2,12);
+					Position position = new Position(11，1);
 					p.setPosition(position);
 				}else if(i==1){
-					Position position = new Position(10,2);
+					Position position = new Position(1，9);
 					p.setPosition(position);
 				}else if(i==2){
-					Position position = new Position(23,10);
+					Position position = new Position(9，22);
 					p.setPosition(position);
 				}else if(i==3) {
-					Position position = new Position(15,23);
+					Position position = new Position(22，14);
 					p.setPosition(position);
 				}
 
