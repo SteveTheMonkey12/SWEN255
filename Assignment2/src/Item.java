@@ -83,6 +83,14 @@ public class Item
    public boolean Display(){
     return false;
   }
+   
+   /**
+    * @param p the Postion to check if a collisions occurs at
+    * @return if p will overlaps with this's position return true
+    */
+  public boolean collidesWith(Position p) {
+	   return false;
+  }
 
 
   public String toString()

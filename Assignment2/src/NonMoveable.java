@@ -1,24 +1,32 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.31.0.5692.1a9e80997 modeling language!*/
 
 
 
 // line 66 "model.ump"
 // line 129 "model.ump"
-public class NonMoveable extends Item
+public abstract class NonMoveable extends Item
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
+	private Position bottomRightPosition;
+	 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public NonMoveable(String aName, Position aPosition)
+  /**
+ * @param aName Name of NonMovable
+ * @param aPosition Top Left position
+ * @param bPosition Bottom Right Position
+ */
+public NonMoveable(String aName, Position aPosition, Position bPosition)
   {
     super(aName, aPosition);
+    bottomRightPosition = bPosition;
+  }
+  public Position getBottomRightPosition() {
+	  return this.bottomRightPosition;
   }
 
   //------------------------
@@ -29,5 +37,5 @@ public class NonMoveable extends Item
   {
     super.delete();
   }
-
+  
 }

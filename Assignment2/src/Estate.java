@@ -15,14 +15,15 @@ public class Estate extends NonMoveable
 
   //Estate Associations
   private List<Moveable> moveables;
-
+  HashMap<Board.direction, Position> doorways = new HashMap<Board.direction, Position>();
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Estate(String aName, Position aPosition)
+
+public Estate(String aName, Position aPosition, Position bPosition)
   {
-    super(aName, aPosition);
+    super(aName, aPosition, bPosition);
     moveables = new ArrayList<Moveable>();
   }
 
@@ -151,6 +152,40 @@ public class Estate extends NonMoveable
       aMoveable.removeEstate(this);
     }
     super.delete();
+  }
+  @Override
+  public boolean collidesWith(Position p) {
+	  //TODO: Check if going into a door
+	  
+	  
+	  //Check if they're on the perimiter
+	  
+	  Position myTopLeft = super.getPosition();
+	  Position myBottomRight = super.getBottomRightPosition();
+	  
+	  if(myTopLeft.getX() <= p.getX() && p.getX() <= myBottomRight.getX()) {//within the x
+		  if(p.getY() == myTopLeft.getY() || p.getY() == myBottomRight.getY()) {
+			  //If they're inside the Estates x bounds and their at the y bounds, then they must be inside a wall
+			  return true;
+		  }
+	  }
+	  if(myTopLeft.getY() <= p.getY() && p.getY() <= myBottomRight.getY()) {//within the y
+		  if(p.getX() == myTopLeft.getX() || p.getX() == myBottomRight.getX()) {
+			  //If they're inside the Estates x bounds and their at the y bounds, then they must be inside a wall
+			  return true;
+		  }
+	  }
+	  return false;
+  }
+  /**
+ * @param d Which Face of the building the door is on for exiting
+ * @param p where the doorway is on the board
+ */
+  public void addDoorway(Board.direction d, Position p) {
+	doorways.put(d, p);
+  }
+  public HashMap<Board.direction, Position> getDoorways(){
+	  return doorways;
   }
 
 }

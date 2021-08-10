@@ -25,6 +25,10 @@ public class Position
     x = aX;
     y = aY;
   }
+  public Position(Position p) {
+	  x = p.getX();
+	  y = p.getY();
+  }
 
   //------------------------
   // INTERFACE
@@ -65,5 +69,11 @@ public class Position
     return super.toString() + "["+
             "x" + ":" + getX()+ "," +
             "y" + ":" + getY()+ "]";
+  }
+  public boolean equals(Position p) {
+	  if(x == p.getX() && y == p.getY()) {
+		  return true;
+	  }
+	  return false;
   }
 }

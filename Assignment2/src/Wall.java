@@ -16,9 +16,9 @@ public class Wall extends NonMoveable
   // CONSTRUCTOR
   //------------------------
 
-  public Wall(String aName, Position aPosition)
+  public Wall(String aName, Position aPosition, Position bPosition)
   {
-    super(aName, aPosition);
+    super(aName, aPosition, bPosition);
   }
 
   //------------------------
@@ -28,6 +28,18 @@ public class Wall extends NonMoveable
   public void delete()
   {
     super.delete();
+  }
+  @Override
+  public boolean collidesWith(Position p) {
+	  Position myTopLeft = super.getPosition();
+	  Position myBottomRight = super.getBottomRightPosition();
+	  
+	  if(myTopLeft.getX() <= p.getX() && p.getX() <= myBottomRight.getX()) {//within the x
+		  if(myTopLeft.getY() <= p.getY() && p.getY() <= myBottomRight.getY()) {//within the y
+			  return true;
+		  }
+	  }
+	  return false;
   }
 
 }

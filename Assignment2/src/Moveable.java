@@ -158,9 +158,4 @@ public class Moveable extends Item
     super.delete();
   }
 
-  // line 63 "model.ump"
-   public boolean Move(){
-    return false;
-  }
-
 }
