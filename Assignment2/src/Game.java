@@ -271,6 +271,19 @@ public class Game {
 		List<? extends Item> newPlayers = Collections.unmodifiableList(players);
 		return (List<Player>) newPlayers;
 	}
+	
+	/* Code from template association_GetMany_relatedSpecialization */
+	public Weapon getWeapon_Weapon(int index) {
+		Weapon aWeapon = (Weapon) weapons.get(index);
+		return aWeapon;
+	}
+
+	/* required for Java 7. */
+	@SuppressWarnings("unchecked")
+	public List<Weapon> getWeapons_Weapon() {
+		List<? extends Item> newWeapons = Collections.unmodifiableList(weapons);
+		return (List<Weapon>) newWeapons;
+	}
 
 	/* Code from template association_GetOne */
 	public Board getBoard() {
