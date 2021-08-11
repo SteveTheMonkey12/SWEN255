@@ -110,6 +110,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		start.addActionListener(this);
 		stop.addActionListener(this);
 		guess.addActionListener(this);
+		solve.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
