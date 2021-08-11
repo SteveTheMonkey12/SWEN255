@@ -507,12 +507,44 @@ public class Game
 				weapons.add(new Weapon(weaponName[i]));
 				
 			}
-			for (int i = 0; i < 5; i++) {
-				Estate tmp = new Estate(estateName[i], null);
-				addItem(tmp);
-				estates.add(tmp);
-				//TODO add final estate positions
-			}
+			
+			//Haunted House
+			Estate tmp = new Estate(estateName[0], new Position(2, 2) , new Position(6, 6));
+			tmp.addDoorway(Board.direction.RIGHT, new Position(6 , 3));
+			tmp.addDoorway(Board.direction.DOWN , new Position(5 , 6));
+			addItem(tmp);
+			estates.add(tmp);
+			
+			//Manic Manor
+			tmp = new Estate(estateName[1], new Position(17, 2), new Position(21, 6));
+			tmp.addDoorway(Board.direction.DOWN , new Position(20, 6));
+			tmp.addDoorway(Board.direction.LEFT , new Position(17, 5));
+			addItem(tmp);
+			estates.add(tmp);
+			
+			//Villa Celia
+			tmp = new Estate(estateName[2], new Position(9, 10), new Position(14, 13));
+			tmp.addDoorway(Board.direction.UP   , new Position(12, 10));
+			tmp.addDoorway(Board.direction.RIGHT, new Position(14, 11));
+			tmp.addDoorway(Board.direction.DOWN , new Position(11, 13));
+			tmp.addDoorway(Board.direction.LEFT , new Position(9 , 12));
+			addItem(tmp);
+			estates.add(tmp);
+			
+			//Calamity Castle
+			tmp = new Estate(estateName[3], new Position(2, 17), new Position(6, 21));
+			tmp.addDoorway(Board.direction.UP   , new Position(3 , 17));
+			tmp.addDoorway(Board.direction.RIGHT, new Position(6 , 18));
+			addItem(tmp);
+			estates.add(tmp);
+			
+			//Peril Palace
+			tmp = new Estate(estateName[4], new Position(17, 17), new Position(21, 21));
+			tmp.addDoorway(Board.direction.UP   , new Position(18, 17));
+			tmp.addDoorway(Board.direction.LEFT , new Position(17, 20));
+			addItem(tmp);
+			estates.add(tmp);
+			
 			for(Item i : items) {
 				board.addItem(i);
 			}
@@ -539,16 +571,16 @@ public class Game
 				Player p = new Player(characterName[i], playerCards);
 				players.add(p);
 				if(i==0) {
-					Position position = new Position(11，1);
+					Position position = new Position(11, 1);
 					p.setPosition(position);
 				}else if(i==1){
-					Position position = new Position(1，9);
+					Position position = new Position(1, 9);
 					p.setPosition(position);
 				}else if(i==2){
-					Position position = new Position(9，22);
+					Position position = new Position(9, 22);
 					p.setPosition(position);
 				}else if(i==3) {
-					Position position = new Position(22，14);
+					Position position = new Position(22, 14);
 					p.setPosition(position);
 				}
 
