@@ -219,7 +219,7 @@ public class Game {
 			break;
 		case Guess:
 			// line 26 "model.ump"
-			makeGuess();
+			//makeGuess();
 			break;
 		case Solve:
 			// line 30 "model.ump"
@@ -712,109 +712,9 @@ public class Game {
 	}
 
 	// line 11 "model.ump"
-	public int makeGuess() {
+	public int makeGuess(Player guessedPlayer, Weapon guessedWeapon) {
 		Player p = currentPlayer;
-		clearScreen();
-		System.out.print(p.getName() + "'s guess y/n\n");
-		Scanner input = new Scanner(System.in);
-		String guess = input.next();
-		if (!guess.equals("y") && !guess.equals("n")) {
-			return -1;
-		} else if (guess.equals("n")) {
-			return 0;
-		} else if (guess.equals("y")) {
-			clearScreen();
-			// guess weapon
-			System.out.println("Guess a weapon 1-" + weapons.size() + ":");
-			String tmpOutput = "";
-			for (int i = 0; i < weapons.size(); i++) {
-				tmpOutput += (i + 1) + ") " + weapons.get(i).getName() + "\n";
-			}
-			System.out.println(tmpOutput);
-			int guessNum = input.nextInt() - 1;
-			if (guessNum < 0 || guessNum > weapons.size()) {
-				return -1;
-			}
-			Weapon guessedWeapon = (Weapon) weapons.get(guessNum);
-
-			// guess player
-			clearScreen();
-			System.out.println("Guess a player 1-" + numberOfPlayers() + ":");
-			tmpOutput = "";
-			for (int i = 0; i < numberOfPlayers(); i++) {
-				tmpOutput += (i + 1) + ") " + players.get(i).getName() + "\n";
-			}
-			System.out.println(tmpOutput);
-			guessNum = input.nextInt() - 1;
-			if (guessNum < 0 || guessNum > players.size()) {
-				return -1;
-			}
-			Player guessedPlayer = players.get(guessNum);
-			// guess estate
-			clearScreen();
-			// board.moveCharacterTo(guessedPlayer,
-			// board.getPlayerLocation(p).getLocation().name);
-			// TODO move player to correct square
-			Estate guessedEstate = null;
-			for (Estate e : estates) {
-//				if (e.getName() == board.getPlayerLocation(p).getLocation().name) {
-//					guessedEstate = e;
-//				}
-			}
-			if (guessedEstate == null) {
-				return -1;
-			}
-			// confirm guess
-			clearScreen();
-			System.out.println("Is this your guess: " + guessedWeapon.getName() + " " + guessedEstate.getName() + " "
-					+ guessedPlayer.getName() + " y/n?");
-			String answer = input.next();
-			if (!answer.equals("y") && !answer.equals("n")) {
-				return -1;
-			} else if (answer.equals("n")) {
-				return makeGuess();
-			}
-			// respond to guess
-			Player nextP = p;
-			for (int i = 0; i < 3; i++) {
-				nextP = getNextPlayer(nextP);
-				clearScreen();
-				System.out.println(nextP.getName() + "'s turn to response y/n");
-				guess = input.next();
-				if (!guess.equals("y") && !guess.equals("n")) {
-					return -1;
-				} else if (guess.equals("n")) {
-					return 0;
-				} else if (guess.equals("y")) {
-					Item response = playerGuessResponse(nextP, guessedPlayer, guessedWeapon, guessedEstate, input);
-					if (response != null) {
-						clearScreen();
-						System.out.println(p.getName() + "'s turn to view response y/n");
-						guess = input.next();
-						if (!guess.equals("y") && !guess.equals("n")) {
-							return -1;
-						} else if (guess.equals("n")) {
-							return 0;
-						} else if (guess.equals("y")) {
-							System.out.println(response.getName());
-							System.out.println("Press y to continue: ");
-							input.next();
-							return 1;
-						}
-					}
-				}
-			}
-			clearScreen();
-			System.out.print(nextP.getName() + "'s response y/n\n");
-			guess = input.next();
-			if (!guess.equals("y") && !guess.equals("n")) {
-				return -1;
-			} else if (guess.equals("n")) {
-				return 0;
-			} else if (guess.equals("y")) {
-				System.out.println("No matching response");
-			}
-		}
+		Estate e = p.getEstate();
 		return -1;
 	}
 
