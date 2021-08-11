@@ -104,7 +104,7 @@ public class BoardCanvas extends Canvas {
 		g2d.fillRect(2 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
 		g2d.drawLine(3 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 4 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT);// top door
 		g2d.drawLine(7 * SQUARE_WIDTH, 18 * SQUARE_HEIGHT, 7 * SQUARE_WIDTH, 19 * SQUARE_HEIGHT);// right door
-		
+
 		// Peril Palace
 		g2d.setColor(new Color(100, 149, 237));
 		g2d.drawRect(17 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 5 * SQUARE_WIDTH, 5 * SQUARE_HEIGHT);
@@ -127,53 +127,55 @@ public class BoardCanvas extends Canvas {
 		g2d.fillRect(17 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// right
 		g2d.fillRect(11 * SQUARE_WIDTH, 17 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// bottom
 		g2d.fillRect(5 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// left
-		
-		//draw characters and weapons
-		if(playing == true) {
-			drawPlayer(g,width,height);
+
+		// draw characters and weapons
+		if (playing == true) {
+			drawPlayer(g, width, height);
 			drawWeapon(g);
 		}
-		
+
 	}
-	
+
 	public void drawPlayer(Graphics g, int width, int height) {
-		if(game.numPlayers == 4) {
-			for(int i=0; i<game.numPlayers; i++) {
+		if (game.numPlayers == 4) {
+			for (int i = 0; i < game.numPlayers; i++) {
 				Player p = game.getPlayers().get(i);
 				g.setColor(randomColor());
-				g.drawOval(p.getPosition().getX(),p.getPosition().getY(), width, height);
+				g.drawOval(p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, width,
+						height);
 			}
-		}else {
-            for(int i=-0; i<game.numPlayers; i++) {
-            	Player p = game.getPlayers().get(i);
-            	g.setColor(randomColor());
-            	g.drawOval(p.getPosition().getX(),p.getPosition().getY(), width, height);
+		} else {
+			for (int i = -0; i < game.numPlayers; i++) {
+				Player p = game.getPlayers().get(i);
+				g.setColor(randomColor());
+				g.drawOval(p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, width,
+						height);
 			}
-            Player p = game.getPlayers().get(3);
-            g.setColor(randomColor());
-			g.drawOval(19,23,width,height);     
+			Player p = game.getPlayers().get(3);
+			g.setColor(randomColor());
+			g.drawOval(19 * SQUARE_WIDTH, 23 * SQUARE_HEIGHT, width, height);
 		}
-		
+
 	}
-	
-    public Color randomColor() {
-        Random random = new Random();
-        int r = random.nextInt(256);
-        int g = random.nextInt(256);
-        int b = random.nextInt(256);
-        return new Color(r, g, b);
-    }
-    
+
+	public Color randomColor() {
+		Random random = new Random();
+		int r = random.nextInt(256);
+		int g = random.nextInt(256);
+		int b = random.nextInt(256);
+		return new Color(r, g, b);
+	}
+
 	public void setPlaying(boolean playing) {
 		this.playing = playing;
 	}
 
 	public void drawWeapon(Graphics g) {
-		for(int i = 0; i < game.getWeapons().size(); i++){
-            Weapon w = game.getWeapons().get(i);
-            String name = w.getName();
-            g.drawString(name,w.getPosition().getX(),w.getPosition().getY());	
-	 }
-    }
-	
+		for (int i = 0; i < game.getWeapons().size(); i++) {
+			Weapon w = game.getWeapons().get(i);
+			String name = w.getName();
+			g.drawString(name, w.getPosition().getX() * SQUARE_WIDTH, w.getPosition().getY() * SQUARE_HEIGHT);
+		}
+	}
+
 }
