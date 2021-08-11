@@ -1,11 +1,7 @@
 class Game
 {
-  * -> * Item;
-  * -> 3..4 Player;
-  public void initBoard(){}
-  public void guess(){}
-  public void solveAttempt(){}
-  
+  1 -- * Item;
+  * -- * Player;
   status{
     Initial{
       entry/ {initial();}
@@ -14,29 +10,37 @@ class Game
     }
     Move{
       entry/ {play();}
-      guess -> Guess;
+      guess -> PlayerGuess;
       cantWin -> End;
     }
     Guess{
-      entry/ {makeGuess(Player p);}
-      solve -> Solve;
+      PlayerGuess{
+        makeGuess(Player p) /{tryGuess(Player p)} -> NextPlayerRespond;
+      }
+      NextPlayerRespond{
+        respond [respondingPlayer.cards.contains(guessedCard)] -> Solve;
+      
+        cannotRespond [!respondingPlayer.cards.contains(guessedCard)] -> NextPlayerRespond;
+        cannotRespond [respondingPlayer == guessingPlayer] -> Solve;
+      }
+    
+      
     }
     Solve{
-      entry/ {solveAttempt(Player p);}
+      noSolve -> Move;
       win -> End;
-      incorrect -> /{p.setCanWin(false);}
+      incorrect(Player p) -> /{p.setCanWin(false);}
       Move;
       
     }
     End{}
   }
-  
 }
 
 class Board
 {
   1 -- 1 Game;
-  * -> * Item;
+  1 -- * Item;
 }
 
 class Player
@@ -46,22 +50,19 @@ class Player
 
 class Item
 {
-  name;
-  public boolean Display(){return false;}
-  * -> 1 Position;
-  * <- * Player;
+  * -- * Position;
+  * -- * Player;
 }
 
 class Moveable
 {
   isA Item;
-  public boolean Move(){return }
 }
 
 class NonMoveable
 {
   isA Item;
-  * -> 1 Position;
+  * -- * Position;
 }
 
 class Wall
@@ -72,7 +73,6 @@ class Wall
 class Estate
 {
   isA NonMoveable;
-  * -- * Moveable;
 }
 
 class Weapon
@@ -85,3 +85,67 @@ class Position
   int x;
   int y;
 }
+
+
+
+namespace -;
+
+
+class Game
+{
+  position 93 97 109 41.9625;
+  position.association Game__Item 110,35 17,0;
+  position.association Game__Player 59,29 55,0;
+}
+
+class Board
+{
+  position 392 91 109 41.9625;
+  position.association Board__Game 0,18 110,12;
+  position.association Board__Item 65,42 78,0;
+}
+
+class Player
+{
+  position 90 219 109 41;
+}
+
+class Item
+{
+  position 363 210 109 41.9625;
+  position.association Item__Position 110,8 0,5;
+  position.association Item__Player 0,30 110,15;
+}
+
+class Moveable
+{
+  position 203 323 109 41.9625;
+}
+
+class NonMoveable
+{
+  position 447 366 109 41.9625;
+  position.association NonMoveable__Position 82,0 0,71;
+}
+
+class Wall
+{
+  position 299 493 109 41.9625;
+}
+
+class Estate
+{
+  position 573 494 109 41.9625;
+}
+
+class Weapon
+{
+  position 113 452 109 41;
+}
+
+class Position
+{
+  position 622 226 109 58.9625;
+}
+
+//$?[End_of_model]$?
