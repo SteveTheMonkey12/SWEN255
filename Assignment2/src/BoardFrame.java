@@ -157,14 +157,14 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 			
 			// game.play();
 		} else if (e.getActionCommand().equals("Stop")) {
-			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "stop game?",
+			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
 					JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
 				stopGame();
 				boardCanvas.setPlaying(false);
 			}
 		} else if (e.getActionCommand().equals("Guess")) {
-			game.guess();
+			guess();
 		} else if (e.getActionCommand().equals("Solve Attempt")) {
 			game.solveAttempt();
 		} else if (e.getSource().equals("Exit")) {
@@ -179,6 +179,33 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		textCanvas.repaint();
 	}
 	
+	/*
+	 * Extra UI for guess
+	 */
+	public void guess() {
+		//player selection
+		Player[] players = {null, null, null, null};
+		String[] playerOptions = {"0", "0", "0", "0"};
+		String[] weaponOptions = {"0", "0", "0", "0", "0"};
+		Weapon[] weapons = {null, null, null, null, null};
+		for(int i = 0; i < 5; i++) {
+			if(i < 4) {
+				players[i] = game.getPlayer_Player(i);
+				playerOptions[i] = players[i].getName();
+			}
+			weapons[i] = game.getWeapon_Weapon(i);
+			weaponOptions[i] = weapons[i].getName();
+		}
+		int namedPlayer = JOptionPane.showOptionDialog(null, "Which character to accuse?", "Character Accusation",
+				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, playerOptions, playerOptions[0]);
+		Player guessedPlayer = players[namedPlayer];
+		
+		//weapon selection
+		int namedWeapon = JOptionPane.showOptionDialog(null, "Which weapon to accuse?", "Weapon Accusation",
+				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, weaponOptions, weaponOptions[0]);
+		Weapon guessedWeapon = weapons[namedWeapon];
+		
+	}
 	/*
 	 * Update text
 	 */
