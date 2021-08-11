@@ -15,7 +15,7 @@ public class Player extends Moveable
 
   //Player Associations
   private List<Item> items;
-
+  private boolean canWin;
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -24,16 +24,19 @@ public class Player extends Moveable
   {
     super(aName, aPosition);
     items = new ArrayList<Item>();
+    canWin = true;
   }
 
   public Player(String aName) {
 	super(aName);
 	items = new ArrayList<Item>();
+	canWin = true;
   }
   
   public Player(String aName, List<Item> someItems) {
 		super(aName);
 		items = someItems;
+		canWin = true;
   }
 
 //------------------------
@@ -132,5 +135,10 @@ public class Player extends Moveable
     items.clear();
     super.delete();
   }
+
+public void setCanWin(boolean b) {
+	canWin = b;
+	
+}
 
 }

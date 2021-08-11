@@ -139,7 +139,7 @@ public class Board
     game = null;
     if (existingGame != null)
     {
-      existingGame.delete();
+      //existingGame.delete();
     }
     items.clear();
   }
