@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,20 @@ import javax.swing.border.Border;
  *
  * @author pengailin refer the code from SWEN221 assignments
  */
-public class BoardFrame extends JFrame implements ActionListener {
+public class BoardFrame extends JFrame implements ActionListener, MouseListener {
+	/**
+	 * The square width constant determines the width (in pixels) of a square in the
+	 * board area.
+	 */
+	private static final int SQUARE_WIDTH = 40;
+
+	/**
+	 * The square height constant determines the height (in pixels) of a square in
+	 * the battle area.
+	 */
+	private static final int SQUARE_HEIGHT = 40;
+	
+	
 	// Jpanel
 	private JPanel bottomPanel;
 	private JPanel centerPanel;
@@ -48,7 +63,7 @@ public class BoardFrame extends JFrame implements ActionListener {
 	private JMenuBar mb;
 
 	// Number on last dice roll
-	public int roll;
+	public int turns;
 
 	public BoardFrame(Game game) {
 
@@ -73,7 +88,8 @@ public class BoardFrame extends JFrame implements ActionListener {
 				BorderFactory.createLineBorder(Color.gray));
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
-
+		boardCanvas.addMouseListener(this);
+		
 		// button on the bottom
 		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
@@ -134,7 +150,8 @@ public class BoardFrame extends JFrame implements ActionListener {
 			game.setNumPlayers(num + 3);
 			game.initial();
 			boardCanvas.setPlaying(true);
-			setTextCanvas(game.getCurrentPlayer(), game.diceResult(), game.getCurrentPlayer().getItems());
+			this.turns = game.diceResult();
+			setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
 			
 			// game.play();
 		} else if (e.getActionCommand().equals("Stop")) {
@@ -182,4 +199,44 @@ public class BoardFrame extends JFrame implements ActionListener {
 
 	}
 
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		//not needed
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		//not needed
+	}
+
+	@Override
+	/*
+	 * Finds the position when mouse is released 
+	 */
+	public void mouseReleased(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		
+		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
+		if(game.getBoard().moveToClick(pos, game.getCurrentPlayer())) {
+			game.getCurrentPlayer().setPosition(pos);
+			turns--;
+			textCanvas.setSteps(turns);
+			boardCanvas.repaint();
+			textCanvas.repaint();
+		}
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		//not needed
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		//not needed
+	}
+	
 }
