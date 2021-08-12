@@ -95,7 +95,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
 		JButton guess = new JButton("Guess");
-		JButton solve = new JButton("Solve Attempt");
 
 		// right text canvas
 		this.textCanvas = new TextCanvas();
@@ -111,14 +110,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		start.addActionListener(this);
 		stop.addActionListener(this);
 		guess.addActionListener(this);
-		solve.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
 		this.bottomPanel.add(start);
 		this.bottomPanel.add(stop);
 		this.bottomPanel.add(guess);
-		this.bottomPanel.add(solve);
 
 		add(centerPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
@@ -165,9 +162,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 				boardCanvas.setPlaying(false);
 			}
 		} else if (e.getActionCommand().equals("Guess")) {
-			guess();
-		} else if (e.getActionCommand().equals("Solve Attempt")) {
-			solveAttempt();
+			if(game.getCurrentPlayer().getEstate() != null) {
+				guess();
+				solveAttempt();
+			}
 		} else if (e.getSource().equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
@@ -181,6 +179,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	}
 	
 	private void solveAttempt() {
+		int option = JOptionPane.showConfirmDialog(null, "Make solve attempt?", "Solve Attempt?",
+				JOptionPane.YES_NO_OPTION);
+		if (option == JOptionPane.NO_OPTION) {
+			return;
+		}
 		Player[] players = {null, null, null, null};
 		String[] playerOptions = {"0", "0", "0", "0"};
 		String[] weaponOptions = {"0", "0", "0", "0", "0"};
