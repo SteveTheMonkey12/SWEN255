@@ -45,6 +45,13 @@ public class Player extends Moveable
     Item aItem = items.get(index);
     return aItem;
   }
+  
+  public boolean hasItem(Item i) {
+	  if(items.contains(i)){
+		  return true;
+	  }
+	  return false;
+  }
 
   public List<Item> getItems()
   {

@@ -4,6 +4,8 @@
 
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 // line 2 "model.ump"
 // line 97 "model.ump"
 /**
@@ -223,7 +225,7 @@ public class Game {
 			break;
 		case Solve:
 			// line 30 "model.ump"
-			solveAttempt();
+			//solveAttempt();
 			break;
 		}
 	}
@@ -492,11 +494,6 @@ public class Game {
 		}
 	}
 
-	// line 8 "model.ump"
-	public void solveAttempt() {
-
-	}
-
 	// line 9 "model.ump"
 	public void initial() {
 		// initial the cards of estate, character and weapon
@@ -629,6 +626,9 @@ public class Game {
 	public void setNumPlayers(int num) {
 		this.numPlayers = num;
 	}
+	public int getNumPlayers() {
+		return this.numPlayers;
+	}
 
 	/**
 	 * feel free to move it in other methods.
@@ -711,13 +711,6 @@ public class Game {
 		return direction;
 	}
 
-	// line 11 "model.ump"
-	public int makeGuess(Player guessedPlayer, Weapon guessedWeapon) {
-		Player p = currentPlayer;
-		Estate e = p.getEstate();
-		return -1;
-	}
-
 	/**
 	 * Method for players to respond to another players guess
 	 * 
@@ -768,6 +761,8 @@ public class Game {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
+	
+	public ArrayList<Item> getRespondableItems(){return null;}
 
 	/**
 	 * Method to get the next player in the list

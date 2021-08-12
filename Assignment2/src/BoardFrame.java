@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +166,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		} else if (e.getActionCommand().equals("Guess")) {
 			guess();
 		} else if (e.getActionCommand().equals("Solve Attempt")) {
-			game.solveAttempt();
+			//game.solveAttempt();
 		} else if (e.getSource().equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
@@ -203,7 +204,50 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		int namedWeapon = JOptionPane.showOptionDialog(null, "Which weapon to accuse?", "Weapon Accusation",
 				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, weaponOptions, weaponOptions[0]);
 		Weapon guessedWeapon = weapons[namedWeapon];
-		
+		Estate guessedEstate = game.getCurrentPlayer().getEstate();		
+		Item response = null;
+		//TODO move guessed player and weapon to guessed estate
+		Player respondingPlayer = game.getCurrentPlayer();
+		for(int i = 0; i < game.getNumPlayers()-1; i++) {
+			respondingPlayer = game.getNextPlayer(respondingPlayer);
+			response = respondToGuess(guessedPlayer, guessedWeapon, guessedEstate, respondingPlayer);
+		}
+		JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + "'s turn");
+		setTextCanvas(respondingPlayer, 0, respondingPlayer.getItems());
+		textCanvas.repaint();
+		if(response == null) {
+			JOptionPane.showMessageDialog(null, "No one had a response!!!", "Response", JOptionPane.PLAIN_MESSAGE);
+			return;
+		}
+		JOptionPane.showMessageDialog(null, response.getName(), "Response", JOptionPane.PLAIN_MESSAGE);
+		return;
+	}
+	
+	public Item respondToGuess(Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate, Player respondingPlayer) {
+		JOptionPane.showMessageDialog(null, respondingPlayer.getName() + "'s response turn");
+		setTextCanvas(respondingPlayer, 0, respondingPlayer.getItems());
+		textCanvas.repaint();
+		ArrayList<Item> respondableItems = new ArrayList<Item>();
+		if(respondingPlayer.hasItem(guessedPlayer)) {
+			respondableItems.add(guessedPlayer);
+		}
+		if(respondingPlayer.hasItem(guessedWeapon)) {
+			respondableItems.add(guessedWeapon);
+		}
+		if(respondingPlayer.hasItem(guessedEstate)) {
+			respondableItems.add(guessedEstate);
+		}
+		if(respondableItems.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "No cards to respond with");
+			return null;
+		}
+		String[] items = new String[respondableItems.size()];
+		for(int i = 0; i < respondableItems.size(); i++) {
+			items[i] = respondableItems.get(i).getName();
+		}
+		int responseItem = JOptionPane.showOptionDialog(null, "Which character to accuse?", "Character Accusation",
+				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, items, items[0]);
+		return respondableItems.get(responseItem);
 	}
 	/*
 	 * Update text
