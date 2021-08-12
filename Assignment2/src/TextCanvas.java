@@ -1,6 +1,11 @@
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 /**
  * This canvas will show the cards for different player.
@@ -10,7 +15,7 @@ import java.util.List;
  */
 public class TextCanvas extends Canvas {
 
-	private String player;
+	private Player player;
 	private int steps;
 	private List<Item> cards;
 
@@ -24,7 +29,7 @@ public class TextCanvas extends Canvas {
 	}
 
 	public void setPlayer(Player player) {
-		this.player = player.getName();
+		this.player = player;
 	}
 
 	public void setSteps(int steps) {
@@ -37,15 +42,22 @@ public class TextCanvas extends Canvas {
 
 	public void paint(Graphics g) {
 		// show the name of the player
-		g.drawString(player + "'s turn", 10, 20);
+		g.drawString(player.getName() + "'s turn", 10, 20);
+		//show the image of the player
+		try {
+			BufferedImage bi = ImageIO.read(new File("./Assignment2/images/"+player.getName() + ".png"));
+			g.drawImage(bi, 10, 30, 34, 34, null);
+		} catch (IOException e) {
+			throw new Error("No images to draw player!");
+		}
 		// show the steps remaining
-		g.drawString("You have " + steps + " left.", 10, 40);
+		g.drawString("You have " + steps + " left.", 10, 80);
 		// show the cards on player's hand
-		g.drawString("Cards in hand: ", 10, 60);
+		g.drawString("Cards in hand: ", 10, 100);
 		int gap = 20;
 		if (cards != null) {
 			for (int i = 0; i < cards.size(); i++) {
-				g.drawString(cards.get(i).getName(), 10, 60 + gap);
+				g.drawString(cards.get(i).getName(), 10, 100 + gap);
 				gap+=20;
 			}
 		}

@@ -160,16 +160,22 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 			}
 			
 		} else if (e.getActionCommand().equals("Stop")) {
-			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
-					JOptionPane.YES_NO_OPTION);
-			if (option == JOptionPane.YES_OPTION) {
-				stopGame();
-				game.setPlaying(false);
+			if(game.isPlaying() == true) {
+				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
+						JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					stopGame();
+					game.setPlaying(false);
+			    }
 			}
 		} else if (e.getActionCommand().equals("Guess")) {
-			guess();
+			if(game.isPlaying() == true) {
+				guess();
+			}	
 		} else if (e.getActionCommand().equals("Solve Attempt")) {
-			solveAttempt();
+            if(game.isPlaying() == true) {
+            	solveAttempt();
+			}	
 		} else if (e.getSource().equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
