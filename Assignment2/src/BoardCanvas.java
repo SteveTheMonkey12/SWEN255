@@ -146,7 +146,7 @@ public class BoardCanvas extends Canvas {
     			for (int i = 0; i < game.numPlayers; i++) {
     				Player p = game.getPlayers().get(i);
     				//System.out.print("./images/"+p.getName() + ".png"+"\n");
-    				File imageFile = new File("./Assignment2/images/"+p.getName() + ".png");
+    				File imageFile = new File("./images/"+p.getName() + ".png");
     				if(!imageFile.exists()) {
     					System.out.println("No such file");
     				}
@@ -156,11 +156,11 @@ public class BoardCanvas extends Canvas {
     		} else {
     			for (int i = 0; i < game.numPlayers; i++) {
     				Player p = game.getPlayers().get(i);
-    				BufferedImage bi = ImageIO.read(new File("./Assignment2/images/"+p.getName() + ".png"));
+    				BufferedImage bi = ImageIO.read(new File("./images/"+p.getName() + ".png"));
                     g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
     			}
     			Player p = game.getPlayers().get(3);
-    			BufferedImage bi = ImageIO.read(new File("./Assignment2/images/"+p.getName() + ".png"));
+    			BufferedImage bi = ImageIO.read(new File("./images/"+p.getName() + ".png"));
                 g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
     		}
         }catch (IOException e){

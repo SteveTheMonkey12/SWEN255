@@ -35,13 +35,13 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
 	 */
-	private static final int SQUARE_WIDTH = 40;
+	private static final int SQUARE_WIDTH = 36;
 
 	/**
 	 * The square height constant determines the height (in pixels) of a square in
 	 * the battle area.
 	 */
-	private static final int SQUARE_HEIGHT = 40;
+	private static final int SQUARE_HEIGHT = 36;
 	
 	
 	// Jpanel
@@ -334,9 +334,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		int y = e.getY();
 		
 		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
-		if(game.getBoard().moveToClick(pos, game.getCurrentPlayer())) {
-			game.getCurrentPlayer().setPosition(pos);
-			turns--;
+		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer(), turns);
+		if(turnsUsed != -1) {
+			
+			
+			turns-= turnsUsed;
 			textCanvas.setSteps(turns);
 			boardCanvas.repaint();
 			textCanvas.repaint();
