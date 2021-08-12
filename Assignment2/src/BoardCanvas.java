@@ -3,7 +3,11 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import javax.imageio.ImageIO;
 
 /**
  * <p>
@@ -20,13 +24,13 @@ public class BoardCanvas extends Canvas {
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
 	 */
-	private static final int SQUARE_WIDTH = 40;
+	private static final int SQUARE_WIDTH = 36;
 
 	/**
 	 * The square height constant determines the height (in pixels) of a square in
 	 * the battle area.
 	 */
-	private static final int SQUARE_HEIGHT = 40;
+	private static final int SQUARE_HEIGHT = 36;
 
 	private Board board;
 	private Game game;
@@ -130,40 +134,40 @@ public class BoardCanvas extends Canvas {
 
 		// draw characters and weapons
 		if (playing == true) {
-			drawPlayer(g, width, height);
+			drawPlayer(g);
 			drawWeapon(g);
 		}
 
 	}
 
-	public void drawPlayer(Graphics g, int width, int height) {
-		if (game.numPlayers == 4) {
-			for (int i = 0; i < game.numPlayers; i++) {
-				Player p = game.getPlayers().get(i);
-				g.setColor(randomColor());
-				g.drawOval(p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, width,
-						height);
-			}
-		} else {
-			for (int i = -0; i < game.numPlayers; i++) {
-				Player p = game.getPlayers().get(i);
-				g.setColor(randomColor());
-				g.drawOval(p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, width,
-						height);
-			}
-			Player p = game.getPlayers().get(3);
-			g.setColor(randomColor());
-			g.drawOval(19 * SQUARE_WIDTH, 23 * SQUARE_HEIGHT, width, height);
-		}
+	public void drawPlayer(Graphics g) {
+        try{
+    		if (game.numPlayers == 4) {
+    			for (int i = 0; i < game.numPlayers; i++) {
+    				Player p = game.getPlayers().get(i);
+    				//System.out.print("./images/"+p.getName() + ".png"+"\n");
+    				File imageFile = new File("./images/"+p.getName() + ".png");
+    				if(!imageFile.exists()) {
+    					System.out.println("No such file");
+    				}
+    				BufferedImage bi = ImageIO.read(imageFile);
+                    g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
+    			}
+    		} else {
+    			for (int i = 0; i < game.numPlayers; i++) {
+    				Player p = game.getPlayers().get(i);
+    				BufferedImage bi = ImageIO.read(new File("./images/"+p.getName() + ".png"));
+                    g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
+    			}
+    			Player p = game.getPlayers().get(3);
+    			BufferedImage bi = ImageIO.read(new File("./images/"+p.getName() + ".png"));
+                g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
+    		}
+        }catch (IOException e){
+            throw new Error("No images to draw player!");
+        }
 
-	}
 
-	public Color randomColor() {
-		Random random = new Random();
-		int r = random.nextInt(256);
-		int g = random.nextInt(256);
-		int b = random.nextInt(256);
-		return new Color(r, g, b);
 	}
 
 	public void setPlaying(boolean playing) {
