@@ -151,12 +151,19 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 			int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
 					JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 			game.setNumPlayers(num + 3);
-			game.initial();
-			boardCanvas.setPlaying(true);
-			this.turns = game.diceResult();
-			setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
-			
-			// game.play();
+			//choose characters
+			CharacterSelection cs = new CharacterSelection(game, num+3);
+			cs.setTitle("Select your character");
+			cs.addWindowListener(new WindowAdapter() {
+			    @Override
+			    public void windowClosed(WindowEvent e) {//when characters have been selected, initialise game
+			    	game.initial();
+				boardCanvas.setPlaying(true);
+				turns = game.diceResult();
+				setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
+				//game.play();
+			    }
+			});
 		} else if (e.getActionCommand().equals("Stop")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
 					JOptionPane.YES_NO_OPTION);
