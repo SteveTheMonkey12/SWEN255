@@ -37,6 +37,8 @@ public class Game {
 	private List<Estate> estates;
 	private Player currentPlayer;
 	public int numPlayers;
+	private List<String> selectedCharacters = new ArrayList<String>();//names of characters selected to play
+	private List<Player> selectedPlayers = new ArrayList<Player>();//players playing in the game (excl extra character)
 
 	// name of the 4 characters
 	private static final String[] characterName = { "Lucilla", "Bert", "Maline", "Percy" };
@@ -512,6 +514,9 @@ public class Game {
 			Player tmp = new Player(characterName[i]);
 			addItem(tmp);
 			players.add(tmp);
+			if(selectedCharacters.contains(characterName[i])) {
+				selectedPlayers.add(tmp);
+			}
 		}
 
 		// "Broom",
@@ -593,7 +598,7 @@ public class Game {
 		// distribute cards to player
 		int cardNumbers = items.size() / numPlayers;
 		for (int i = 0; i < numPlayers; i++) {
-			Player p = players.get(i);
+			Player p = selectedPlayers.get(i);
 			for (int j = 0; j < cardNumbers; j++) {
 				int index = (int) (Math.random() * items.size());
 				p.addItem(items.get(index));
@@ -616,13 +621,17 @@ public class Game {
 		}
 		
 		//pick random player to start
-		currentPlayer = players.get((int) (Math.random() * players.size()));
+		currentPlayer = selectedPlayers.get((int) (Math.random() * selectedPlayers.size()));
 		
 		// add extra player to board if 3 people playing
 		if (numPlayers == 3) {
-			Player p = players.get(3);
-			Position position = new Position(22, 14);
-			p.setPosition(position);
+			for(int i = 0; i<players.size(); i++) {
+				if (!selectedCharacters.contains(players.get(i).getName())) {
+					Player p = players.get(i);
+					Position position = new Position(22, 14);
+					p.setPosition(position);
+				}
+			}
 		}
 	}
 
@@ -805,5 +814,9 @@ public class Game {
 	
 	public Player getCurrentPlayer() {
 		return this.currentPlayer;
+	}
+	
+	public void updateCharactersPlaying(List<String> characters) {
+		this.selectedCharacters = characters;
 	}
 }
