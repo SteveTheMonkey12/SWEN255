@@ -111,6 +111,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		start.addActionListener(this);
 		stop.addActionListener(this);
 		guess.addActionListener(this);
+		solve.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
@@ -166,7 +167,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		} else if (e.getActionCommand().equals("Guess")) {
 			guess();
 		} else if (e.getActionCommand().equals("Solve Attempt")) {
-			//game.solveAttempt();
+			solveAttempt();
 		} else if (e.getSource().equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
@@ -179,6 +180,45 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		textCanvas.repaint();
 	}
 	
+	private void solveAttempt() {
+		Player[] players = {null, null, null, null};
+		String[] playerOptions = {"0", "0", "0", "0"};
+		String[] weaponOptions = {"0", "0", "0", "0", "0"};
+		Weapon[] weapons = {null, null, null, null, null};
+		String[] estateOptions = {"0", "0", "0", "0", "0"};
+		Estate[] estates = {null, null, null, null, null};
+		for(int i = 0; i < 5; i++) {
+			if(i < 4) {
+				players[i] = game.getPlayer_Player(i);
+				playerOptions[i] = players[i].getName();
+			}
+			weapons[i] = game.getWeapon_Weapon(i);
+			weaponOptions[i] = weapons[i].getName();
+			estates[i] = game.getEstate_Estate(i);
+			estateOptions[i] = estates[i].getName();
+		}
+		int namedPlayer = JOptionPane.showOptionDialog(null, "Which character to accuse?", "Character Accusation",
+				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, playerOptions, playerOptions[0]);
+		Player guessedPlayer = players[namedPlayer];
+		
+		//weapon selection
+		int namedWeapon = JOptionPane.showOptionDialog(null, "Which weapon to accuse?", "Weapon Accusation",
+				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, weaponOptions, weaponOptions[0]);
+		Weapon guessedWeapon = weapons[namedWeapon];
+		int namedEstate = JOptionPane.showOptionDialog(null, "Which estate to accuse?", "Estate Accusation",
+				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, estateOptions, estateOptions[0]);
+		Estate guessedEstate = estates[namedEstate];		
+		if(game.getMurderCards().contains(guessedPlayer) && game.getMurderCards().contains(guessedWeapon) && game.getMurderCards().contains(guessedEstate)) {
+			//TODO win
+			JOptionPane.showMessageDialog(null, "YOU WIN", "Win", JOptionPane.PLAIN_MESSAGE);
+			return;
+		}
+		else{
+			//TODO lose
+			JOptionPane.showMessageDialog(null, "YOU LOSE", "Lose", JOptionPane.PLAIN_MESSAGE);
+		}
+	}
+
 	/*
 	 * Extra UI for guess
 	 */
@@ -213,12 +253,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 			response = respondToGuess(guessedPlayer, guessedWeapon, guessedEstate, respondingPlayer);
 		}
 		JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + "'s turn");
-		setTextCanvas(respondingPlayer, 0, respondingPlayer.getItems());
+		setTextCanvas(game.getCurrentPlayer(), 0, game.getCurrentPlayer().getItems());
 		textCanvas.repaint();
 		if(response == null) {
 			JOptionPane.showMessageDialog(null, "No one had a response!!!", "Response", JOptionPane.PLAIN_MESSAGE);
 			return;
-		}
+		}textCanvas.repaint();
 		JOptionPane.showMessageDialog(null, response.getName(), "Response", JOptionPane.PLAIN_MESSAGE);
 		return;
 	}
@@ -245,10 +285,13 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		for(int i = 0; i < respondableItems.size(); i++) {
 			items[i] = respondableItems.get(i).getName();
 		}
-		int responseItem = JOptionPane.showOptionDialog(null, "Which character to accuse?", "Character Accusation",
+		int responseItem = JOptionPane.showOptionDialog(null, "Which card to respond with?", "Player Response",
 				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, items, items[0]);
 		return respondableItems.get(responseItem);
 	}
+	
+	
+	
 	/*
 	 * Update text
 	 */

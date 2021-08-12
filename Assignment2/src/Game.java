@@ -274,10 +274,20 @@ public class Game {
 		return (List<Player>) newPlayers;
 	}
 	
+	public List<Item> getMurderCards() {
+		List<? extends Item> newMurderCards = Collections.unmodifiableList(murderCards);
+		return (List<Item>) newMurderCards;
+	}
+	
 	/* Code from template association_GetMany_relatedSpecialization */
 	public Weapon getWeapon_Weapon(int index) {
 		Weapon aWeapon = (Weapon) weapons.get(index);
 		return aWeapon;
+	}
+	
+	public Estate getEstate_Estate(int index) {
+		Estate aEstate = (Estate) estates.get(index);
+		return aEstate;
 	}
 
 	/* required for Java 7. */
@@ -507,27 +517,27 @@ public class Game {
 		// "Broom",
 		Weapon tmpw = new Weapon(weaponName[0], weaponPositions.get("HH"));
 		addItem(tmpw);
-		weapons.add(new Weapon(weaponName[0], weaponPositions.get("HH")));
+		weapons.add(tmpw);
 
 		// "Scissors",
 		tmpw = new Weapon(weaponName[1], weaponPositions.get("MM"));
 		addItem(tmpw);
-		weapons.add(new Weapon(weaponName[1], weaponPositions.get("MM")));
+		weapons.add(tmpw);
 
 		// "Knife",
 		tmpw = new Weapon(weaponName[2], weaponPositions.get("VC"));
 		addItem(tmpw);
-		weapons.add(new Weapon(weaponName[2], weaponPositions.get("VC")));
+		weapons.add(tmpw);
 
 		// "Shovel",
 		tmpw = new Weapon(weaponName[3], weaponPositions.get("CC"));
 		addItem(tmpw);
-		weapons.add(new Weapon(weaponName[3], weaponPositions.get("CC")));
+		weapons.add(tmpw);
 
 		// "iPad"
 		tmpw = new Weapon(weaponName[4], weaponPositions.get("PP"));
 		addItem(tmpw);
-		weapons.add(new Weapon(weaponName[4], weaponPositions.get("PP")));
+		weapons.add(tmpw);
 
 		// Haunted House
 		Estate tmp = new Estate(estateName[0], new Position(2, 2), new Position(6, 6));
@@ -581,17 +591,14 @@ public class Game {
 		items.remove(murderEstate);
 
 		// distribute cards to player
-		players.clear();
 		int cardNumbers = items.size() / numPlayers;
 		for (int i = 0; i < numPlayers; i++) {
-			List<Item> playerCards = new ArrayList<>();
+			Player p = players.get(i);
 			for (int j = 0; j < cardNumbers; j++) {
 				int index = (int) (Math.random() * items.size());
-				playerCards.add(items.get(index));
+				p.addItem(items.get(index));
 				items.remove(index);
 			}
-			Player p = new Player(characterName[i], playerCards);
-			players.add(p);
 			if (i == 0) {
 				Position position = new Position(11, 1);
 				p.setPosition(position);
@@ -613,8 +620,7 @@ public class Game {
 		
 		// add extra player to board if 3 people playing
 		if (numPlayers == 3) {
-			Player p = new Player(characterName[3]);
-			players.add(p);
+			Player p = players.get(3);
 			Position position = new Position(22, 14);
 			p.setPosition(position);
 		}
