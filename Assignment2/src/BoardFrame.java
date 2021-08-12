@@ -31,18 +31,6 @@ import javax.swing.border.Border;
  * @author pengailin refer the code from SWEN221 assignments
  */
 public class BoardFrame extends JFrame implements ActionListener, MouseListener {
-	/**
-	 * The square width constant determines the width (in pixels) of a square in the
-	 * board area.
-	 */
-	private static final int SQUARE_WIDTH = 40;
-
-	/**
-	 * The square height constant determines the height (in pixels) of a square in
-	 * the battle area.
-	 */
-	private static final int SQUARE_HEIGHT = 40;
-	
 	
 	// Jpanel
 	private JPanel bottomPanel;
@@ -60,6 +48,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	private JMenu menu;
 
 	private JMenuItem exit;
+	private JMenuItem start;
 
 	private JMenuBar mb;
 
@@ -74,10 +63,14 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		mb = new JMenuBar();
 		menu = new JMenu("Murder Madness");
 		exit = new JMenuItem("Exit");
+		start = new JMenuItem("Start Game");
 		menu.add(exit);
+		menu.add(start);
 		Map<String, JMenuItem> menuItem = new HashMap<>();
 		menuItem.put("Exit", exit);
+		menuItem.put("Start Game", start);
 		exit.addActionListener(this);// Confirm exit
+		start.addActionListener(this);// Confirm exit
 		mb.add(menu);
 		setJMenuBar(mb);
 
@@ -92,7 +85,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		boardCanvas.addMouseListener(this);
 		
 		// button on the bottom
-		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
 		JButton guess = new JButton("Guess");
 		JButton solve = new JButton("Solve Attempt");
@@ -108,14 +100,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		this.rightPanel.add(textCanvas, BorderLayout.EAST);
 
 		// button action listener
-		start.addActionListener(this);
 		stop.addActionListener(this);
 		guess.addActionListener(this);
 		solve.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
-		this.bottomPanel.add(start);
 		this.bottomPanel.add(stop);
 		this.bottomPanel.add(guess);
 		this.bottomPanel.add(solve);
@@ -145,21 +135,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 * pressed
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Start")) {
-			if(game.isPlaying() == false) {
-				// optional for the number of players
-				String[] options = { "3", "4" };
-				int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
-						JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-				game.setNumPlayers(num + 3);
-				game.initial();
-				game.setPlaying(true);
-				this.turns = game.diceResult();
-				setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());	
-				// game.play();	
-			}
-			
-		} else if (e.getActionCommand().equals("Stop")) {
+        if (e.getActionCommand().equals("Stop")) {
 			if(game.isPlaying() == true) {
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
 						JOptionPane.YES_NO_OPTION);
@@ -176,13 +152,26 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
             if(game.isPlaying() == true) {
             	solveAttempt();
 			}	
-		} else if (e.getSource().equals("Exit")) {
+		} else if (((JMenuItem) e.getSource()).getText().equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
 				game.setPlaying(false);
 				System.exit(0);
 			}
+		}else if(((JMenuItem) e.getSource()).getText().equals("Start Game")) {
+			if(game.isPlaying() == false) {
+				// optional for the number of players
+				String[] options = { "3", "4" };
+				int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
+						JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				game.setNumPlayers(num + 3);
+				game.initial();
+				game.setPlaying(true);
+				this.turns = game.diceResult();
+				setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
+				//game.play(turns);			
+			}	
 		}
 		boardCanvas.repaint();
 		textCanvas.repaint();
@@ -334,7 +323,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		int x = e.getX();
 		int y = e.getY();
 		
-		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
+		Position pos = new Position(x/36,y/36);
 		if(game.getBoard().moveToClick(pos, game.getCurrentPlayer())) {
 			game.getCurrentPlayer().setPosition(pos);
 			turns--;
