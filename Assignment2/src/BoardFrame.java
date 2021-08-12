@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
 		boardCanvas.addMouseListener(this);
+		boardCanvas.addKeyListener(this);
 		
 		// button on the bottom
 		JButton start = new JButton("Start");
@@ -339,8 +341,15 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
-		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer() , turns);
+		Position pos = new Position(x / SQUARE_WIDTH, y / SQUARE_HEIGHT);
+		takeTurn(pos);
+	}
+	
+	/*
+	 * Move player one space
+	 * */
+	public void takeTurn(Position pos) {
+		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer(), turns);
 		if(turnsUsed != -1) {
 			turns -= turnsUsed;
 			textCanvas.setSteps(turns);
@@ -357,6 +366,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		textCanvas.repaint();
 	}
 
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		//not needed
@@ -366,41 +376,43 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 	public void mouseExited(MouseEvent e) {
 		//not needed
 	}
-	
-	public static void main(String args[]) {
-		Game game = new Game();
-		BoardFrame bf = new BoardFrame(game);
-	}
-
+  
 	@Override
 	public void keyTyped(KeyEvent e) {
-	    char input = e.getKeyChar();
-        if(input == 'w' || input == 'W'){
-        	String s = Character.toString(input);
-            board.movePlayer(s, game.getCurrentPlayer());
-        }
-        else if(input == 's' || input == 'S'){
-        	String s = Character.toString(input);
-            board.movePlayer(s, game.getCurrentPlayer());  
-        }else if(input == 'a' || input == 'A'){
-        	String s = Character.toString(input);
-            board.movePlayer(s, game.getCurrentPlayer());
-        }else if(input == 'd' || input == 'D' ){
-        	String s = Character.toString(input);
-            board.movePlayer(s, game.getCurrentPlayer());
-        }	
-	}
+		//not needed
+  }
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		// not needed		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+
+		Player currentP = game.getCurrentPlayer();
+		int posX = currentP.getPosition().getX();//x pos of current player
+		int posY = currentP.getPosition().getY();//x pos of current player
+
+		if(e.getKeyChar()=='w') {
+			takeTurn(new Position(posX, posY-1));
+		}
+		else if(e.getKeyChar()=='s') {
+			takeTurn(new Position(posX, posY+1));
+		}
+		else if(e.getKeyChar()=='a') {
+			takeTurn(new Position(posX-1, posY));
+		}
+		else if(e.getKeyChar()=='d') {
+			takeTurn(new Position(posX+1, posY));
+		}
+	
 	}
+  
+  	public static void main(String args[]) {
+		Game game = new Game();
+		BoardFrame bf = new BoardFrame(game);
+	}
+
 	
 }
