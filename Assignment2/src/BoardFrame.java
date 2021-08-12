@@ -4,8 +4,11 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ import javax.swing.border.Border;
  *
  * @author pengailin refer the code from SWEN221 assignments
  */
-public class BoardFrame extends JFrame implements ActionListener, MouseListener {
+public class BoardFrame extends JFrame implements ActionListener, MouseListener, KeyListener {
 	/**
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
@@ -92,6 +95,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
 		boardCanvas.addMouseListener(this);
+		boardCanvas.addKeyListener(this);
 		
 		// button on the bottom
 		JButton start = new JButton("Start");
@@ -343,19 +347,25 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		
-		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
+
+		Position pos = new Position(x / SQUARE_WIDTH, y / SQUARE_HEIGHT);
+		takeTurn(pos);
+	}
+	
+	/*
+	 * Move player one space
+	 * */
+	public void takeTurn(Position pos) {
 		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer(), turns);
-		if(turnsUsed != -1) {
-			
-			
-			turns-= turnsUsed;
+		if (turnsUsed != -1) {
+
+			turns -= turnsUsed;
 			textCanvas.setSteps(turns);
 			boardCanvas.repaint();
 			textCanvas.repaint();
 		}
-		
 	}
+
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -366,5 +376,37 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public void mouseExited(MouseEvent e) {
 		//not needed
 	}
-	
+		@Override
+	public void keyTyped(KeyEvent e) {
+		//not needed
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// not needed
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		Player currentP = game.getCurrentPlayer();
+		int posX = currentP.getPosition().getX();//x pos of current player
+		int posY = currentP.getPosition().getY();//x pos of current player
+
+		if(e.getKeyChar()=='w') {
+			takeTurn(new Position(posX, posY-1));
+		}
+		else if(e.getKeyChar()=='s') {
+			takeTurn(new Position(posX, posY+1));
+		}
+		else if(e.getKeyChar()=='a') {
+			takeTurn(new Position(posX-1, posY));
+		}
+		else if(e.getKeyChar()=='d') {
+			takeTurn(new Position(posX+1, posY));
+		}
+		
+	}
+
 }
