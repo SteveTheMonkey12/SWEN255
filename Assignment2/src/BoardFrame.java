@@ -45,7 +45,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 */
 	private static final int SQUARE_HEIGHT = 36;
 	
-	
 	// Jpanel
 	private JPanel bottomPanel;
 	private JPanel centerPanel;
@@ -55,18 +54,14 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	private BoardCanvas boardCanvas;
 	private TextCanvas textCanvas;
 
-	private Board board;
-	private Game game;
-
 	// menu part:
 	private JMenu menu;
-
 	private JMenuItem exit;
-
 	private JMenuBar mb;
 
-	// Number on last dice roll
-	public int turns;
+	public int turns;	// Number on last dice roll
+	private Board board;
+	private Game game;
 
 	public BoardFrame(Game game) {
 
@@ -164,14 +159,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 					game.setPlaying(true);
 					turns = game.diceResult();
 					setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
-					//game.play();
 					boardCanvas.repaint();
 					textCanvas.repaint();
 				    }
 				});
-		}else {
-			return;
-		}
+			}
 		} else if (e.getActionCommand().equals("Stop")) {
 			if(game.isPlaying() == true) {
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
@@ -311,8 +303,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		return respondableItems.get(responseItem);
 	}
 	
-	
-	
 	/*
 	 * Update text
 	 */
@@ -331,7 +321,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public void mouseClicked(MouseEvent e) {
 		//not needed
 	}
-
+    
 	@Override
 	/*
 	 * Finds the position when mouse is released 
@@ -339,16 +329,22 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		
 		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
-		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer(), turns);
+		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer() , turns);
 		if(turnsUsed != -1) {
 			turns-= turnsUsed;
 			textCanvas.setSteps(turns);
-			boardCanvas.repaint();
-			textCanvas.repaint();
 		}
-		
+        if(turns == 0){
+			Player p = game.getNextPlayer(game.getCurrentPlayer());
+			int dice = game.diceResult();
+			turns = dice;
+			turnsUsed = game.getBoard().moveToClick(pos, p, turns);
+			setTextCanvas(p,turns,p.getItems());
+			game.setCurrentPlayer(p);
+		}
+		boardCanvas.repaint();
+		textCanvas.repaint();
 	}
 
 	@Override
