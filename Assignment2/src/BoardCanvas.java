@@ -34,7 +34,6 @@ public class BoardCanvas extends Canvas {
 
 	private Board board;
 	private Game game;
-	private boolean playing = false;
 
 	/**
 	 * Construct a canvas to visually display a given board.
@@ -133,7 +132,7 @@ public class BoardCanvas extends Canvas {
 		g2d.fillRect(5 * SQUARE_WIDTH, 11 * SQUARE_HEIGHT, 2 * SQUARE_WIDTH, 2 * SQUARE_HEIGHT);// left
 
 		// draw characters and weapons
-		if (playing == true) {
+		if (game.isPlaying() == true) {
 			drawPlayer(g);
 			drawWeapon(g);
 		}
@@ -168,10 +167,6 @@ public class BoardCanvas extends Canvas {
         }
 
 
-	}
-
-	public void setPlaying(boolean playing) {
-		this.playing = playing;
 	}
 
 	public void drawWeapon(Graphics g) {

@@ -163,15 +163,13 @@ public class Board
 		try {
 			if(dir.equals("w")) {
 				return movePlayer(direction.UP, p);
-			}
-			else if(dir.equals("d")) {
+			}else if(dir.equals("d")) {
 				return movePlayer(direction.RIGHT, p);
-			}if(dir.equals("s")) {
+			}else if(dir.equals("s")) {
 				return movePlayer(direction.DOWN, p);
-			}if(dir.equals("a")) {
+			}else if(dir.equals("a")) {
 				return movePlayer(direction.LEFT, p);
-			}
-			
+			}		
 		} catch (Board.BoardException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
