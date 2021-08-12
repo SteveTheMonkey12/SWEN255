@@ -2,14 +2,15 @@
 /Board$direction.class
 /Board.class
 /BoardCanvas.class
+/BoardFrame$1.class
 /BoardFrame.class
+/CharacterSelection.class
 /Estate.class
 /Game$1.class
 /Game$DoActivityThread.class
 /Game$Status.class
 /Game.class
 /Item.class
-/Java/
 /Moveable.class
 /NonMoveable.class
 /Player.class
@@ -17,3 +18,4 @@
 /TextCanvas.class
 /Wall.class
 /Weapon.class
+/Controller.class

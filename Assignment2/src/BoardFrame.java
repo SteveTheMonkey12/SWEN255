@@ -394,16 +394,16 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		int posX = currentP.getPosition().getX();//x pos of current player
 		int posY = currentP.getPosition().getY();//x pos of current player
 
-		if(e.getKeyChar()=='w') {
+		if(e.getKeyChar()=='w' || e.getKeyChar()=='W') {
 			takeTurn(new Position(posX, posY-1));
 		}
-		else if(e.getKeyChar()=='s') {
+		else if(e.getKeyChar()=='s' || e.getKeyChar()=='S') {
 			takeTurn(new Position(posX, posY+1));
 		}
-		else if(e.getKeyChar()=='a') {
+		else if(e.getKeyChar()=='a' || e.getKeyChar()=='A') {
 			takeTurn(new Position(posX-1, posY));
 		}
-		else if(e.getKeyChar()=='d') {
+		else if(e.getKeyChar()=='d' || e.getKeyChar()=='D') {
 			takeTurn(new Position(posX+1, posY));
 		}
 	
