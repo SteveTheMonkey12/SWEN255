@@ -163,15 +163,13 @@ public class Board
 		try {
 			if(dir.equals("w")) {
 				return movePlayer(direction.UP, p);
-			}
-			else if(dir.equals("d")) {
+			}else if(dir.equals("d")) {
 				return movePlayer(direction.RIGHT, p);
-			}if(dir.equals("s")) {
+			}else if(dir.equals("s")) {
 				return movePlayer(direction.DOWN, p);
-			}if(dir.equals("a")) {
+			}else if(dir.equals("a")) {
 				return movePlayer(direction.LEFT, p);
-			}
-			
+			}		
 		} catch (Board.BoardException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,11 +182,28 @@ public class Board
 			System.out.println("No turns remaining");
 			return -1;
 		}
-		
+		Position toEvaluate;
+		Estate currentEstate = getMoveableEstate(p);
+		if(currentEstate != null) {
+			//move player to the doorway if they're in an estate
+			double smallestD = 1000;
+			direction dir = null;
+			for(Map.Entry<direction, Position> door: currentEstate.getDoorways().entrySet()) {
+				if(pos.distanceTo(door.getValue()) < smallestD) {
+					smallestD = pos.distanceTo(door.getValue());
+					dir = door.getKey();
+				}
+			}
+			
+			toEvaluate =  new Position(currentEstate.doorways.get(dir));
+			
+		}else {
+			toEvaluate = new Position(p.getPosition());
+		}
 		
 		boolean moved = false;
-		int deltaX = pos.getX() - p.getPosition().getX() ;
-		int deltaY = pos.getY() - p.getPosition().getY() ;
+		int deltaX = pos.getX() - toEvaluate.getX() ;
+		int deltaY = pos.getY() - toEvaluate.getY() ;
 		try {
 			if(deltaX == 1 && deltaY == 0) {
 				moved = movePlayer(direction.RIGHT, p);
@@ -213,7 +228,7 @@ public class Board
 		System.out.print("\n");
 		return -1;//if it's allowed
 	}
-	public boolean movePlayerToEstate(Player p, Estate e) {
+	public boolean moveMoveableToEstate(Moveable p, Estate e) {
 		p.getPosition().setX(e.getPosition().getX());
 		p.getPosition().setY(e.getPosition().getY());
 		e.addMoveable(p);
@@ -273,7 +288,7 @@ public class Board
 			if(e.collidesWith(toEvaluate)) {
 				for(Position doorway: e.getDoorways().values()) {
 					if(doorway.equals(toEvaluate)) {
-						return movePlayerToEstate(p, e);
+						return moveMoveableToEstate(p, e);
 					}
 				}
 				//if a player is in the wall of an estate there is no need to check the others
