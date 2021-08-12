@@ -213,7 +213,7 @@ public class Board
 		System.out.print("\n");
 		return -1;//if it's allowed
 	}
-	public boolean movePlayerToEstate(Player p, Estate e) {
+	public boolean moveMoveableToEstate(Moveable p, Estate e) {
 		p.getPosition().setX(e.getPosition().getX());
 		p.getPosition().setY(e.getPosition().getY());
 		e.addMoveable(p);
@@ -273,7 +273,7 @@ public class Board
 			if(e.collidesWith(toEvaluate)) {
 				for(Position doorway: e.getDoorways().values()) {
 					if(doorway.equals(toEvaluate)) {
-						return movePlayerToEstate(p, e);
+						return moveMoveableToEstate(p, e);
 					}
 				}
 				//if a player is in the wall of an estate there is no need to check the others
