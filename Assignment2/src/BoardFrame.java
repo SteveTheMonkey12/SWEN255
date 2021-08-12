@@ -35,13 +35,13 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
 	 */
-	private static final int SQUARE_WIDTH = 40;
+	private static final int SQUARE_WIDTH = 36;
 
 	/**
 	 * The square height constant determines the height (in pixels) of a square in
 	 * the battle area.
 	 */
-	private static final int SQUARE_HEIGHT = 40;
+	private static final int SQUARE_HEIGHT = 36;
 	
 	
 	// Jpanel
