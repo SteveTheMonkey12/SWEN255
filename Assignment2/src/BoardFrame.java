@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
@@ -32,7 +34,7 @@ import javax.swing.border.Border;
  *
  * @author pengailin refer the code from SWEN221 assignments
  */
-public class BoardFrame extends JFrame implements ActionListener, MouseListener {
+public class BoardFrame extends JFrame implements ActionListener, MouseListener, KeyListener {
 	/**
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
@@ -360,6 +362,37 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public static void main(String args[]) {
 		Game game = new Game();
 		BoardFrame bf = new BoardFrame(game);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	    char input = e.getKeyChar();
+        if(input == 'w' || input == 'W'){
+        	String s = Character.toString(input);
+            board.movePlayer(s, game.getCurrentPlayer());
+        }
+        else if(input == 's' || input == 'S'){
+        	String s = Character.toString(input);
+            board.movePlayer(s, game.getCurrentPlayer());  
+        }else if(input == 'a' || input == 'A'){
+        	String s = Character.toString(input);
+            board.movePlayer(s, game.getCurrentPlayer());
+        }else if(input == 'd' || input == 'D' ){
+        	String s = Character.toString(input);
+            board.movePlayer(s, game.getCurrentPlayer());
+        }	
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
