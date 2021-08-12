@@ -184,11 +184,28 @@ public class Board
 			System.out.println("No turns remaining");
 			return -1;
 		}
-		
+		Position toEvaluate;
+		Estate currentEstate = getMoveableEstate(p);
+		if(currentEstate != null) {
+			//move player to the doorway if they're in an estate
+			double smallestD = 1000;
+			direction dir = null;
+			for(Map.Entry<direction, Position> door: currentEstate.getDoorways().entrySet()) {
+				if(pos.distanceTo(door.getValue()) < smallestD) {
+					smallestD = pos.distanceTo(door.getValue());
+					dir = door.getKey();
+				}
+			}
+			
+			toEvaluate =  new Position(currentEstate.doorways.get(dir));
+			
+		}else {
+			toEvaluate = new Position(p.getPosition());
+		}
 		
 		boolean moved = false;
-		int deltaX = pos.getX() - p.getPosition().getX() ;
-		int deltaY = pos.getY() - p.getPosition().getY() ;
+		int deltaX = pos.getX() - toEvaluate.getX() ;
+		int deltaY = pos.getY() - toEvaluate.getY() ;
 		try {
 			if(deltaX == 1 && deltaY == 0) {
 				moved = movePlayer(direction.RIGHT, p);
