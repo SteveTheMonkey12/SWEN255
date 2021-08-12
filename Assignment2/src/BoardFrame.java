@@ -162,6 +162,8 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 				turns = game.diceResult();
 				setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
 				//game.play();
+				boardCanvas.repaint();
+				textCanvas.repaint();
 			    }
 			});
 		} else if (e.getActionCommand().equals("Stop")) {
