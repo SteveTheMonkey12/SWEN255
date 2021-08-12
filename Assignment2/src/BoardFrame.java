@@ -344,7 +344,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		if(turnsUsed != -1) {
 			
 			
-			turns-= turnsUsed;
+			turns -= turnsUsed;
 			textCanvas.setSteps(turns);
 			boardCanvas.repaint();
 			textCanvas.repaint();
