@@ -68,22 +68,10 @@ public Estate(String aName, Position aPosition, Position bPosition)
   /* Code from template association_AddManyToManyMethod */
   public boolean addMoveable(Moveable aMoveable)
   {
-    boolean wasAdded = false;
     if (moveables.contains(aMoveable)) { return false; }
     moveables.add(aMoveable);
-    if (aMoveable.indexOfEstate(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aMoveable.addEstate(this);
-      if (!wasAdded)
-      {
-        moveables.remove(aMoveable);
-      }
-    }
-    return wasAdded;
+    aMoveable.setEstate(this);
+    return true;
   }
   /* Code from template association_RemoveMany */
   public boolean removeMoveable(Moveable aMoveable)
@@ -93,22 +81,9 @@ public Estate(String aName, Position aPosition, Position bPosition)
     {
       return wasRemoved;
     }
-
-    int oldIndex = moveables.indexOf(aMoveable);
-    moveables.remove(oldIndex);
-    if (aMoveable.indexOfEstate(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aMoveable.removeEstate(this);
-      if (!wasRemoved)
-      {
-        moveables.add(oldIndex,aMoveable);
-      }
-    }
-    return wasRemoved;
+    aMoveable.setEstate(null);
+    moveables.remove(aMoveable);
+    return true;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addMoveableAt(Moveable aMoveable, int index)
@@ -149,7 +124,7 @@ public Estate(String aName, Position aPosition, Position bPosition)
     moveables.clear();
     for(Moveable aMoveable : copyOfMoveables)
     {
-      aMoveable.removeEstate(this);
+      aMoveable.setEstate(null);
     }
     super.delete();
   }
