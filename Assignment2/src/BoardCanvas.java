@@ -24,13 +24,13 @@ public class BoardCanvas extends Canvas {
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
 	 */
-	private static final int SQUARE_WIDTH = 40;
+	private static final int SQUARE_WIDTH = 36;
 
 	/**
 	 * The square height constant determines the height (in pixels) of a square in
 	 * the battle area.
 	 */
-	private static final int SQUARE_HEIGHT = 40;
+	private static final int SQUARE_HEIGHT = 36;
 
 	private Board board;
 	private Game game;
@@ -134,13 +134,13 @@ public class BoardCanvas extends Canvas {
 
 		// draw characters and weapons
 		if (playing == true) {
-			drawPlayer(g, width, height);
+			drawPlayer(g);
 			drawWeapon(g);
 		}
 
 	}
 
-	public void drawPlayer(Graphics g, int width, int height) {
+	public void drawPlayer(Graphics g) {
         try{
     		if (game.numPlayers == 4) {
     			for (int i = 0; i < game.numPlayers; i++) {
@@ -151,17 +151,17 @@ public class BoardCanvas extends Canvas {
     					System.out.println("No such file");
     				}
     				BufferedImage bi = ImageIO.read(imageFile);
-                    g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, width, height, null);
+                    g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
     			}
     		} else {
     			for (int i = 0; i < game.numPlayers; i++) {
     				Player p = game.getPlayers().get(i);
     				BufferedImage bi = ImageIO.read(new File("./Assignment2/images/"+p.getName() + ".png"));
-                    g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, width, height, null);
+                    g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
     			}
     			Player p = game.getPlayers().get(3);
     			BufferedImage bi = ImageIO.read(new File("./Assignment2/images/"+p.getName() + ".png"));
-                g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, width, height, null);
+                g.drawImage(bi, p.getPosition().getX() * SQUARE_WIDTH, p.getPosition().getY() * SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT, null);
     		}
         }catch (IOException e){
             throw new Error("No images to draw player!");
