@@ -94,7 +94,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
 		JButton guess = new JButton("Guess");
-		JButton solve = new JButton("Solve Attempt");
 
 		// right text canvas
 		this.textCanvas = new TextCanvas(game);
@@ -110,14 +109,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		start.addActionListener(this);
 		stop.addActionListener(this);
 		guess.addActionListener(this);
-		solve.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
 		this.bottomPanel.add(start);
 		this.bottomPanel.add(stop);
 		this.bottomPanel.add(guess);
-		this.bottomPanel.add(solve);
 
 		add(centerPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
@@ -196,6 +193,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 	}
 	
 	private void solveAttempt() {
+		int option = JOptionPane.showConfirmDialog(null, "Make solve attempt?", "Solve Attempt?",
+				JOptionPane.YES_NO_OPTION);
+		if (option == JOptionPane.NO_OPTION) {
+			return;
+		}
 		Player[] players = {null, null, null, null};
 		String[] playerOptions = {"0", "0", "0", "0"};
 		String[] weaponOptions = {"0", "0", "0", "0", "0"};
@@ -238,6 +240,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 	 * Extra UI for guess
 	 */
 	public void guess() {
+		if(game.getCurrentPlayer().getEstate() == null) {
+			JOptionPane.showMessageDialog(null, "You are not at an estate", "No Guess", JOptionPane.PLAIN_MESSAGE);
+			return;
+		}
 		//player selection
 		Player[] players = {null, null, null, null};
 		String[] playerOptions = {"0", "0", "0", "0"};
@@ -261,7 +267,8 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		Weapon guessedWeapon = weapons[namedWeapon];
 		Estate guessedEstate = game.getCurrentPlayer().getEstate();		
 		Item response = null;
-		//TODO move guessed player and weapon to guessed estate
+		game.getBoard().moveMoveableToEstate(guessedWeapon, guessedEstate);
+		game.getBoard().moveMoveableToEstate(guessedPlayer, guessedEstate);
 		Player respondingPlayer = game.getCurrentPlayer();
 		for(int i = 0; i < game.getNumPlayers()-1; i++) {
 			respondingPlayer = game.getNextPlayer(respondingPlayer);
@@ -275,6 +282,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 			return;
 		}textCanvas.repaint();
 		JOptionPane.showMessageDialog(null, response.getName(), "Response", JOptionPane.PLAIN_MESSAGE);
+		solveAttempt();
 		return;
 	}
 	
@@ -334,10 +342,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
 		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer() , turns);
 		if(turnsUsed != -1) {
-			turns-= turnsUsed;
+			turns -= turnsUsed;
 			textCanvas.setSteps(turns);
 		}
-        if(turns == 0){
+      if(turns == 0){
 			Player p = game.getNextPlayer(game.getCurrentPlayer());
 			int dice = game.diceResult();
 			turns = dice;
