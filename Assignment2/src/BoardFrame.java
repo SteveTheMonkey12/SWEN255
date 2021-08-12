@@ -246,7 +246,8 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		Weapon guessedWeapon = weapons[namedWeapon];
 		Estate guessedEstate = game.getCurrentPlayer().getEstate();		
 		Item response = null;
-		//TODO move guessed player and weapon to guessed estate
+		game.getBoard().moveMoveableToEstate(guessedWeapon, guessedEstate);
+		game.getBoard().moveMoveableToEstate(guessedPlayer, guessedEstate);
 		Player respondingPlayer = game.getCurrentPlayer();
 		for(int i = 0; i < game.getNumPlayers()-1; i++) {
 			respondingPlayer = game.getNextPlayer(respondingPlayer);
