@@ -162,10 +162,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 				boardCanvas.setPlaying(false);
 			}
 		} else if (e.getActionCommand().equals("Guess")) {
-			if(game.getCurrentPlayer().getEstate() != null) {
-				guess();
-				solveAttempt();
-			}
+			guess();
 		} else if (e.getSource().equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
@@ -226,6 +223,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 * Extra UI for guess
 	 */
 	public void guess() {
+		if(game.getCurrentPlayer().getEstate() == null) {
+			JOptionPane.showMessageDialog(null, "You are not at an estate", "No Guess", JOptionPane.PLAIN_MESSAGE);
+			return;
+		}
 		//player selection
 		Player[] players = {null, null, null, null};
 		String[] playerOptions = {"0", "0", "0", "0"};
@@ -264,6 +265,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 			return;
 		}textCanvas.repaint();
 		JOptionPane.showMessageDialog(null, response.getName(), "Response", JOptionPane.PLAIN_MESSAGE);
+		solveAttempt();
 		return;
 	}
 	
