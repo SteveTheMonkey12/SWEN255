@@ -37,6 +37,8 @@ public class Game {
 	private List<Estate> estates;
 	private Player currentPlayer;
 	public int numPlayers;
+	
+	private boolean playing = false;
 
 	// name of the 4 characters
 	private static final String[] characterName = { "Lucilla", "Bert", "Maline", "Percy" };
@@ -806,4 +808,14 @@ public class Game {
 	public Player getCurrentPlayer() {
 		return this.currentPlayer;
 	}
+
+	public boolean isPlaying() {
+		return playing;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
+	
+	
 }

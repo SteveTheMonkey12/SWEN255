@@ -146,23 +146,25 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start")) {
-			// optional for the number of players
-			String[] options = { "3", "4" };
-			int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
-					JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-			game.setNumPlayers(num + 3);
-			game.initial();
-			boardCanvas.setPlaying(true);
-			this.turns = game.diceResult();
-			setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
+			if(game.isPlaying() == false) {
+				// optional for the number of players
+				String[] options = { "3", "4" };
+				int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
+						JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				game.setNumPlayers(num + 3);
+				game.initial();
+				game.setPlaying(true);
+				this.turns = game.diceResult();
+				setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());	
+				// game.play();	
+			}
 			
-			// game.play();
 		} else if (e.getActionCommand().equals("Stop")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
 					JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
 				stopGame();
-				boardCanvas.setPlaying(false);
+				game.setPlaying(false);
 			}
 		} else if (e.getActionCommand().equals("Guess")) {
 			guess();
@@ -172,7 +174,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
-				boardCanvas.setPlaying(false);
+				game.setPlaying(false);
 				System.exit(0);
 			}
 		}
@@ -308,13 +310,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 
 	}
 
-	public static void main(String args[]) {
-		Game game = new Game();
-		BoardFrame bf = new BoardFrame(game);
-
-	}
-
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		//not needed
@@ -352,6 +347,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		//not needed
+	}
+	
+	public static void main(String args[]) {
+		Game game = new Game();
+		BoardFrame bf = new BoardFrame(game);
+
 	}
 	
 }
