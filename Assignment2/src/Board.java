@@ -159,12 +159,59 @@ public class Board
 	 * @param p
 	 * @return returns true if a move was successuful
 	 */
-	public boolean movePlayer(String Dir, Player p) {
+	public boolean movePlayer(String dir, Player p) {
+		try {
+			if(dir.equals("w")) {
+				return movePlayer(direction.UP, p);
+			}
+			else if(dir.equals("d")) {
+				return movePlayer(direction.RIGHT, p);
+			}if(dir.equals("s")) {
+				return movePlayer(direction.DOWN, p);
+			}if(dir.equals("a")) {
+				return movePlayer(direction.LEFT, p);
+			}
+			
+		} catch (Board.BoardException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return false;
 	}
-	public boolean moveToClick(Position pos, Player p) {
-		return true;//if it's allowed
+	public int moveToClick(Position pos, Player p, int turns) {
+		if(turns < 1) {
+			System.out.println("No turns remaining");
+			return -1;
+		}
+		
+		
+		boolean moved = false;
+		int deltaX = pos.getX() - p.getPosition().getX() ;
+		int deltaY = pos.getY() - p.getPosition().getY() ;
+		try {
+			if(deltaX == 1 && deltaY == 0) {
+				moved = movePlayer(direction.RIGHT, p);
+			} else if(deltaX == -1 && deltaY == 0) {
+				moved = movePlayer(direction.LEFT, p);
+			}if(deltaX == 0 && deltaY == 1) {
+				moved = movePlayer(direction.DOWN, p);
+			}if(deltaX == 0 && deltaY == -1) {
+				moved = movePlayer(direction.UP, p);
+			}
+		} catch (Board.BoardException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(moved) {
+			return 1;
+		}
+		System.out.println("You clicked at x = " + pos.getX() + " y = " + pos.getY());
+		System.out.println("Player is   at x = " + p.getPosition().getX() + " y = " + p.getPosition().getY());
+		System.out.println("Delta is       x = " + deltaX + " y = " + deltaY);
+		System.out.print("\n");
+		return -1;//if it's allowed
 	}
 	public boolean movePlayerToEstate(Player p, Estate e) {
 		p.getPosition().setX(e.getPosition().getX());

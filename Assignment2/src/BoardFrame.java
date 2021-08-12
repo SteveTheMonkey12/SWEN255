@@ -334,9 +334,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		int y = e.getY();
 		
 		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
-		if(game.getBoard().moveToClick(pos, game.getCurrentPlayer())) {
-			game.getCurrentPlayer().setPosition(pos);
-			turns--;
+		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer(), turns);
+		if(turnsUsed != -1) {
+			
+			
+			turns-= turnsUsed;
 			textCanvas.setSteps(turns);
 			boardCanvas.repaint();
 			textCanvas.repaint();
