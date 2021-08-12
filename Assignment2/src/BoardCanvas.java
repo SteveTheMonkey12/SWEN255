@@ -166,14 +166,6 @@ public class BoardCanvas extends Canvas {
 
 	}
 
-	public Color randomColor() {
-		Random random = new Random();
-		int r = random.nextInt(256);
-		int g = random.nextInt(256);
-		int b = random.nextInt(256);
-		return new Color(r, g, b);
-	}
-
 	public void setPlaying(boolean playing) {
 		this.playing = playing;
 	}
