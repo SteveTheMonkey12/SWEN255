@@ -37,6 +37,7 @@ public class Game {
 	private List<Estate> estates;
 	private Player currentPlayer;
 	public int numPlayers;
+	private boolean playing = false;
 	private List<String> selectedCharacters = new ArrayList<String>();//names of characters selected to play
 	private List<Player> selectedPlayers = new ArrayList<Player>();//players playing in the game (excl extra character)
 
@@ -819,4 +820,13 @@ public class Game {
 	public void updateCharactersPlaying(List<String> characters) {
 		this.selectedCharacters = characters;
 	}
+
+	public boolean isPlaying() {
+		return playing;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
+	
 }
