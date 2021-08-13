@@ -72,7 +72,7 @@ public class Controller implements MouseListener, KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	/*
 	 * Finds the position when mouse is released 
