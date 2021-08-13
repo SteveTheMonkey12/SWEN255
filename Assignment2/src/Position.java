@@ -76,4 +76,9 @@ public class Position
 	  }
 	  return false;
   }
+  public double distanceTo(Position p) {
+	  
+	  return Math.sqrt(Math.pow(x - p.getX(), 2) + Math.pow(y - p.getY(), 2) );
+	  
+  }
 }

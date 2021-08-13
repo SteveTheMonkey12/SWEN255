@@ -4,8 +4,11 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ import javax.swing.border.Border;
  *
  * @author pengailin refer the code from SWEN221 assignments
  */
-public class BoardFrame extends JFrame implements ActionListener, MouseListener {
+public class BoardFrame extends JFrame implements ActionListener, MouseListener, KeyListener {
 	/**
 	 * The square width constant determines the width (in pixels) of a square in the
 	 * board area.
@@ -45,7 +48,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 */
 	private static final int SQUARE_HEIGHT = 36;
 	
-	
 	// Jpanel
 	private JPanel bottomPanel;
 	private JPanel centerPanel;
@@ -55,18 +57,14 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	private BoardCanvas boardCanvas;
 	private TextCanvas textCanvas;
 
-	private Board board;
-	private Game game;
-
 	// menu part:
 	private JMenu menu;
-
 	private JMenuItem exit;
-
 	private JMenuBar mb;
 
-	// Number on last dice roll
-	public int turns;
+	public int turns;	// Number on last dice roll
+	private Board board;
+	private Game game;
 
 	public BoardFrame(Game game) {
 
@@ -92,15 +90,15 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
 		boardCanvas.addMouseListener(this);
+		boardCanvas.addKeyListener(this);
 		
 		// button on the bottom
 		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
 		JButton guess = new JButton("Guess");
-		JButton solve = new JButton("Solve Attempt");
 
 		// right text canvas
-		this.textCanvas = new TextCanvas();
+		this.textCanvas = new TextCanvas(game);
 		this.rightPanel = new JPanel();
 		this.rightPanel.setLayout(new BorderLayout());
 		cb = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3),
@@ -113,14 +111,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		start.addActionListener(this);
 		stop.addActionListener(this);
 		guess.addActionListener(this);
-		solve.addActionListener(this);
 
 		// add button at the bottom
 		this.bottomPanel = new JPanel();
 		this.bottomPanel.add(start);
 		this.bottomPanel.add(stop);
 		this.bottomPanel.add(guess);
-		this.bottomPanel.add(solve);
 
 		add(centerPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
@@ -147,43 +143,50 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 * pressed
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Start")) {
-			// optional for the number of players
-			String[] options = { "3", "4" };
-			int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
-					JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-			game.setNumPlayers(num + 3);
-			//choose characters
-			CharacterSelection cs = new CharacterSelection(game, num+3);
-			cs.setTitle("Select your character");
-			cs.addWindowListener(new WindowAdapter() {
-			    @Override
-			    public void windowClosed(WindowEvent e) {//when characters have been selected, initialise game
-			    	game.initial();
-				boardCanvas.setPlaying(true);
-				turns = game.diceResult();
-				setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
-				//game.play();
-				boardCanvas.repaint();
-				textCanvas.repaint();
-			    }
-			});
+		if(game.isPlaying() == false) {
+			if (e.getActionCommand().equals("Start")) {
+				// optional for the number of players
+				String[] options = { "3", "4" };
+				int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
+						JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				game.setNumPlayers(num + 3);
+				//choose characters
+				CharacterSelection cs = new CharacterSelection(game, num+3);
+				cs.setTitle("Select your character");
+				cs.addWindowListener(new WindowAdapter() {
+				    @Override
+				    public void windowClosed(WindowEvent e) {//when characters have been selected, initialise game
+				    game.initial();
+					game.setPlaying(true);
+					turns = game.diceResult();
+					setTextCanvas(game.getCurrentPlayer(), turns, game.getCurrentPlayer().getItems());
+					boardCanvas.repaint();
+					textCanvas.repaint();
+				    }
+				});
+			}
 		} else if (e.getActionCommand().equals("Stop")) {
-			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
-					JOptionPane.YES_NO_OPTION);
-			if (option == JOptionPane.YES_OPTION) {
-				stopGame();
-				boardCanvas.setPlaying(false);
+			if(game.isPlaying() == true) {
+				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
+						JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					stopGame();
+					game.setPlaying(false);
+				}			
 			}
 		} else if (e.getActionCommand().equals("Guess")) {
-			guess();
+			if(game.isPlaying() == true) {
+				guess();
+			}
 		} else if (e.getActionCommand().equals("Solve Attempt")) {
-			solveAttempt();
-		} else if (e.getSource().equals("Exit")) {
+			if(game.isPlaying() == true) {
+				solveAttempt();
+			}
+		} else if (((JMenuItem) e.getSource()).getText().equals("Exit")) {
 			int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
 					JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
-				boardCanvas.setPlaying(false);
+				game.setPlaying(false);
 				System.exit(0);
 			}
 		}
@@ -192,6 +195,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	}
 	
 	private void solveAttempt() {
+		int option = JOptionPane.showConfirmDialog(null, "Make solve attempt?", "Solve Attempt?",
+				JOptionPane.YES_NO_OPTION);
+		if (option == JOptionPane.NO_OPTION) {
+			return;
+		}
 		Player[] players = {null, null, null, null};
 		String[] playerOptions = {"0", "0", "0", "0"};
 		String[] weaponOptions = {"0", "0", "0", "0", "0"};
@@ -234,6 +242,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	 * Extra UI for guess
 	 */
 	public void guess() {
+		if(game.getCurrentPlayer().getEstate() == null) {
+			JOptionPane.showMessageDialog(null, "You are not at an estate", "No Guess", JOptionPane.PLAIN_MESSAGE);
+			return;
+		}
 		//player selection
 		Player[] players = {null, null, null, null};
 		String[] playerOptions = {"0", "0", "0", "0"};
@@ -257,7 +269,8 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		Weapon guessedWeapon = weapons[namedWeapon];
 		Estate guessedEstate = game.getCurrentPlayer().getEstate();		
 		Item response = null;
-		//TODO move guessed player and weapon to guessed estate
+		game.getBoard().moveMoveableToEstate(guessedWeapon, guessedEstate);
+		game.getBoard().moveMoveableToEstate(guessedPlayer, guessedEstate);
 		Player respondingPlayer = game.getCurrentPlayer();
 		for(int i = 0; i < game.getNumPlayers()-1; i++) {
 			respondingPlayer = game.getNextPlayer(respondingPlayer);
@@ -271,6 +284,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 			return;
 		}textCanvas.repaint();
 		JOptionPane.showMessageDialog(null, response.getName(), "Response", JOptionPane.PLAIN_MESSAGE);
+		solveAttempt();
 		return;
 	}
 	
@@ -301,8 +315,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		return respondableItems.get(responseItem);
 	}
 	
-	
-	
 	/*
 	 * Update text
 	 */
@@ -311,20 +323,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 		textCanvas.setSteps(steps);
 		textCanvas.setCards(cards);
 	}
-
-	/*
-	 * once the player moves, the related canvas will be updated.
-	 */
-	public void updateMoving() {
-
-	}
-
-	public static void main(String args[]) {
-		Game game = new Game();
-		BoardFrame bf = new BoardFrame(game);
-
-	}
-
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -335,7 +333,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public void mouseClicked(MouseEvent e) {
 		//not needed
 	}
-
+    
 	@Override
 	/*
 	 * Finds the position when mouse is released 
@@ -343,19 +341,31 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		
-		Position pos = new Position(x/SQUARE_WIDTH,y/SQUARE_HEIGHT);
+		Position pos = new Position(x / SQUARE_WIDTH, y / SQUARE_HEIGHT);
+		takeTurn(pos);
+	}
+	
+	/*
+	 * Move player one space
+	 * */
+	public void takeTurn(Position pos) {
 		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer(), turns);
 		if(turnsUsed != -1) {
-			
-			
-			turns-= turnsUsed;
+			turns -= turnsUsed;
 			textCanvas.setSteps(turns);
-			boardCanvas.repaint();
-			textCanvas.repaint();
 		}
-		
+      if(turns == 0){
+			Player p = game.getNextPlayer(game.getCurrentPlayer());
+			int dice = game.diceResult();
+			turns = dice;
+			turnsUsed = game.getBoard().moveToClick(pos, p, turns);
+			setTextCanvas(p,turns,p.getItems());
+			game.setCurrentPlayer(p);
+		}
+		boardCanvas.repaint();
+		textCanvas.repaint();
 	}
+
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -366,5 +376,43 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener 
 	public void mouseExited(MouseEvent e) {
 		//not needed
 	}
+  
+	@Override
+	public void keyTyped(KeyEvent e) {
+		//not needed
+  }
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// not needed		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+		Player currentP = game.getCurrentPlayer();
+		int posX = currentP.getPosition().getX();//x pos of current player
+		int posY = currentP.getPosition().getY();//x pos of current player
+
+		if(e.getKeyChar()=='w') {
+			takeTurn(new Position(posX, posY-1));
+		}
+		else if(e.getKeyChar()=='s') {
+			takeTurn(new Position(posX, posY+1));
+		}
+		else if(e.getKeyChar()=='a') {
+			takeTurn(new Position(posX-1, posY));
+		}
+		else if(e.getKeyChar()=='d') {
+			takeTurn(new Position(posX+1, posY));
+		}
+	
+	}
+  
+  	public static void main(String args[]) {
+		Game game = new Game();
+		BoardFrame bf = new BoardFrame(game);
+	}
+
 	
 }

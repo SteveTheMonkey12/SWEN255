@@ -18,14 +18,16 @@ public class TextCanvas extends Canvas {
 	private Player player;
 	private int steps;
 	private List<Item> cards;
+	private Game game;
 
 	/**
 	 * Construct a canvas to visually display a given board.
 	 *
 	 * @param board
 	 */
-	public TextCanvas() {
+	public TextCanvas(Game game) {
 		setBounds(0, 960, 400, 960);
+		this.game = game;
 	}
 
 	public void setPlayer(Player player) {
@@ -61,6 +63,17 @@ public class TextCanvas extends Canvas {
 				g.drawString(cards.get(i).getName(), 10, 100 + gap);
 				gap+=20;
 			}
+			// show the steps remaining
+			g.drawString("You have " + steps + " left.", 10, 80);
+			// show the cards on player's hand
+			g.drawString("Cards in hand: ", 10, 100);
+			int gap = 20;
+			if (cards != null) {
+				for (int i = 0; i < cards.size(); i++) {
+					g.drawString(cards.get(i).getName(), 10, 100 + gap);
+					gap+=20;
+				}
+			}	
 		}
 	}
 
