@@ -5,6 +5,9 @@
 import java.util.*;
 
 // line 83 "model.ump"
+/**
+ * The Class representing Weapons.
+ */
 // line 146 "model.ump"
 public class Weapon extends Moveable
 {

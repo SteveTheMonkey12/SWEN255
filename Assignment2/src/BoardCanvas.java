@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
 
+// TODO: Auto-generated Javadoc
 /**
  * <p>
  * Implements the board area in which the game are played. This is implement as
@@ -32,13 +33,16 @@ public class BoardCanvas extends Canvas {
 	 */
 	private static final int SQUARE_HEIGHT = 36;
 
+	/** The board. */
 	private Board board;
+	
+	/** The game. */
 	private Game game;
 
 	/**
 	 * Construct a canvas to visually display a given board.
 	 *
-	 * @param board
+	 * @param game the game
 	 */
 	public BoardCanvas(Game game) {
 		this.game = game;
@@ -48,6 +52,8 @@ public class BoardCanvas extends Canvas {
 
 	/**
 	 * Paint the given board onto the given graphics object.
+	 *
+	 * @param g the g
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -139,6 +145,11 @@ public class BoardCanvas extends Canvas {
 
 	}
 
+	/**
+	 * Draw players on the board.
+	 *
+	 * @param g the graphics pane
+	 */
 	public void drawPlayer(Graphics g) {
         try{
     		if (game.numPlayers == 4) {
@@ -169,6 +180,11 @@ public class BoardCanvas extends Canvas {
 
 	}
 
+	/**
+	 * Draw weapons.
+	 *
+	 * @param g the graphics pane
+	 */
 	public void drawWeapon(Graphics g) {
 		for (int i = 0; i < game.getWeapons().size(); i++) {
 			Weapon w = game.getWeapons().get(i);

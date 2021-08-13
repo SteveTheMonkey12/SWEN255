@@ -194,6 +194,9 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		textCanvas.repaint();
 	}
 	
+	/**
+	 * Solve attempt.
+	 */
 	private void solveAttempt() {
 		int option = JOptionPane.showConfirmDialog(null, "Make solve attempt?", "Solve Attempt?",
 				JOptionPane.YES_NO_OPTION);
@@ -228,18 +231,18 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, estateOptions, estateOptions[0]);
 		Estate guessedEstate = estates[namedEstate];		
 		if(game.getMurderCards().contains(guessedPlayer) && game.getMurderCards().contains(guessedWeapon) && game.getMurderCards().contains(guessedEstate)) {
-			//TODO win
 			JOptionPane.showMessageDialog(null, "YOU WIN", "Win", JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
 		else{
-			//TODO lose
 			JOptionPane.showMessageDialog(null, "YOU LOSE", "Lose", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 
-	/*
-	 * Extra UI for guess
+	/**
+	 * Lets a player choose objects as part of the guess
+	 * 
+	 * @author ewram
 	 */
 	public void guess() {
 		if(game.getCurrentPlayer().getEstate() == null) {
@@ -290,6 +293,15 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		return;
 	}
 	
+	/**
+	 * A players response to the guess.
+	 *
+	 * @param guessedPlayer the accused player
+	 * @param guessedWeapon the accused  weapon
+	 * @param guessedEstate the accused estate
+	 * @param respondingPlayer the responding player
+	 * @return the item that the responding player wants to show the guessing player
+	 */
 	public Item respondToGuess(Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate, Player respondingPlayer) {
 		JOptionPane.showMessageDialog(null, respondingPlayer.getName() + "'s response turn");
 		setTextCanvas(respondingPlayer, 0, respondingPlayer.getItems());
@@ -317,8 +329,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		return respondableItems.get(responseItem);
 	}
 	
-	/*
-	 * Update text
+	/**
+	 * Sets the text canvas to give the player whose turn it is information.
+	 *
+	 * @param player the player whose turn it is
+	 * @param steps the number of steps they have left
+	 * @param cards the cards in their hand
 	 */
 	public void setTextCanvas(Player player, int steps, List<Item> cards) {
 		textCanvas.setPlayer(player);
@@ -336,10 +352,12 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		//not needed
 	}
     
-	@Override
-	/*
-	 * Finds the position when mouse is released 
+	/**
+	 * Mouse released.
+	 *
+	 * @param e the event of the mouse being released
 	 */
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
@@ -347,9 +365,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		takeTurn(pos);
 	}
 	
-	/*
-	 * Move player one space
-	 * */
+	/**
+	 * Take turn.
+	 *
+	 * @param pos the position clicked to move to
+	 */
 	public void takeTurn(Position pos) {
 		int turnsUsed = game.getBoard().moveToClick(pos, game.getCurrentPlayer(), turns);
 		if(turnsUsed != -1) {
@@ -389,6 +409,11 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		// not needed		
 	}
 
+	/**
+	 * The key released to allow for keyboard movement.
+	 *
+	 * @param e the key event
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 

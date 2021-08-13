@@ -10,15 +10,39 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CharacterSelection to allow people to choose their characters.
+ */
 public class CharacterSelection extends JFrame implements ActionListener {
-	private JRadioButton lucilla, bert, maline, percy; // character options
-	private JButton confirm; // confirm button to choose character
-	private int players; // number of players (3-4)
-	private int count = 0; // keep track of number of times a character has been chosen
-	private ArrayList<String> characters = new ArrayList<String>();// chosen characters
-	private boolean closed = false; // frame opened/closed
+	
+	/** The character options */
+	private JRadioButton lucilla, bert, maline, percy;
+	
+	/** The confirm button to choose character. */
+	private JButton confirm;
+	
+	/** The number of players (3-4). */
+	private int players; // 
+	
+	/** The count to keep track of number of times a character has been chosen. */
+	private int count = 0;
+	
+	/** The characters chosen. */
+	private ArrayList<String> characters = new ArrayList<String>();
+	
+	/** frame opened/closed. */
+	private boolean closed = false;
+	
+	/** The game. */
 	private Game game;
 
+	/**
+	 * Instantiates a new character selection.
+	 *
+	 * @param game the game
+	 * @param players the players
+	 */
 	public CharacterSelection(Game game, int players) {
 		this.players = players;
 		this.game = game;
@@ -51,6 +75,11 @@ public class CharacterSelection extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	/**
+	 * Select a player to play as and prompt next player.
+	 *
+	 * @param e the action performed
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (lucilla.isSelected()) {
@@ -86,14 +115,21 @@ public class CharacterSelection extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Gets the characters.
+	 *
+	 * @return the characters
+	 */
 	public ArrayList<String> getCharacters() {
 		return this.characters;
 	}
 
-  /*
-  *Checks if all players have choosen their character and closes frame if true
-  *@return returns boolean if frame has been closed or not
-  */
+  /**
+   * Checks if all players have chosen their character and closes frame if true
+   * 
+   * @return returns boolean if frame has been closed or not
+   */
+	
 	public boolean closeFrame() {
 		if (count == players) {
 			try {

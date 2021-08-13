@@ -4,6 +4,9 @@
 
 
 // line 72 "model.ump"
+/**
+ * The Class representing Walls.
+ */
 // line 135 "model.ump"
 public class Wall extends NonMoveable
 {
@@ -29,6 +32,13 @@ public class Wall extends NonMoveable
   {
     super.delete();
   }
+  
+  /**
+   * Collides with a position, for example a position a player might be in.
+   *
+   * @param p the position
+   * @return true, if the wall intersects the position
+   */
   @Override
   public boolean collidesWith(Position p) {
 	  Position myTopLeft = super.getPosition();
