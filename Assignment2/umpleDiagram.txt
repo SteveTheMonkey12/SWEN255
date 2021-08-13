@@ -2,6 +2,39 @@ class Game
 {
   1 -- * Item;
   * -- * Player;
+  status{
+    Initial{
+      entry/ {initial();}
+      do { }
+      -> Move;
+    }
+    Move{
+      entry/ {play();}
+      guess -> PlayerGuess;
+      cantWin -> End;
+    }
+    Guess{
+      PlayerGuess{
+        makeGuess(Player p) /{tryGuess(Player p)} -> NextPlayerRespond;
+      }
+      NextPlayerRespond{
+        respond [respondingPlayer.cards.contains(guessedCard)] -> Solve;
+      
+        cannotRespond [!respondingPlayer.cards.contains(guessedCard)] -> NextPlayerRespond;
+        cannotRespond [respondingPlayer == guessingPlayer] -> Solve;
+      }
+    
+      
+    }
+    Solve{
+      noSolve -> Move;
+      win -> End;
+      incorrect(Player p) -> /{p.setCanWin(false);}
+      Move;
+      
+    }
+    End{}
+  }
 }
 
 class Board
@@ -53,7 +86,7 @@ class Position
   int y;
 }
 
-//$?[End_of_model]$?
+
 
 namespace -;
 
@@ -114,3 +147,5 @@ class Position
 {
   position 622 226 109 58.9625;
 }
+
+//$?[End_of_model]$?

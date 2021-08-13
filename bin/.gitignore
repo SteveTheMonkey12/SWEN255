@@ -5,6 +5,10 @@
 /BoardFrame$1.class
 /BoardFrame.class
 /CharacterSelection.class
+<<<<<<< HEAD
+=======
+/Controller.class
+>>>>>>> main
 /Estate.class
 /Game$1.class
 /Game$DoActivityThread.class
