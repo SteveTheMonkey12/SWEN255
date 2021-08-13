@@ -31,22 +31,11 @@ import javax.swing.border.Border;
 
 /**
  * Implements the outer window of the Murder Madness game. This includes any
- * buttons, the window frame itself and its title.
+ * buttons, the window frame itself.
  *
  * @author pengailin refer the code from SWEN221 assignments
  */
-public class BoardFrame extends JFrame implements ActionListener, MouseListener, KeyListener {
-	/**
-	 * The square width constant determines the width (in pixels) of a square in the
-	 * board area.
-	 */
-	private static final int SQUARE_WIDTH = 36;
-
-	/**
-	 * The square height constant determines the height (in pixels) of a square in
-	 * the battle area.
-	 */
-	private static final int SQUARE_HEIGHT = 36;
+public class BoardFrame extends JFrame implements ActionListener{
 	
 	// Jpanel
 	private JPanel bottomPanel;
@@ -54,8 +43,8 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 	private JPanel rightPanel;
 
 	// canvas
-	private BoardCanvas boardCanvas;
-	private TextCanvas textCanvas;
+	private static BoardCanvas boardCanvas;
+	private static TextCanvas textCanvas;
 
 	// menu part:
 	private JMenu menu;
@@ -89,12 +78,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 				BorderFactory.createLineBorder(Color.gray));
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
-		boardCanvas.addMouseListener(this);
-		boardCanvas.addKeyListener(this);
-		
+
 		// button on the bottom
-		JButton start = new JButton("Start");
-		JButton stop = new JButton("Stop");
+		JButton start = new JButton("Start Game");
+		JButton stop = new JButton("Stop Game");
 		JButton guess = new JButton("Guess");
 
 		// right text canvas
@@ -144,7 +131,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(game.isPlaying() == false) {
-			if (e.getActionCommand().equals("Start")) {
+			if (e.getActionCommand().equals("Start Game")) {
 				// optional for the number of players
 				String[] options = { "3", "4" };
 				int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
@@ -165,7 +152,7 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 				    }
 				});
 			}
-		} else if (e.getActionCommand().equals("Stop")) {
+		} else if (e.getActionCommand().equals("Stop Game")) {
 			if(game.isPlaying() == true) {
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
 						JOptionPane.YES_NO_OPTION);
@@ -326,27 +313,6 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		textCanvas.setCards(cards);
 	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		//not needed
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		//not needed
-	}
-    
-	@Override
-	/*
-	 * Finds the position when mouse is released 
-	 */
-	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		Position pos = new Position(x / SQUARE_WIDTH, y / SQUARE_HEIGHT);
-		takeTurn(pos);
-	}
-	
 	/*
 	 * Move player one space
 	 * */
@@ -368,53 +334,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		textCanvas.repaint();
 	}
 
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		//not needed
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		//not needed
-	}
-  
-	@Override
-	public void keyTyped(KeyEvent e) {
-		//not needed
-  }
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// not needed		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-
-		Player currentP = game.getCurrentPlayer();
-		int posX = currentP.getPosition().getX();//x pos of current player
-		int posY = currentP.getPosition().getY();//x pos of current player
-
-		if(e.getKeyChar()=='w') {
-			takeTurn(new Position(posX, posY-1));
-		}
-		else if(e.getKeyChar()=='s') {
-			takeTurn(new Position(posX, posY+1));
-		}
-		else if(e.getKeyChar()=='a') {
-			takeTurn(new Position(posX-1, posY));
-		}
-		else if(e.getKeyChar()=='d') {
-			takeTurn(new Position(posX+1, posY));
-		}
-	
-	}
-  
   	public static void main(String args[]) {
 		Game game = new Game();
 		BoardFrame bf = new BoardFrame(game);
+		Controller controller = new Controller(game, bf, boardCanvas, textCanvas);
 	}
 
-	
 }
