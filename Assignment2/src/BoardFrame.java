@@ -273,8 +273,10 @@ public class BoardFrame extends JFrame implements ActionListener, MouseListener,
 		game.getBoard().moveMoveableToEstate(guessedPlayer, guessedEstate);
 		Player respondingPlayer = game.getCurrentPlayer();
 		for(int i = 0; i < game.getNumPlayers()-1; i++) {
-			respondingPlayer = game.getNextPlayer(respondingPlayer);
-			response = respondToGuess(guessedPlayer, guessedWeapon, guessedEstate, respondingPlayer);
+			if(response == null) {
+				respondingPlayer = game.getNextPlayer(respondingPlayer);
+				response = respondToGuess(guessedPlayer, guessedWeapon, guessedEstate, respondingPlayer);
+			}
 		}
 		JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + "'s turn");
 		setTextCanvas(game.getCurrentPlayer(), 0, game.getCurrentPlayer().getItems());

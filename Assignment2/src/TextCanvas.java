@@ -67,7 +67,7 @@ public class TextCanvas extends Canvas {
 			g.drawString("You have " + steps + " left.", 10, 80);
 			// show the cards on player's hand
 			g.drawString("Cards in hand: ", 10, 100);
-			int gap = 20;
+			gap = 20;
 			if (cards != null) {
 				for (int i = 0; i < cards.size(); i++) {
 					g.drawString(cards.get(i).getName(), 10, 100 + gap);
