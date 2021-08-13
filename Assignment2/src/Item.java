@@ -4,6 +4,9 @@
 
 
 // line 52 "model.ump"
+/**
+ * The Class Item represents the items that players can hold.
+ */
 // line 117 "model.ump"
 public class Item
 {
@@ -12,9 +15,11 @@ public class Item
   // MEMBER VARIABLES
   //------------------------
 
+  /** The name of the item. */
   //Item Attributes
   private String name;
 
+  /** The position of the item. */
   //Item Associations
   private Position position;
 
@@ -40,6 +45,12 @@ public class Item
   // INTERFACE
   //------------------------
 
+  /**
+   * Sets the name.
+   *
+   * @param aName the name
+   * @return true, if successful
+   */
   public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -48,20 +59,42 @@ public class Item
     return wasSet;
   }
 
+  /**
+   * Gets the name.
+   *
+   * @return the name
+   */
   public String getName()
   {
     return name;
   }
+  
+  /**
+   * Gets the position.
+   *
+   * @return the position
+   */
   /* Code from template association_GetOne */
   public Position getPosition()
   {
     return position;
   }
+  
+  /**
+   * Clear position.
+   */
   /* Code from template association_GetOne_clear */
   protected void clear_position()
   {
     position = null;
   }
+  
+  /**
+   * Sets the position.
+   *
+   * @param aNewPosition the new position
+   * @return true, if successful
+   */
   /* Code from template association_SetUnidirectionalOne */
   public boolean setPosition(Position aNewPosition)
   {
@@ -74,6 +107,9 @@ public class Item
     return wasSet;
   }
 
+  /**
+   * Delete.
+   */
   public void delete()
   {
     position = null;
@@ -86,7 +122,7 @@ public class Item
    
    /**
     * @param p the Postion to check if a collisions occurs at
-    * @return if p will overlaps with this's position return true
+    * @return true, if p will overlaps with this's position
     */
   public boolean collidesWith(Position p) {
 	   return false;

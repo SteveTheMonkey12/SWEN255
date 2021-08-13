@@ -5,29 +5,53 @@
 import java.util.*;
 
 // line 41 "model.ump"
+/**
+ * The Class Board represents the board the players play on.
+ */
 // line 105 "model.ump"
 public class Board
 {
 	
+	/**
+	 * The Enum direction.
+	 */
 	public static enum direction{
+		
+		/** Up. */
 		UP,
+		
+		/** Down. */
 		DOWN,
+		
+		/** Left. */
 		LEFT,
+		
+		/** Right. */
 		RIGHT
 	}
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
+  /** The game. */
   //Board Associations
   private Game game;
+  
+  /** The items. */
   private List<Item> items;
+  
+  /** The estates. */
   private ArrayList<Estate> estates = new ArrayList<Estate>();
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
+  /**
+   * Instantiates a new board.
+   *
+   * @param aGame the game
+   */
   public Board(Game aGame)
   {
     if (aGame == null || aGame.getBoard() != null)
@@ -38,6 +62,9 @@ public class Board
     items = new ArrayList<Item>();
   }
 
+  /**
+   * Instantiates a new board.
+   */
   public Board()
   {
     game = new Game();
@@ -47,11 +74,23 @@ public class Board
   //------------------------
   // INTERFACE
   //------------------------
+  /**
+   * Gets the game.
+   *
+   * @return the game
+   */
   /* Code from template association_GetOne */
   public Game getGame()
   {
     return game;
   }
+  
+  /**
+   * Gets the item.
+   *
+   * @param index of item
+   * @return the item
+   */
   /* Code from template association_GetMany */
   public Item getItem(int index)
   {
@@ -59,34 +98,68 @@ public class Board
     return aItem;
   }
 
+  /**
+   * Gets the items.
+   *
+   * @return the items
+   */
   public List<Item> getItems()
   {
     List<Item> newItems = Collections.unmodifiableList(items);
     return newItems;
   }
 
+  /**
+   * Number of items.
+   *
+   * @return the number of items
+   */
   public int numberOfItems()
   {
     int number = items.size();
     return number;
   }
 
+  /**
+   * Checks if the board has items.
+   *
+   * @return true, if successful
+   */
   public boolean hasItems()
   {
     boolean has = items.size() > 0;
     return has;
   }
 
+  /**
+   * Index of item.
+   *
+   * @param aItem the item
+   * @return the index of the item
+   */
   public int indexOfItem(Item aItem)
   {
     int index = items.indexOf(aItem);
     return index;
   }
+  
+  /**
+   * Minimum number of items.
+   *
+   * @return the minimum number of items
+   */
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfItems()
   {
     return 0;
   }
+  
+  /**
+   * Adds the item.
+   *
+   * @param aItem the item
+   * @return true, if successful
+   */
   /* Code from template association_AddUnidirectionalMany */
   public boolean addItem(Item aItem)
   {
@@ -100,6 +173,12 @@ public class Board
     return wasAdded;
   }
 
+  /**
+   * Removes the item.
+   *
+   * @param aItem the item
+   * @return true, if successful
+   */
   public boolean removeItem(Item aItem)
   {
     boolean wasRemoved = false;
@@ -110,6 +189,14 @@ public class Board
     }
     return wasRemoved;
   }
+  
+  /**
+   * Adds the item at.
+   *
+   * @param aItem the item
+   * @param index the index of the item
+   * @return true, if successful
+   */
   /* Code from template association_AddIndexControlFunctions */
   public boolean addItemAt(Item aItem, int index)
   {  
@@ -125,6 +212,13 @@ public class Board
     return wasAdded;
   }
 
+  /**
+   * Adds the or move item at.
+   *
+   * @param aItem the item
+   * @param index the index of the item
+   * @return true, if successful
+   */
   public boolean addOrMoveItemAt(Item aItem, int index)
   {
     boolean wasAdded = false;
@@ -143,6 +237,9 @@ public class Board
     return wasAdded;
   }
 
+  /**
+   * Delete the board.
+   */
   public void delete()
   {
     Game existingGame = game;
@@ -153,12 +250,14 @@ public class Board
     }
     items.clear();
   }
-	 /**
-	  * Use this for processing a raw string direction input or 
-	 * @param Dir nwes or wasd either will be parsed
-	 * @param p
-	 * @return returns true if a move was successuful
-	 */
+	 
+ 	/**
+ 	 * Use this for processing a raw string direction input or .
+ 	 *
+ 	 * @param dir the direction
+ 	 * @param p the player
+ 	 * @return returns true if a move was successful
+ 	 */
 	public boolean movePlayer(String dir, Player p) {
 		try {
 			if(dir.equals("w")) {
@@ -171,12 +270,21 @@ public class Board
 				return movePlayer(direction.LEFT, p);
 			}		
 		} catch (Board.BoardException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
 		return false;
 	}
+	
+	/**
+	 * Move to click.
+	 *
+	 * @param pos the position
+	 * @param p the player
+	 * @param turns the turns a player has left
+	 * @return the 
+	 */
 	public int moveToClick(Position pos, Player p, int turns) {
 		if(turns < 1) {
 			System.out.println("No turns remaining");
@@ -215,7 +323,6 @@ public class Board
 				moved = movePlayer(direction.UP, p);
 			}
 		} catch (Board.BoardException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -228,6 +335,14 @@ public class Board
 		System.out.print("\n");
 		return -1;//if it's allowed
 	}
+	
+	/**
+	 * Move a moveable to an estate.
+	 *
+	 * @param p the moveable object
+	 * @param e the estate
+	 * @return true, if successful
+	 */
 	public boolean moveMoveableToEstate(Moveable p, Estate e) {
 		p.getPosition().setX(e.getPosition().getX());
 		p.getPosition().setY(e.getPosition().getY());
@@ -236,6 +351,12 @@ public class Board
 		return true;
 	}
 	
+	/**
+	 * Gets the estate that a moveable is in.
+	 *
+	 * @param m the moveable
+	 * @return the estate the moveable is in
+	 */
 	public Estate getMoveableEstate(Moveable m) {
 		for(Estate e: estates) {
 			if(e.getMoveables().contains(m)){
@@ -249,11 +370,13 @@ public class Board
 
 
 	/**
-	* @param dir the board direction, u
-	* @param p
-	* @return returns true if a move was successuful
-	 * @throws Board.BoardException 
-	*/
+	 * Move player.
+	 *
+	 * @param dir the direction to move
+	 * @param p the player
+	 * @return returns true if a move was successful
+	 * @throws BoardException the move failed
+	 */
 	public boolean movePlayer(direction dir, Player p) throws Board.BoardException {
 		if(dir == null) { throw new BoardException("Direction Cannot Be null");}
 		if(p == null) {	  throw new BoardException("Player Cannot Be null"   );}
@@ -313,9 +436,18 @@ public class Board
 		return true;
 	  
 	}
+	
+	/**
+	 * The Class BoardException.
+	 */
 	public class BoardException extends Exception {
 
-	    public BoardException(String message) {
+	    /**
+    	 * Instantiates a new board exception.
+    	 *
+    	 * @param message the message
+    	 */
+    	public BoardException(String message) {
 	        super(message);
 	    }
 

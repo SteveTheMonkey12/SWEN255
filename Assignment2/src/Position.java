@@ -4,6 +4,9 @@
 
 
 // line 88 "model.ump"
+/**
+ * The Class Position represents squares on the board.
+ */
 // line 151 "model.ump"
 public class Position
 {
@@ -34,6 +37,12 @@ public class Position
   // INTERFACE
   //------------------------
 
+  /**
+   * Sets the X part of the position.
+   *
+   * @param aX the X
+   * @return true, if successful
+   */
   public boolean setX(int aX)
   {
     boolean wasSet = false;
@@ -42,6 +51,12 @@ public class Position
     return wasSet;
   }
 
+  /**
+   * Sets the Y part of the position.
+   *
+   * @param aY the a Y
+   * @return true, if successful
+   */
   public boolean setY(int aY)
   {
     boolean wasSet = false;
@@ -50,11 +65,21 @@ public class Position
     return wasSet;
   }
 
+  /**
+   * Gets the x.
+   *
+   * @return the x
+   */
   public int getX()
   {
     return x;
   }
 
+  /**
+   * Gets the y.
+   *
+   * @return the y
+   */
   public int getY()
   {
     return y;
@@ -70,6 +95,13 @@ public class Position
             "x" + ":" + getX()+ "," +
             "y" + ":" + getY()+ "]";
   }
+  
+  /**
+   * Checks if two positions are the same equals.
+   *
+   * @param p the position to be compared
+   * @return true, if the positions are in the same coordinates
+   */
   public boolean equals(Position p) {
 	  if(x == p.getX() && y == p.getY()) {
 		  return true;

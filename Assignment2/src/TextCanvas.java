@@ -30,18 +30,38 @@ public class TextCanvas extends Canvas {
 		this.game = game;
 	}
 
+	/**
+	 * Sets the player to be displayed.
+	 *
+	 * @param player the new player to be displayed
+	 */
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
 
+	/**
+	 * Sets the steps that the player has left.
+	 *
+	 * @param steps the new steps the player has left
+	 */
 	public void setSteps(int steps) {
 		this.steps = steps;
 	}
 
+	/**
+	 * Sets the cards the player holds.
+	 *
+	 * @param cards the new cards the player holds
+	 */
 	public void setCards(List<Item> cards) {
 		this.cards = cards;
 	}
 
+	/**
+	 * Paints the visual part of the board and the players.
+	 *
+	 * @param g the graphics pane used
+	 */
 	public void paint(Graphics g) {
 		g.drawString("use w/W as up", 10, 200);
 		g.drawString("use a/A as left", 10, 220);
