@@ -31,7 +31,7 @@ import javax.swing.border.Border;
 
 /**
  * Implements the outer window of the Murder Madness game. This includes any
- * buttons, the window frame itself and its title.
+ * buttons, the window frame itself.
  *
  * @author pengailin refer the code from SWEN221 assignments
  */
@@ -79,11 +79,9 @@ public class BoardFrame extends JFrame implements ActionListener{
 		this.centerPanel.setBorder(cb);
 		this.centerPanel.add(boardCanvas, BorderLayout.CENTER);
 
-
-		
 		// button on the bottom
-		JButton start = new JButton("Start");
-		JButton stop = new JButton("Stop");
+		JButton start = new JButton("Start Game");
+		JButton stop = new JButton("Stop Game");
 		JButton guess = new JButton("Guess");
 
 		// right text canvas
@@ -133,7 +131,7 @@ public class BoardFrame extends JFrame implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(game.isPlaying() == false) {
-			if (e.getActionCommand().equals("Start")) {
+			if (e.getActionCommand().equals("Start Game")) {
 				// optional for the number of players
 				String[] options = { "3", "4" };
 				int num = JOptionPane.showOptionDialog(null, "Number of Players", "Number of Players",
@@ -154,7 +152,7 @@ public class BoardFrame extends JFrame implements ActionListener{
 				    }
 				});
 			}
-		} else if (e.getActionCommand().equals("Stop")) {
+		} else if (e.getActionCommand().equals("Stop Game")) {
 			if(game.isPlaying() == true) {
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop the game?", "Stop game?",
 						JOptionPane.YES_NO_OPTION);
@@ -333,7 +331,6 @@ public class BoardFrame extends JFrame implements ActionListener{
 		boardCanvas.repaint();
 		textCanvas.repaint();
 	}
-
 
   	public static void main(String args[]) {
 		Game game = new Game();

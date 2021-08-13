@@ -8,7 +8,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
- * This canvas will show the cards for different player.
+ * This canvas will show the current player, the remaining steps
+ * and the cards for different player.
  * 
  * @author pengailin
  *

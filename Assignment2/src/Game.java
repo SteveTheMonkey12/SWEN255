@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 // line 2 "model.ump"
 // line 97 "model.ump"
 /**
- * @author pengailin
+ * This is the main model class. It contains initial game method 
+ * and other related playing methods.
+ * @author good at java group
  *
  */
 public class Game {
