@@ -8,6 +8,7 @@ class BoardTest {
 	void testMovePlayerStringPlayer() {
 		Game testGame = new Game();
 		testGame.initial();
+		testGame.setNumPlayers(3);
 		Position initialPos = testGame.getPlayer_Player(1).getPosition();
 		testGame.getBoard().movePlayer("w", testGame.getPlayer_Player(1));
 		Position finalPos = null;
