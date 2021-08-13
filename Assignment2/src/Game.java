@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
  * This is the main model class. It contains initial game method 
  * and other related playing methods.
  * @author good at java group
- *
  */
 public class Game {
 
@@ -20,40 +19,78 @@ public class Game {
 	// MEMBER VARIABLES
 	// ------------------------
 
+	/**
+	 * The Enum Status.
+	 */
 	// Game State Machines
 	public enum Status {
-		Initial, Move, Guess, Solve, End
+		
+		/** The Initial. */
+		Initial, 
+ /** The Move. */
+ Move, 
+ /** The Guess. */
+ Guess, 
+ /** The Solve. */
+ Solve, 
+ /** The End. */
+ End
 	}
 
+	/** The status. */
 	private Status status;
 
+	/** The do activity status initial thread. */
 	// Game Do Activity Threads
 	Thread doActivityStatusInitialThread = null;
 
+	/** The items. */
 	// Game Associations
 	private List<Item> items;
+	
+	/** The board. */
 	private Board board;
+	
+	/** The players. */
 	private List<Player> players;
+	
+	/** The murder cards, i.e. the cards that the player must try to guess to solve and win the game */
 	private List<Item> murderCards; // changed to list so can use contains method to check for win
+	
+	/** The weapons. */
 	private List<Weapon> weapons;
+	
+	/** The estates. */
 	private List<Estate> estates;
+	
+	/** The player whose turn it is. */
 	private Player currentPlayer;
+	
+	/** The number players playing. Three or Four. */
 	public int numPlayers;
+	
+	/** The playing. */
 	private boolean playing = false;
+	
+	/** The names of characters selected to play. */
 	private List<String> selectedCharacters = new ArrayList<String>();//names of characters selected to play
+	
+	/** The selected players playing in the game (excl extra character not playing). */
 	private List<Player> selectedPlayers = new ArrayList<Player>();//players playing in the game (excl extra character)
 
-	// name of the 4 characters
+	/** The Constant names of each character. */
 	private static final String[] characterName = { "Lucilla", "Bert", "Maline", "Percy" };
 
+	/** The Constant name for each weapon. */
 	// name of the 5 weapons
 	private static final String[] weaponName = { "Broom", "Scissors", "Knife", "Shovel", "iPad" };
 
+	/** The Constant name for each estate. */
 	// name of the 5 estate
 	private static final String[] estateName = { "Haunted House", "Manic Manor", "Villa Celia", "Calamity Castle",
 			"Peril Palace" };
 
-	// holds all the positions of weapons according to estate location
+	/** Holds all the positions of weapons according to estate location. */
 	private final HashMap<String, Position> weaponPositions = new HashMap<String, Position>() {
 		{
 			put("HH", new Position(3, 3));
@@ -68,6 +105,11 @@ public class Game {
 	// CONSTRUCTOR
 	// ------------------------
 
+	/**
+	 * Instantiates a new game.
+	 *
+	 * @param aBoard the a board
+	 */
 	public Game(Board aBoard) {
 		items = new ArrayList<Item>();
 		if (aBoard == null || aBoard.getGame() != null) {
@@ -79,6 +121,9 @@ public class Game {
 		players = new ArrayList<Player>();
 	}
 
+	/**
+	 * Instantiates a new game.
+	 */
 	public Game() {
 		items = new ArrayList<Item>();
 		board = new Board(this);
@@ -92,15 +137,30 @@ public class Game {
 	// INTERFACE
 	// ------------------------
 
+	/**
+	 * Gets the status full name.
+	 *
+	 * @return the status full name
+	 */
 	public String getStatusFullName() {
 		String answer = status.toString();
 		return answer;
 	}
 
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
 	public Status getStatus() {
 		return status;
 	}
 
+	/**
+	 * Autotransition 392.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean __autotransition392__() {
 		boolean wasEventProcessed = false;
 
@@ -118,6 +178,11 @@ public class Game {
 		return wasEventProcessed;
 	}
 
+	/**
+	 * Guess.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean guess() {
 		boolean wasEventProcessed = false;
 
@@ -134,6 +199,11 @@ public class Game {
 		return wasEventProcessed;
 	}
 
+	/**
+	 * Cant win.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean cantWin() {
 		boolean wasEventProcessed = false;
 
@@ -150,6 +220,11 @@ public class Game {
 		return wasEventProcessed;
 	}
 
+	/**
+	 * Solve.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean solve() {
 		boolean wasEventProcessed = false;
 
@@ -166,6 +241,11 @@ public class Game {
 		return wasEventProcessed;
 	}
 
+	/**
+	 * Win.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean win() {
 		boolean wasEventProcessed = false;
 
@@ -182,6 +262,11 @@ public class Game {
 		return wasEventProcessed;
 	}
 
+	/**
+	 * Incorrect.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean incorrect() {
 		boolean wasEventProcessed = false;
 
@@ -200,6 +285,9 @@ public class Game {
 		return wasEventProcessed;
 	}
 
+	/**
+	 * Exit status.
+	 */
 	private void exitStatus() {
 		switch (status) {
 		case Initial:
@@ -210,6 +298,11 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Sets the status.
+	 *
+	 * @param aStatus the new status
+	 */
 	private void setStatus(Status aStatus) {
 		status = aStatus;
 
@@ -222,7 +315,6 @@ public class Game {
 			break;
 		case Move:
 			// line 21 "model.ump"
-			play();
 			break;
 		case Guess:
 			// line 26 "model.ump"
@@ -235,43 +327,84 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Gets the item.
+	 *
+	 * @param index the index
+	 * @return the item
+	 */
 	/* Code from template association_GetMany */
 	public Item getItem(int index) {
 		Item aItem = items.get(index);
 		return aItem;
 	}
 
+	/**
+	 * Gets the items.
+	 *
+	 * @return the items
+	 */
 	public List<Item> getItems() {
 		List<Item> newItems = Collections.unmodifiableList(items);
 		return newItems;
 	}
 
+	/**
+	 * Number of items.
+	 *
+	 * @return the int
+	 */
 	public int numberOfItems() {
 		int number = items.size();
 		return number;
 	}
 
+	/**
+	 * Checks for items.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasItems() {
 		boolean has = items.size() > 0;
 		return has;
 	}
 
+	/**
+	 * Index of item.
+	 *
+	 * @param aItem the a item
+	 * @return the int
+	 */
 	public int indexOfItem(Item aItem) {
 		int index = items.indexOf(aItem);
 		return index;
 	}
 
+	/**
+	 * Clear items.
+	 */
 	/* Code from template association_GetMany_clear */
 	protected void clear_items() {
 		items.clear();
 	}
 
+	/**
+	 * Gets the player player.
+	 *
+	 * @param index the index
+	 * @return the player player
+	 */
 	/* Code from template association_GetMany_relatedSpecialization */
 	public Player getPlayer_Player(int index) {
 		Player aPlayer = (Player) players.get(index);
 		return aPlayer;
 	}
 
+	/**
+	 * Gets the players player.
+	 *
+	 * @return the players player
+	 */
 	/* required for Java 7. */
 	@SuppressWarnings("unchecked")
 	public List<Player> getPlayers_Player() {
@@ -279,22 +412,44 @@ public class Game {
 		return (List<Player>) newPlayers;
 	}
 	
+	/**
+	 * Gets the murder cards.
+	 *
+	 * @return the murder cards
+	 */
 	public List<Item> getMurderCards() {
 		List<? extends Item> newMurderCards = Collections.unmodifiableList(murderCards);
 		return (List<Item>) newMurderCards;
 	}
 	
+	/**
+	 * Gets the weapon weapon.
+	 *
+	 * @param index the index
+	 * @return the weapon weapon
+	 */
 	/* Code from template association_GetMany_relatedSpecialization */
 	public Weapon getWeapon_Weapon(int index) {
 		Weapon aWeapon = (Weapon) weapons.get(index);
 		return aWeapon;
 	}
 	
+	/**
+	 * Gets the estate estate.
+	 *
+	 * @param index the index
+	 * @return the estate estate
+	 */
 	public Estate getEstate_Estate(int index) {
 		Estate aEstate = (Estate) estates.get(index);
 		return aEstate;
 	}
 
+	/**
+	 * Gets the weapons weapon.
+	 *
+	 * @return the weapons weapon
+	 */
 	/* required for Java 7. */
 	@SuppressWarnings("unchecked")
 	public List<Weapon> getWeapons_Weapon() {
@@ -302,16 +457,32 @@ public class Game {
 		return (List<Weapon>) newWeapons;
 	}
 
+	/**
+	 * Gets the board.
+	 *
+	 * @return the board
+	 */
 	/* Code from template association_GetOne */
 	public Board getBoard() {
 		return board;
 	}
 
+	/**
+	 * Minimum number of items.
+	 *
+	 * @return the int
+	 */
 	/* Code from template association_MinimumNumberOfMethod */
 	public static int minimumNumberOfItems() {
 		return 0;
 	}
 
+	/**
+	 * Adds the item.
+	 *
+	 * @param aItem the a item
+	 * @return true, if successful
+	 */
 	/* Code from template association_AddUnidirectionalMany */
 	public boolean addItem(Item aItem) {
 		boolean wasAdded = false;
@@ -323,6 +494,12 @@ public class Game {
 		return wasAdded;
 	}
 
+	/**
+	 * Removes the item.
+	 *
+	 * @param aItem the a item
+	 * @return true, if successful
+	 */
 	public boolean removeItem(Item aItem) {
 		boolean wasRemoved = false;
 		if (items.contains(aItem)) {
@@ -332,6 +509,13 @@ public class Game {
 		return wasRemoved;
 	}
 
+	/**
+	 * Adds the item at.
+	 *
+	 * @param aItem the a item
+	 * @param index the index
+	 * @return true, if successful
+	 */
 	/* Code from template association_AddIndexControlFunctions */
 	public boolean addItemAt(Item aItem, int index) {
 		boolean wasAdded = false;
@@ -349,6 +533,13 @@ public class Game {
 		return wasAdded;
 	}
 
+	/**
+	 * Adds the or move item at.
+	 *
+	 * @param aItem the a item
+	 * @param index the index
+	 * @return true, if successful
+	 */
 	public boolean addOrMoveItemAt(Item aItem, int index) {
 		boolean wasAdded = false;
 		if (items.contains(aItem)) {
@@ -367,12 +558,22 @@ public class Game {
 		return wasAdded;
 	}
 
+	/**
+	 * Number of players.
+	 *
+	 * @return the int
+	 */
 	public int numberOfPlayers() {
 		int number = players.size();
 		return number;
 	}
 
-	/* Code from template association_set_specialization_reqCommonCode */ /*
+	/* Code from template association_set_specialization_reqCommonCode */ /**
+	 * Minimum number of players player.
+	 *
+	 * @return the int
+	 */
+	/*
 																			 * Code from template
 																			 * association_MinimumNumberOfMethod_relatedSpecialization
 																			 */
@@ -380,11 +581,22 @@ public class Game {
 		return 3;
 	}
 
+	/**
+	 * Maximum number of players player.
+	 *
+	 * @return the int
+	 */
 	/* Code from template association_MaximumNumberOfMethod_relatedSpecialization */
 	public static int maximumNumberOfPlayers_Player() {
 		return 4;
 	}
 
+	/**
+	 * Adds the player.
+	 *
+	 * @param aPlayer the a player
+	 * @return true, if successful
+	 */
 	/* Code from template association_AddUnidirectionalMN_relatedSpecialization */
 	public boolean addPlayer(Player aPlayer) {
 		boolean wasAdded = false;
@@ -398,6 +610,12 @@ public class Game {
 		return wasAdded;
 	}
 
+	/**
+	 * Removes the player.
+	 *
+	 * @param aPlayer the a player
+	 * @return true, if successful
+	 */
 	public boolean removePlayer(Player aPlayer) {
 		boolean wasRemoved = false;
 		if (!players.contains(aPlayer)) {
@@ -413,6 +631,12 @@ public class Game {
 		return wasRemoved;
 	}
 
+	/**
+	 * Sets the players.
+	 *
+	 * @param newPlayers the new players
+	 * @return true, if successful
+	 */
 	/* Code from template association_SetUnidirectionalMN_relatedSpecialization */
 	public boolean setPlayers(Player... newPlayers) {
 		boolean wasSet = false;
@@ -435,6 +659,13 @@ public class Game {
 		return wasSet;
 	}
 
+	/**
+	 * Adds the player at.
+	 *
+	 * @param aPlayer the a player
+	 * @param index the index
+	 * @return true, if successful
+	 */
 	/*
 	 * Code from template association_AddIndexControlFunctions_relatedSpecialization
 	 */
@@ -454,6 +685,13 @@ public class Game {
 		return wasAdded;
 	}
 
+	/**
+	 * Adds the or move player at.
+	 *
+	 * @param aPlayer the a player
+	 * @param index the index
+	 * @return true, if successful
+	 */
 	public boolean addOrMovePlayerAt(Player aPlayer, int index) {
 		boolean wasAdded = false;
 		if (players.contains(aPlayer)) {
@@ -472,6 +710,9 @@ public class Game {
 		return wasAdded;
 	}
 
+	/**
+	 * Do activity status initial.
+	 */
 	private void doActivityStatusInitial() {
 		try {
 			// line 17 "model.ump"
@@ -483,16 +724,32 @@ public class Game {
 		}
 	}
 
+	/**
+	 * The Class DoActivityThread.
+	 */
 	private static class DoActivityThread extends Thread {
+		
+		/** The controller. */
 		Game controller;
+		
+		/** The do activity method name. */
 		String doActivityMethodName;
 
+		/**
+		 * Instantiates a new do activity thread.
+		 *
+		 * @param aController the a controller
+		 * @param aDoActivityMethodName the a do activity method name
+		 */
 		public DoActivityThread(Game aController, String aDoActivityMethodName) {
 			controller = aController;
 			doActivityMethodName = aDoActivityMethodName;
 			start();
 		}
 
+		/**
+		 * Run.
+		 */
 		public void run() {
 			if ("doActivityStatusInitial".equals(doActivityMethodName)) {
 				controller.doActivityStatusInitial();
@@ -500,6 +757,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Delete.
+	 */
 	public void delete() {
 		items.clear();
 		Board existingBoard = board;
@@ -509,6 +769,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Initializes the game by adding the players and "dealing" the cards to them as well as choosing the murder cards.
+	 */
 	// line 9 "model.ump"
 	public void initial() {
 		// initial the cards of estate, character and weapon
@@ -638,20 +901,28 @@ public class Game {
 		}
 	}
 
-	/*
-	 * set the number of player according to the input from board
+	/**
+	 * set the number of player according to the input from board.
+	 *
+	 * @param num the new number of players
 	 */
 	public void setNumPlayers(int num) {
 		this.numPlayers = num;
 	}
+	
+	/**
+	 * Gets the number of players.
+	 *
+	 * @return the number of players
+	 */
 	public int getNumPlayers() {
 		return this.numPlayers;
 	}
 
 	/**
-	 * feel free to move it in other methods.
+	 * Rolls 2 dice
 	 * 
-	 * @return the result of roll 2 dice
+	 * @return result of roll of 2 dice
 	 */
 	public int diceResult() {
 		int dice1 = (int) (Math.random() * 6) + 1;
@@ -660,68 +931,8 @@ public class Game {
 	}
 
 	/**
-	 * player moves steps after roll 2 dice cycling around stop play if one player
-	 * solve attempt
-	 */
-	public void play() {
-		/*
-		while (true) {
-			for (int i = 0; i < players.size(); i++) {
-				System.out.print("\n");
-				System.out.println(players.get(i).getName() + "'s turn:");
-				int steps = diceResult();
-				boolean canMove = true;
-
-				// if the player is in the room, stop moving and check whether the player wants
-				// to guess or solve attempt
-				Position position = board.getPlayerLocation(players.get(i));
-				if (position != null) {
-					Position.Location location = position.getLocation();
-					if (location == Position.Location.HH || location == Position.Location.MM
-							|| location == Position.Location.VC || location == Position.Location.CC
-							|| location == Position.Location.PP) {
-						int result = guess(players.get(i));
-						int attempt = solveAttempt(players.get(i));
-						// stop game when some one win
-						if (attempt == 1) {
-							break;
-						}
-					}
-				}
-
-				// moving steps
-				if (canMove) {
-					for (int j = steps; j >= 1; j--) {
-						System.out.print("you have " + j + " steps to move");
-						String direction = direction();
-						if (board.movePlayer(players.get(i), direction)) {
-							// if the player moves into estate, it will stop moving and start guess/solve
-							// attempt
-							Position p = board.getPlayerLocation(players.get(i));
-							if (position != null) {
-								Position.Location location = p.getLocation();
-								if (location == Position.Location.HH || location == Position.Location.MM
-										|| location == Position.Location.VC || location == Position.Location.CC
-										|| location == Position.Location.PP) {
-									guess(players.get(i));
-									solveAttempt(players.get(i));
-									break;
-								}
-							}
-						}
-						System.out.print(board.toString());
-					}
-				}
-			}
-		}
-
-		// TODO add movement
-		  */
-	}
-
-	/**
-	 * w: west e: east s: south n: north
-	 * 
+	 * w: west e: east s: south n: north.
+	 *
 	 * @return direction of move
 	 */
 	public String direction() {
@@ -732,62 +943,17 @@ public class Game {
 	}
 
 	/**
-	 * Method for players to respond to another players guess
-	 * 
-	 * @param aPlayer
-	 * @param guessedPlayer
-	 * @param guessedWeapon
-	 * @param guessedEstate
-	 * @return
+	 * Clear screen.
 	 */
-
-	private Item playerGuessResponse(Player aPlayer, Player guessedPlayer, Weapon guessedWeapon, Estate guessedEstate,
-			Scanner input) {
-		String output = "";
-		int numCardsToShow = 1;
-		ArrayList<Item> cardsToShow = new ArrayList<Item>();
-		if (aPlayer.getItems().contains(guessedPlayer)) {
-			cardsToShow.add(guessedPlayer);
-			output += numCardsToShow + " " + guessedPlayer.getName() + " ";
-			numCardsToShow++;
-		}
-		if (aPlayer.getItems().contains(guessedWeapon)) {
-			cardsToShow.add(guessedWeapon);
-			output += numCardsToShow + " " + guessedWeapon.getName() + " ";
-			numCardsToShow++;
-		}
-		if (aPlayer.getItems().contains(guessedEstate)) {
-			cardsToShow.add(guessedEstate);
-			output += numCardsToShow + " " + guessedEstate.getName() + " ";
-			numCardsToShow++;
-		}
-		if (numCardsToShow == 1) {
-			System.out.println("No cards to show");
-			input.next();
-			return null;
-		}
-		while (true) {
-			clearScreen();
-			System.out.println("Pick a card 1-" + (numCardsToShow - 1) + ": ");
-			System.out.println(output);
-			int cardToShow = input.nextInt();
-			if (cardToShow < numCardsToShow && cardToShow > 0) {
-				return cardsToShow.get(cardToShow - 1);
-			}
-		}
-	}
-
 	public static void clearScreen() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
-	
-	public ArrayList<Item> getRespondableItems(){return null;}
 
 	/**
-	 * Method to get the next player in the list
-	 * 
-	 * @param aPlayer
+	 * Method to get the next player in the list.
+	 *
+	 * @param aPlayer the player
 	 * @return The next player in the list
 	 */
 	public Player getNextPlayer(Player aPlayer) {
@@ -800,43 +966,74 @@ public class Game {
 		return players.get(index);
 	}
 
+	/**
+	 * Changes play to the next players turn.
+	 */
 	public void nextTurn() {
 		currentPlayer = getNextPlayer(currentPlayer);
 	}
 
-	// line 12 "model.ump"
-	public void solveAttempt(Player p) {
-
-	}
-
+	/**
+	 * Gets the players.
+	 *
+	 * @return the players
+	 */
 	public List<Player> getPlayers() {
 		return players;
 	}
 
+	/**
+	 * Gets the weapons.
+	 *
+	 * @return the weapons
+	 */
 	public List<Weapon> getWeapons() {
 		return weapons;
 	}
 	
+	/**
+	 * Gets the current player.
+	 *
+	 * @return the current player
+	 */
 	public Player getCurrentPlayer() {
 		return this.currentPlayer;
 	}
 	
+	/**
+	 * Update characters playing.
+	 *
+	 * @param characters the characters
+	 */
 	public void updateCharactersPlaying(List<String> characters) {
 		this.selectedCharacters = characters;
 	}
 
+	/**
+	 * Checks if is running.
+	 *
+	 * @return true, if is running
+	 */
 	public boolean isPlaying() {
 		return playing;
 	}
 
+	/**
+	 * Sets the whether or not the game is running.
+	 *
+	 * @param playing whether the game is running
+	 */
 	public void setPlaying(boolean playing) {
 		this.playing = playing;
 	}
 
+	/**
+	 * Sets the current player.
+	 *
+	 * @param currentPlayer the new current player
+	 */
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
-	
-	
 
 }
