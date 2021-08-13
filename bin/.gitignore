@@ -19,3 +19,5 @@
 /TextCanvas.class
 /Wall.class
 /Weapon.class
+/If there's no images for the player check in Controller that the file path is correct
+/If there's no images for the player check in Controller that the file path is correct in the method draw player
