@@ -43,6 +43,10 @@ public class TextCanvas extends Canvas {
 	}
 
 	public void paint(Graphics g) {
+		g.drawString("use w/W as up", 10, 200);
+		g.drawString("use a/A as left", 10, 220);
+		g.drawString("use s/S as right", 10, 240);
+		g.drawString("use s/S as down", 10, 260);
 		// show the name of the player
 		String tmp = player.getName();
 		g.drawString(player.getName() + "'s turn", 10, 20);
