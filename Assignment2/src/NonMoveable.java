@@ -1,7 +1,6 @@
 
 
 
-// TODO: Auto-generated Javadoc
 // line 66 "model.ump"
 /**
  * The Class NonMoveable representing walls and estates.

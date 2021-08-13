@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
 
-// TODO: Auto-generated Javadoc
 /**
  * <p>
  * Implements the board area in which the game are played. This is implement as

@@ -6,7 +6,6 @@ import java.util.*;
 
 import javax.swing.JOptionPane;
 
-// TODO: Auto-generated Javadoc
 // line 2 "model.ump"
 // line 97 "model.ump"
 /**

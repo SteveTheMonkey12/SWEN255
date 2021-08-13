@@ -4,7 +4,6 @@
 
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
 // line 77 "model.ump"
 /**
  * The Class Estate represents the locations the characters can go to.
@@ -215,7 +214,6 @@ public class Estate extends NonMoveable
    */
   @Override
   public boolean collidesWith(Position p) {
-	  //TODO: Check if going into a door
 	  
 	  
 	  //Check if they're on the perimiter

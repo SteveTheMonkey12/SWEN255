@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CharacterSelection to allow people to choose their characters.
  */

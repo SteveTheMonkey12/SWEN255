@@ -4,7 +4,6 @@
 
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
 // line 41 "model.ump"
 /**
  * The Class Board represents the board the players play on.
@@ -271,7 +270,7 @@ public class Board
 				return movePlayer(direction.LEFT, p);
 			}		
 		} catch (Board.BoardException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
@@ -324,7 +323,6 @@ public class Board
 				moved = movePlayer(direction.UP, p);
 			}
 		} catch (Board.BoardException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
